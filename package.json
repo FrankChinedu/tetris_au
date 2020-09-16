@@ -1,0 +1,25 @@
+{
+  "name": "tetris_au",
+  "version": "1.0.0",
+  "description": "multiplater tetris",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankChinedu/tetris_au.git"
+  },
+  "keywords": [
+    "game",
+    "tetris",
+    "multiplayer",
+    "money"
+  ],
+  "author": "Obi chinedu Frank",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FrankChinedu/tetris_au/issues"
+  },
+  "homepage": "https://github.com/FrankChinedu/tetris_au#readme"
+}

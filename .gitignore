@@ -1,0 +1,14 @@
+node_modules
+.idea
+.env
+live.env
+.npm-debug.log
+test.js
+demo.js
+storage
+!storage/misc
+live.env
+public/members.csv.gz
+# for tools like c8 and instanbul
+coverage
+.vscode
