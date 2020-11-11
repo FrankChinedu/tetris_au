@@ -1,1 +1,0 @@
-console.log('THE LORD IS MY STRENGTH');
