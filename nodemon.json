@@ -1,0 +1,13 @@
+{
+  "execMap": {
+    "ts": "ts-node"
+  },
+  "watch": [
+    "./server",
+    "./client",
+    ".env"
+  ],
+  "env": {
+    "TS_NODE_TRANSPILE_ONLY": true
+  }
+}

@@ -22,7 +22,10 @@ coverage
 /coverage
 
 # production
-/build
+build/
+
+client/node_modules
+server/node_modules
 
 # misc
 .DS_Store
@@ -46,7 +49,7 @@ yarn-error.log*
 /coverage
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
