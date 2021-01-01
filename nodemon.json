@@ -4,7 +4,6 @@
   },
   "watch": [
     "./server",
-    "./client",
     ".env"
   ],
   "env": {
