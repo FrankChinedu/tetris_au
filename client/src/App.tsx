@@ -1,11 +1,11 @@
 import React from 'react';
-import Home from './views/Home';
+import Tetris from './views/Tetris';
 
 const App: React.FC= () =>  {
   return (
-	  <div>
-    	<Home />
-		</div>
+	<div className="">
+    	<Tetris />
+	</div>
 	)
 }
 
