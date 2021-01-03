@@ -6,25 +6,7 @@ const COLUMN = 10;
 const SQUARE =  30;
 const VACANT = 'WHITE'; // color of an empty square
 
-export const init = (ctx: any, board: any) => {
-
-class Draw {
-  static drawSquare(x: number, y: number, color: string){
-    ctx.fillStyle = color;
-    ctx.fillRect(x * SQUARE, y * SQUARE, SQUARE, SQUARE)
-
-    ctx.strokeStyle = 'BLACK';
-    ctx.strokeRect(x * SQUARE, y * SQUARE, SQUARE, SQUARE)
-  }
-
-  static drawBoard(row:number, col:number, board: any) {
-    for (let r = 0; r < row; r++) {
-      for (let c = 0; c < col; c++) {
-          Draw.drawSquare(c, r, board[r][c])
-      }
-    } 
-  }
-}
+export const init = (ctx: any, board: any, Draw:any) => {
 
 Draw.drawBoard(ROW, COLUMN, board);
 
@@ -38,6 +20,7 @@ const PIECES = [
   [J, "orange"],
 ];
 
+// Piece -> Draw board
 class Piece{
   public tetromino:any;
   public color:string;
@@ -95,6 +78,7 @@ class Piece{
       this.draw();
     }
   }
+
   moveLeft () {
     if (!this.collision(-1, 0, this.activeTetromino)) {
       this.unDraw();
@@ -196,6 +180,7 @@ class Piece{
 
 
 function randomPiece(){
+  console.log('i have been called ')
   let r = Math.floor(Math.random() * PIECES.length); // returns number between 0 and 6
   return  new Piece(PIECES[r][0], PIECES[r][1] as string);
 }
@@ -236,7 +221,7 @@ function drop(){
         dropStart = Date.now();
     }
     if(!gameOver) {
-        requestAnimationFrame(drop);
+        // requestAnimationFrame(drop);
     }
 }
 

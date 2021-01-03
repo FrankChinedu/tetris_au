@@ -4,6 +4,7 @@ import React, {
 } from 'react'
 import useCanvas from '../../hooks/tetris/useCanvas';
 import useBoard from '../../hooks/tetris/useBoard';
+import useDraw from '../../hooks/tetris/useDraw';
 
 import {init} from '../../utils/tetris'
 
@@ -11,14 +12,14 @@ const Tetris: React.FC = () => {
   const [width] = useState(400);
   const [height] = useState(800);
   const [canvasRef, ctx] = useCanvas();
+  const [Draw] = useDraw(ctx);
   const [board] = useBoard();
 
   useEffect(()=>{
-    if(ctx) {
-      init(ctx, board);
+    if(ctx && Draw) {
+      init(ctx, board, Draw);
     }
-    console.log('ctx', ctx)
-  }, [ctx, board])
+  }, [ctx, board, Draw])
 
   return (
     <>
