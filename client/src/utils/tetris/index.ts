@@ -6,7 +6,7 @@ const COLUMN = 10;
 const SQUARE =  30;
 const VACANT = 'WHITE'; // color of an empty square
 
-export const init = (ctx: any) => {
+export const init = (ctx: any, board: any) => {
 
 class Draw {
   static drawSquare(x: number, y: number, color: string){
@@ -26,32 +26,6 @@ class Draw {
   }
 }
 
-interface boardInterface {
-  board: any,
-  row: number;
-  col: number;
-}
-
-class Board implements boardInterface {
-  public board: any;
-  public row: number;
-  public col: number;
-
-  constructor(row:number, col:number) {
-    this.row = row;
-    this.col = col;
-    this.board = [];
-    for (let r = 0; r < row; r++){
-      this.board[r] = [];
-      for (let c = 0; c < col; c++) {
-        this.board[r][c] = VACANT;
-      }
-    }
-  }
-}
-
-const boardInst = new Board(ROW, COLUMN);
-const { board } = boardInst;
 Draw.drawBoard(ROW, COLUMN, board);
 
 const PIECES = [
