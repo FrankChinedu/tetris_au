@@ -149,12 +149,12 @@ const Z = [
 	]
 ];
 
-export {
-  I,
-  J,
-  L,
-  Z,
-  T,
-  S,
-  O
-}
+export const PIECES = [
+  [Z, "red"],
+  [S, "green"],
+  [T, "yellow"],
+  [O, "blue"],
+  [L, "purple"],
+  [I, "cyan"],
+  [J, "orange"],
+];

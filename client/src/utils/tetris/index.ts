@@ -1,27 +1,21 @@
-import {
-  I, J, L, Z, T, S, O
-} from './tetriminos'
+import { initOptionInt } from './interface';
+
+import { PIECES } from '../tetris/tetriminos';
 const ROW = 20;
 const COLUMN = 10;
-const SQUARE =  30;
 const VACANT = 'WHITE'; // color of an empty square
 
-export const init = (ctx: any, board: any, Draw:any) => {
+export const init = (board: any, Draw:any, options: initOptionInt) => {
+
+const {score, setGameOver, setScore } = options; 
 
 Draw.drawBoard(ROW, COLUMN, board);
 
-const PIECES = [
-  [Z, "red"],
-  [S, "green"],
-  [T, "yellow"],
-  [O, "blue"],
-  [L, "purple"],
-  [I, "cyan"],
-  [J, "orange"],
-];
+class Score {
+  static score = score;
+}
 
-// Piece -> Draw board
-class Piece{
+class Piece extends Score {
   public tetromino:any;
   public color:string;
   public tetrominoN:number;
@@ -30,6 +24,7 @@ class Piece{
   public y:number;
 
   constructor(tetromino:any, color:string){
+    super()
     this.tetromino = tetromino;
     this.color = color;
 
@@ -119,6 +114,7 @@ class Piece{
           if(this.y + r < 0){
               alert("Game Over");
               //stop request animation frame
+              setGameOver(true);
               gameOver = true;
               break; 
           }
@@ -142,6 +138,9 @@ class Piece{
               board[0][c] = VACANT
           }
           // increment the score
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+          Piece.score = Piece.score + 10;
+          setScore(Piece.score)
           // score += 10;
       }
   }
@@ -180,7 +179,6 @@ class Piece{
 
 
 function randomPiece(){
-  console.log('i have been called ')
   let r = Math.floor(Math.random() * PIECES.length); // returns number between 0 and 6
   return  new Piece(PIECES[r][0], PIECES[r][1] as string);
 }
@@ -221,7 +219,7 @@ function drop(){
         dropStart = Date.now();
     }
     if(!gameOver) {
-        // requestAnimationFrame(drop);
+      requestAnimationFrame(drop);
     }
 }
 
