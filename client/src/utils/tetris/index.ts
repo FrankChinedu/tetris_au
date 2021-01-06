@@ -7,7 +7,7 @@ const VACANT = 'WHITE'; // color of an empty square
 
 export const init = (board: any, Draw:any, options: initOptionInt) => {
 
-const {score, setGameOver, setScore } = options; 
+const {score, setGameOver, setScore, setDrop, setMountControl } = options; 
 
 Draw.drawBoard(ROW, COLUMN, board);
 
@@ -185,7 +185,6 @@ function randomPiece(){
 
 let p = randomPiece();
 
-document.addEventListener("keydown", control);
 
 function control(event: any){
     if(event.keyCode === 37){
@@ -222,7 +221,13 @@ function drop(){
       requestAnimationFrame(drop);
     }
 }
+setDrop(() => drop);
 
-  drop();
+setMountControl(() => {
+  return function runMount () {
+    document.addEventListener("keydown", control)
+  }
+});
+// window
 
 }
