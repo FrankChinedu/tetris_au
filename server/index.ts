@@ -5,9 +5,11 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import mongoose from 'mongoose';
+import { Socket, Server as SocketServer } from 'socket.io';
+import { createServer } from 'http';
 
 import Route from './route';
-import { MONGO_URL } from './config/env';
+import { MONGO_URL, NODE_ENV } from './config/env';
 
 class Server {
   private app: Express;
@@ -29,9 +31,20 @@ class Server {
 
     this.route();
 
-    this.app.get('*', (_req: Request, res: Response): void => {
-      res.sendFile(`${path.resolve('./')}/build/client/index.html`);
+    const io = this.socketIO(this.app);
+
+    io.on('connection', (socket: Socket) => {
+      console.log('socket', socket);
+      socket.on('connection', () => {
+        console.log('we global');
+      });
     });
+
+    if (NODE_ENV !== 'dev') {
+      this.app.get('*', (_req: Request, res: Response): void => {
+        res.sendFile(`${path.resolve('./')}/build/client/index.html`);
+      });
+    }
   }
 
   public start (port: number): void {
@@ -48,6 +61,12 @@ class Server {
   public route (): void {
     Route(this.app);
   }
-}
+
+  public socketIO (app: Express): SocketServer {
+    const httpServer = createServer(app);
+    const io = new SocketServer(httpServer);
+    return io;
+  }
+};
 
 export default Server;
