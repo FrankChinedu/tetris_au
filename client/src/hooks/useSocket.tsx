@@ -21,10 +21,6 @@ function useSocket() {
       });
       setSocket(io);
     }
-    console.log('socket useSocket', socket)
-    // return () => {
-    //   io.disconnect();
-    // };
   }, [socket])
 
   return [socket]

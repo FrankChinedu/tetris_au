@@ -1,4 +1,5 @@
 import React, {
+  useRef,
   useEffect,
   useState,
 } from 'react'
@@ -11,6 +12,7 @@ import useSocket from '../../hooks/useSocket';
 import {init} from '../../utils/tetris';
 
 const Tetris: React.FC = () => {
+  const btnRef = useRef(null) as any;
   const [width] = useState(400);
   const [height] = useState(800);
   const [canvasRef, ctx] = useCanvas();
@@ -35,8 +37,22 @@ const Tetris: React.FC = () => {
 
   useEffect(() => {
     //do domething on game over
+    if(socket) {
+      socket.on('start_game', () => {
+        console.log('please start game ooo');
+        if(mountControl) {
+          mountControl()
+        }
+        if(drop) {
+          drop();
+          setDrop(null);
+          setMountControl(null)
+        }
+      })
+    }
     console.log('socket we made it', socket);
-  }, [socket])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, mountControl, drop])
 
 
   const handleStartGame = () => {
@@ -59,7 +75,7 @@ const Tetris: React.FC = () => {
       ></canvas>
       <div>
         <div className="w-8 h-8 bg-yellow-200">{score}</div>
-        <button onClick={handleStartGame}>start game</button>
+        <button ref={btnRef} onClick={handleStartGame}>start game</button>
       </div>
     </div>
     </>

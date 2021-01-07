@@ -6,7 +6,6 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import mongoose from 'mongoose';
 import { Socket, Server as SocketServer } from 'socket.io';
-import { createServer } from 'http';
 
 import Route from './route';
 import { MONGO_URL, NODE_ENV } from './config/env';
@@ -29,16 +28,7 @@ class Server {
       res.send('You have reached the API!');
     });
 
-    this.route();
-
-    const io = this.socketIO(this.app);
-
-    io.on('connection', (socket: Socket) => {
-      console.log('socket', socket);
-      socket.on('connection', () => {
-        console.log('we global');
-      });
-    });
+    this.route(this.app);
 
     if (NODE_ENV !== 'dev') {
       this.app.get('*', (_req: Request, res: Response): void => {
@@ -54,17 +44,26 @@ class Server {
       useUnifiedTopology: true
     }, () => {
       console.log('connectes to Database');
-      this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+      const server = this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+
+      const io = this.socketIO(server);
+
+      io.on('connection', (socket: Socket) => {
+        setTimeout(() => {
+          socket.emit('start_game');
+          console.log('done');
+        }, 3000);
+        console.log('socker --socker coneected');
+      });
     });
   }
 
-  public route (): void {
-    Route(this.app);
+  public route (app: Express): void {
+    Route(app);
   }
 
-  public socketIO (app: Express): SocketServer {
-    const httpServer = createServer(app);
-    const io = new SocketServer(httpServer);
+  public socketIO (app: any): SocketServer {
+    const io = new SocketServer(app);
     return io;
   }
 };
