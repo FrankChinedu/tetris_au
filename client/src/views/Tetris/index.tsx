@@ -6,11 +6,9 @@ import React, {
 import useCanvas from '../../hooks/tetris/useCanvas';
 import useBoard from '../../hooks/tetris/useBoard';
 import useDraw from '../../hooks/tetris/useDraw';
+import useSocket from '../../hooks/useSocket';
 
 import {init} from '../../utils/tetris';
-import socketClient from 'socket.io-client';
-const SOCKET_SERVER_URL = "http://localhost:4004";
-
 
 const Tetris: React.FC = () => {
   const [width] = useState(400);
@@ -22,11 +20,7 @@ const Tetris: React.FC = () => {
   const [score, setScore] = useState(0);
   const [drop, setDrop] = useState() as any;
   const [mountControl, setMountControl] = useState() as any;
-
-  const socket = socketClient(SOCKET_SERVER_URL);
-  socket.on('connection', () => {
-    console.log('wahala be like bycycle');
-  });
+  const [socket] = useSocket();
 
   useEffect(()=>{
     if(Draw) {
@@ -37,7 +31,12 @@ const Tetris: React.FC = () => {
 
   useEffect(() => {
     //do domething on game over
-  }, [isGameOver])
+  }, [isGameOver]);
+
+  useEffect(() => {
+    //do domething on game over
+    console.log('socket we made it', socket);
+  }, [socket])
 
 
   const handleStartGame = () => {
