@@ -4,11 +4,30 @@ import {
 } from 'react';
 
 import {
-  SQUARE
-} from '../../utils/tetris/constants'
+  STROKE_COLOR
+} from '../../utils/tetris/constants';
+
+import useWindowSize from '../useWindowSize';
 
 const useDraw = (ctx: any) => {
   const [draw, setDraw] = useState(null) as any;
+  const [square, setSquare] = useState(30) as any;
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (width !== null && width <= 420) {
+      setSquare(20)
+    }
+    
+    if (width !== null && width < 300) {
+      setSquare(15)
+    }
+
+    if (width !== null && width < 250) {
+      setSquare(10)
+      console.log('width', width);
+    }
+  }, [width]);
 
   useEffect(() => {
 
@@ -18,10 +37,10 @@ const useDraw = (ctx: any) => {
         static ctx = ctx;
         static drawSquare(x: number, y: number, color: string){
           Draw.ctx.fillStyle = color;
-          Draw.ctx.fillRect(x * SQUARE, y * SQUARE, SQUARE, SQUARE)
+          Draw.ctx.fillRect(x * square, y * square, square, square)
       
-          Draw.ctx.strokeStyle = 'BLACK';
-          Draw.ctx.strokeRect(x * SQUARE, y * SQUARE, SQUARE, SQUARE)
+          Draw.ctx.strokeStyle = STROKE_COLOR;
+          Draw.ctx.strokeRect(x * square, y * square, square, square)
         }
       
         static drawBoard(row:number, col:number, board: any) {
@@ -29,7 +48,8 @@ const useDraw = (ctx: any) => {
             for (let c = 0; c < col; c++) {
                 Draw.drawSquare(c, r, board[r][c])
             }
-          } 
+          }
+          
         }
       }
 
@@ -45,8 +65,8 @@ const useDraw = (ctx: any) => {
       setDraw(draw);
     }
 
-  }, [ctx, draw])
-  return [draw];
+  }, [ctx, draw, square])
+  return [draw, square];
 }
 
 export default useDraw;

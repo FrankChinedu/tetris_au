@@ -2,27 +2,40 @@ import React, {
   useRef,
   useEffect,
   useState,
-} from 'react'
+} from 'react';
 
 import useCanvas from '../../hooks/tetris/useCanvas';
 import useBoard from '../../hooks/tetris/useBoard';
 import useDraw from '../../hooks/tetris/useDraw';
 import useSocket from '../../hooks/useSocket';
 
+import { ROW, COLUMN } from '../../utils/tetris/constants';
+
 import {init} from '../../utils/tetris';
 
 const Tetris: React.FC = () => {
   const btnRef = useRef(null) as any;
-  const [width] = useState(400);
-  const [height] = useState(800);
   const [canvasRef, ctx] = useCanvas();
-  const [Draw] = useDraw(ctx);
+  const [Draw, square] = useDraw(ctx);
   const [board] = useBoard();
   const [isGameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [drop, setDrop] = useState() as any;
   const [mountControl, setMountControl] = useState() as any;
   const [socket] = useSocket();
+  
+  const getHeight =  ROW * square;
+  const [canvasWidth, setWidth] = useState(COLUMN * square);
+  const [canvasHeight, setHeight] = useState(getHeight);
+
+  useEffect(() => {
+    setWidth(COLUMN * square);
+    setHeight(ROW * square);
+    console.log('canvasWidth', canvasWidth);
+    console.log('canvasHeight', canvasHeight);
+    
+  }, [square])
+
 
   useEffect(()=>{
     if(Draw) {
@@ -68,12 +81,14 @@ const Tetris: React.FC = () => {
 
   return (
     <>
-    <div className="grid grid-cols-7 gap-x-3 mt-4">
-      <canvas ref={canvasRef}
-      className="col-start-3 col-span-3"
-      width={width} height={height}
+    <div className="mt-4 lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-2">
+      <canvas
+        ref={canvasRef}
+        width={canvasWidth}
+        height={canvasHeight}
+        className="relative border border-gray-700 shadow"
       ></canvas>
-      <div>
+      <div className="justify-self-end md:justify-self-center">
         <div className="w-8 h-8 bg-yellow-200">{score}</div>
         <button ref={btnRef} onClick={handleStartGame}>start game</button>
       </div>
