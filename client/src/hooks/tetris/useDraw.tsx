@@ -3,10 +3,6 @@ import {
   useState
 } from 'react';
 
-import {
-  STROKE_COLOR
-} from '../../utils/tetris/constants';
-
 import useWindowSize from '../useWindowSize';
 
 const useDraw = (ctx: any) => {
@@ -39,8 +35,8 @@ const useDraw = (ctx: any) => {
           Draw.ctx.fillStyle = color;
           Draw.ctx.fillRect(x * square, y * square, square, square)
       
-          Draw.ctx.strokeStyle = STROKE_COLOR;
-          Draw.ctx.strokeRect(x * square, y * square, square, square)
+          // Draw.ctx.strokeStyle = STROKE_COLOR;
+          // Draw.ctx.strokeRect(x * square, y * square, square, square)
         }
       
         static drawBoard(row:number, col:number, board: any) {

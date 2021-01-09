@@ -81,16 +81,22 @@ const Tetris: React.FC = () => {
 
   return (
     <>
-    <div className="mt-4 lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-2">
+    <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-full py-10 text-white bg-gray-900">
+      <div className="col-span-3 border-2 p-8">
+        score and pause/play, restart and quit comes here
+      </div>
       <canvas
         ref={canvasRef}
         width={canvasWidth}
         height={canvasHeight}
-        className="relative border border-gray-700 shadow"
+        className="relative border-4 shadow border-white rounded col-span-2"
       ></canvas>
-      <div className="justify-self-end md:justify-self-center">
+      <div className="justify-self-end border-2 p-8 col-span-1 w-full">
         <div className="w-8 h-8 bg-yellow-200">{score}</div>
         <button ref={btnRef} onClick={handleStartGame}>start game</button>
+      </div>
+      <div className="col-span-3 border-2 p-8">
+        game controls here
       </div>
     </div>
     </>
