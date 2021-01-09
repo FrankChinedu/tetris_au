@@ -35,27 +35,7 @@ const Tetris: React.FC = () => {
     //do domething on game over
   }, [isGameOver]);
 
-  useEffect(() => {
-    //do domething on game over
-    if(socket) {
-      socket.on('start_game', () => {
-        console.log('please start game ooo');
-        if(mountControl) {
-          mountControl()
-        }
-        if(drop) {
-          drop();
-          setDrop(null);
-          setMountControl(null)
-        }
-      })
-    }
-    console.log('socket we made it', socket);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, mountControl, drop])
-
-
-  const handleStartGame = () => {
+  function startGame () {
     if(mountControl) {
       mountControl()
     }
@@ -64,6 +44,22 @@ const Tetris: React.FC = () => {
       setDrop(null);
       setMountControl(null)
     }
+  }
+
+  useEffect(() => {
+    //do domething on game over
+    if(socket) {
+      socket.on('start_game', () => {
+        console.log('please start game ooo');
+        startGame();
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, mountControl, drop])
+
+
+  const handleStartGame = () => {
+    startGame();
   }
 
   return (
