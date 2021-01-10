@@ -1,9 +1,8 @@
 import { initOptionInt } from './interface';
 
 import { PIECES } from '../tetris/tetriminos';
-const ROW = 20;
-const COLUMN = 10;
-const VACANT = 'WHITE'; // color of an empty square
+
+import { ROW, COLUMN, VACANT } from './constants';
 
 export const init = (board: any, Draw:any, options: initOptionInt) => {
 

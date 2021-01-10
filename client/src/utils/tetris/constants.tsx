@@ -1,5 +1,4 @@
-export const ROW = 20;
+export const ROW = 16;
 export const COLUMN = 10;
-export const SQUARE =  30;
-export const VACANT = 'WHITE';
-
+export const VACANT = 'rgba(17, 24, 39, 1)';
+export const STROKE_COLOR = 'BLACK';
