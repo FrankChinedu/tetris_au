@@ -77,7 +77,7 @@ const Tetris: React.FC = () => {
 
   return (
     <>
-    <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-full py-10 text-white bg-gray-900">
+    <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-screen py-10 text-white bg-gray-900">
       <div className="col-span-3 border-2 p-8">
         score and pause/play, restart and quit comes here
       </div>
