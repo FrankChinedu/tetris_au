@@ -101,7 +101,6 @@ const Tetris: React.FC = () => {
     </div>
     </>
   )
-
 }
 
 export default Tetris;
