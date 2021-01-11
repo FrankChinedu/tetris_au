@@ -13,11 +13,16 @@ ___
   - > TIME 
     - time base 
   - > mode
-      - championShip mode: This is a multiplayer version where players are knocked out till the final winner is gotten. 
-      - straight mode: Normal multiplayer version where a minimum of two players starts a game the first player the meet the game critaria wins. 
+      - `championShip mode`: This is a multiplayer version where players are knocked out till the final winner is gotten. 
+      - `straight mode`: Normal multiplayer version where a minimum of two players starts a game the first player the meet the game critaria wins. 
+      - `last man standing mood` - a certain number of defined users is defined to enter this game
+      - certain number of users for example would be 20 and then and elimination method occurs where players with the lowest score are removed from the game until the last man standing wins the game.
 
+Tetris settings 
+  - quick start 
+  - score based or time based
 
-
+Score based the user creates a game and sets the winning condition score based is the user sets an upper bound time at which the first player to get to that score wins of a player loses before the other player gets to that point the other player wins. User can set the minimum score and speed of the game.   
 ### GAME PROGRESS
    Game progress: Here we would have a real time display of people playing the game just scores and user name is displayed for the first iteration. Later other user can see other users game play real time.
 
