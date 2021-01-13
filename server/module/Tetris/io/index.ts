@@ -39,7 +39,7 @@ export default (client: Socket, io: Server): void => {
       }
     }
   }
-  // socket.i/ test game
+  // socket.i/
   setTimeout(() => {
     client.emit('start_game');
     console.log('done');
