@@ -26,4 +26,6 @@ Score based the user creates a game and sets the winning condition score based i
 ### GAME PROGRESS
    Game progress: Here we would have a real time display of people playing the game just scores and user name is displayed for the first iteration. Later other user can see other users game play real time.
 
-  
+  # NOTE:::
+   -  user must be authenticated to create a join
+   - any user can join without authentication (provide a username)

@@ -10,6 +10,7 @@ import { Socket, Server as SocketServer } from 'socket.io';
 import Route from './route';
 import { MONGO_URL, NODE_ENV } from './config/env';
 import globalErrorHandle from './middleware/global-error-handler';
+import GameIo from './io';
 
 import 'express-async-errors';
 class Server {
@@ -58,10 +59,7 @@ class Server {
       const io = this.socketIO(server);
 
       io.on('connection', (socket: Socket) => {
-        setTimeout(() => {
-          socket.emit('start_game');
-          console.log('done');
-        }, 3000);
+        GameIo(socket, io);
         console.log('socker --socker coneected');
       });
     });

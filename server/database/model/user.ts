@@ -6,13 +6,14 @@ interface IUser {
   username: string;
   password: string,
   email?: string,
+  tetris?: mongoose.Types.ObjectId[];
 }
 
 export interface UserDoc extends mongoose.Document {
   username: string;
   password: string;
   email?: string;
-  tetris?: mongoose.Types.ObjectId;
+  tetris?: mongoose.Types.ObjectId[];
 }
 
 interface userModelInterface extends mongoose.Model<UserDoc> {
@@ -32,10 +33,10 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String
   },
-  tetris: {
+  tetris: [{
     type: mongoose.Types.ObjectId,
     ref: 'Tetris'
-  }
+  }]
 }, { timestamps: true });
 
 userSchema.statics.build = (attr: IUser) => {

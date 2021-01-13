@@ -47,8 +47,6 @@ export async function authenticate (
       email: decoded?.email
     };
 
-    console.log('user', user);
-
     req.user = user;
 
     return next();
