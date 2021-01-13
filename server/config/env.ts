@@ -12,3 +12,6 @@ export const MONGO_URL =
 
 export const APP_PORT =
   process.env.PORT || throwIfUndefined(process.env.APP_PORT, 'APP PORT');
+
+export const JWT_SECRET =
+  process.env.JWT_SECRET || throwIfUndefined(process.env.JWT_SECRET, 'JWT_SECRET');

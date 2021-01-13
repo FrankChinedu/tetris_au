@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import * as path from 'path';
 import { json } from 'body-parser';
 import cors from 'cors';
@@ -9,7 +9,9 @@ import { Socket, Server as SocketServer } from 'socket.io';
 
 import Route from './route';
 import { MONGO_URL, NODE_ENV } from './config/env';
+import globalErrorHandle from './middleware/global-error-handler';
 
+import 'express-async-errors';
 class Server {
   private app: Express;
 
@@ -35,6 +37,13 @@ class Server {
         res.sendFile(`${path.resolve('./')}/build/client/index.html`);
       });
     }
+
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      res.status(404).json({ error: 'Route not found' });
+      next();
+    });
+
+    this.app.use(globalErrorHandle.handler);
   }
 
   public start (port: number): void {
