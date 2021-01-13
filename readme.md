@@ -15,7 +15,7 @@ ___
   - > mode
       - `championShip mode`: This is a multiplayer version where players are knocked out till the final winner is gotten. 
       - `straight mode`: Normal multiplayer version where a minimum of two players starts a game the first player the meet the game critaria wins. 
-      - `last man standing mood` - a certain number of defined users is defined to enter this game
+      - `last man standing mode` - a certain number of defined users is defined to enter this game
       - certain number of users for example would be 20 and then and elimination method occurs where players with the lowest score are removed from the game until the last man standing wins the game.
 
 Tetris settings 

@@ -1,4 +1,4 @@
-import { Game } from './game';
+import { Tetris } from './tetris';
 import { User } from './user';
 
-export { Game, User };
+export { Tetris, User };

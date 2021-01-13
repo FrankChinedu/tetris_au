@@ -2,11 +2,14 @@ import mongoose from 'mongoose';
 interface IUser {
   username: string;
   password: string,
+  email: string,
 }
 
 export interface UserDoc extends mongoose.Document {
   username: string;
   password: string;
+  email: string;
+  tetris?: mongoose.Types.ObjectId;
 }
 
 interface userModelInterface extends mongoose.Model<UserDoc> {
@@ -20,8 +23,16 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   password: {
-    type: String
-    // required: true
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  tetris: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Tetris'
   }
 });
 
@@ -30,10 +41,5 @@ userSchema.statics.build = (attr: IUser) => {
 };
 
 const User = mongoose.model<UserDoc, userModelInterface>('User', userSchema);
-
-User.build({
-  password: 'user password',
-  username: 'username'
-});
 
 export { User };
