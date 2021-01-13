@@ -10,7 +10,8 @@ const User = {
         status: 200,
         message: 'success',
         data: {
-          username: user.username
+          username: user.username,
+          id: user._id
         }
       };
     } catch (error) {
@@ -46,7 +47,8 @@ const User = {
       status: 200,
       message: 'success',
       data: {
-        username: user.username
+        username: user.username,
+        id: user._id
       }
     };
   }

@@ -13,7 +13,7 @@ interface ITetris {
   criteria: ICriteria;
   baseScore: number; // score to inscrement by
   winScore: number; // if criteria is score win score is the score to determine who the winner is
-  winTime: number; // if criteria is tome win time is time to determine who winner is
+  winTime: number; // if criteria is tome win time is time to determine who winner is in seconds
   creatorId: mongoose.Types.ObjectId;
   tetriminoes: string;
 }
@@ -44,7 +44,8 @@ const tetrisSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: true
+    required: true,
+    default: 'TETRIS'
   },
   ended: {
     type: Boolean,
@@ -69,7 +70,7 @@ const tetrisSchema = new mongoose.Schema({
   baseScore: {
     type: Number,
     required: true,
-    default: 2
+    default: 10
   },
   winScore: {
     type: Number,

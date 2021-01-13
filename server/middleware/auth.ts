@@ -42,9 +42,12 @@ export async function authenticate (
     }
 
     const user = {
+      id: decoded.id,
       username: decoded.username,
       email: decoded?.email
     };
+
+    console.log('user', user);
 
     req.user = user;
 
