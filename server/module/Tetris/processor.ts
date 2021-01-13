@@ -36,7 +36,8 @@ const Tetris = {
         winTime: gameSession.winTime,
         tetriminoes: gameSession.tetriminoes,
         creatorId: gameSession.creatorId,
-        gameId: gameSession.gameId
+        gameId: gameSession.gameId,
+        id: gameSession._id
       };
 
       const createGameData = {

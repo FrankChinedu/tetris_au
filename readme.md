@@ -29,3 +29,16 @@ Score based the user creates a game and sets the winning condition score based i
   # NOTE:::
    -  user must be authenticated to create a join
    - any user can join without authentication (provide a username)
+
+
+  # SOCKET LISTENERS - :::CLIENT:::
+   > NEW GAME
+   - after creating a new game emit `NEW_TETRIS_GAME_SESSION`
+   - create a listener for `TETRIS_GAME_SESSION_DATA` this would return the info for the game session
+   - listen on `START_TETRIS_GAME_SESSION`
+
+   > Joining a existing game session
+   - emit an event `JOIN_TETRIS_GAME_SESSION`
+   - listen on `TETRIS_GAME_SESSION_DATA` to get game data
+   - listen on `START_TETRIS_GAME_SESSION`
+   
