@@ -33,12 +33,12 @@ Score based the user creates a game and sets the winning condition score based i
 
   # SOCKET LISTENERS - :::CLIENT:::
    > NEW GAME
-   - after creating a new game emit `NEW_TETRIS_GAME_SESSION`
+   - after creating a new game emit `NEW_TETRIS_GAME_SESSION` pass the roomName and userName
    - create a listener for `TETRIS_GAME_SESSION_DATA` this would return the info for the game session
    - listen on `START_TETRIS_GAME_SESSION`
 
    > Joining a existing game session
-   - emit an event `JOIN_TETRIS_GAME_SESSION`
+   - emit an event `JOIN_TETRIS_GAME_SESSION` pass the roomName and userName
    - listen on `TETRIS_GAME_SESSION_DATA` to get game data
    - listen on `START_TETRIS_GAME_SESSION`
    

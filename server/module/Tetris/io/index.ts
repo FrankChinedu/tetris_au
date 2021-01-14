@@ -7,6 +7,7 @@ import { IcreateGame, GameData } from '../../../interfaces';
 
 const gameRooms:any = {};
 const gameDataStore: any = {};
+const gameDataRecords: any = {};
 
 export default (client: Socket, io: Server): void => {
   EventEmitter.on(EVENT_TYPES.CREATE_GAME_DATA, (createGameData: IcreateGame) => {
@@ -18,21 +19,33 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.NEW_TETRIS_GAME_SESSION, handleCreateNewTetrisSession);
   client.on(EVENT_TYPES.JOIN_TETRIS_GAME_SESSION, handleJoinTetrisSession);
 
-  function handleCreateNewTetrisSession (roomName: string) {
+  function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName];
     if (gameData) {
       gameRooms[client.id] = roomName;
+      gameDataRecords[roomName] = {
+        [username]: {
+          name: username,
+          score: 0
+        }
+      };
       client.join(roomName);
       client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
     }
   }
 
-  function handleJoinTetrisSession (roomName: string) {
+  function handleJoinTetrisSession (roomName: string, username: string) {
     const roomLength = (io.in(roomName).allSockets() as unknown) as number;
     const gameData = gameDataStore[roomName] as GameData;
     if (gameData) {
       gameRooms[client.id] = roomName;
       client.join(roomName);
+      if (gameDataRecords[roomName]) {
+        gameDataRecords[roomName][username] = {
+          name: username,
+          score: 0
+        };
+      }
 
       if (+roomLength === +gameData.allowedPlayers) {
         client.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
