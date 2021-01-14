@@ -14,6 +14,9 @@ export default (client: Socket, io: Server): void => {
     const gameId = createGameData.gameData.gameId;
     const gameData = createGameData.gameData;
     gameDataStore[gameId] = gameData;
+    EventEmitter.removeListener(EVENT_TYPES.CREATE_GAME_DATA, () => {
+      console.log('removed');
+    });
   });
 
   client.on(EVENT_TYPES.NEW_TETRIS_GAME_SESSION, handleCreateNewTetrisSession);
@@ -53,8 +56,8 @@ export default (client: Socket, io: Server): void => {
     }
   }
   // socket.i/
-  setTimeout(() => {
-    client.emit('start_game');
-    console.log('done');
-  }, 3000);
+  // setTimeout(() => {
+  //   client.emit('start_game');
+  //   console.log('done');
+  // }, 3000);
 };
