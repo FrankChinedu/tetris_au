@@ -6,11 +6,11 @@ import EVENT_TYPES from '../../Events/constant';
 import EventEmitter from './../../Events';
 
 const Tetris = {
-  createGameSession: async (creatorId:string, body:any): Promise<ResponseDataI> => {
+  createGameSession: async (creatorId:string, body:any, username: string): Promise<ResponseDataI> => {
     try {
-      const user = await User.findById(creatorId) as UserDoc;
+      const user = creatorId && await User.findById(creatorId) as UserDoc;
 
-      if (!user) {
+      if (!user && !username) {
         return {
           status: 404,
           message: 'user not found',
@@ -22,8 +22,8 @@ const Tetris = {
       const gameId = randomGameCode();
       const gameSession = await TetrisModel.create({ ...body, tetriminoes, creatorId, gameId }) as TetrisDoc;
 
-      user.tetris?.push(gameSession._id);
-      await user.save();
+      user && user.tetris?.push(gameSession._id);
+      user && await user.save();
 
       const gameData = {
         type: gameSession.type,
@@ -39,9 +39,10 @@ const Tetris = {
         gameId: gameSession.gameId,
         id: gameSession._id
       };
+      const gameCreatorUsername: string = user ? user.username : username;
 
       const createGameData = {
-        creatorId, gameData
+        gameCreatorUsername, gameData
       } as unknown as IcreateGame;
 
       EventEmitter.emit(EVENT_TYPES.CREATE_GAME_DATA, createGameData);

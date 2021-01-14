@@ -14,7 +14,7 @@ interface ITetris {
   baseScore: number; // score to inscrement by
   winScore: number; // if criteria is score win score is the score to determine who the winner is
   winTime: number; // if criteria is tome win time is time to determine who winner is in seconds
-  creatorId: mongoose.Types.ObjectId;
+  creatorId?: mongoose.Types.ObjectId;
   tetriminoes: string;
 }
 
@@ -28,7 +28,7 @@ export interface TetrisDoc extends mongoose.Document {
   baseScore: number;
   winScore: number;
   winTime: number;
-  creatorId: mongoose.Types.ObjectId;
+  creatorId?: mongoose.Types.ObjectId;
   tetriminoes: string;
 }
 
@@ -84,7 +84,6 @@ const tetrisSchema = new mongoose.Schema({
   },
   creatorId: {
     type: mongoose.Types.ObjectId,
-    required: true,
     ref: 'User'
   },
   tetriminoes: {

@@ -15,6 +15,6 @@ export interface GameData {
 }
 
 export interface IcreateGame {
-  creatorId: string,
+  gameCreatorUsername: string,
   gameData: GameData
 };
