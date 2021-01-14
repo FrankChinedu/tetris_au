@@ -25,7 +25,7 @@ export default (client: Socket, io: Server): void => {
       gameRooms[client.id] = roomName;
       gameDataRecords[roomName] = {
         [username]: {
-          name: roomName,
+          name: username,
           score: 0
         }
       };
@@ -42,10 +42,8 @@ export default (client: Socket, io: Server): void => {
       client.join(roomName);
       if (gameDataRecords[roomName]) {
         gameDataRecords[roomName][username] = {
-          [username]: {
-            name: roomName,
-            score: 0
-          }
+          name: username,
+          score: 0
         };
       }
 
