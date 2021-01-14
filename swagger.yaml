@@ -1,0 +1,177 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Tetris au
+  contact: {}
+host: example.com
+basePath: /
+securityDefinitions: {}
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /user/signup:
+    post:
+      summary: create user
+      tags:
+      - user
+      operationId: createuser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/createuserrequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /user/login:
+    post:
+      summary: login user
+      tags:
+      - user
+      operationId: loginuser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/loginuserrequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /tetris:
+    post:
+      summary: create game session
+      tags:
+      - tetris
+      operationId: creategamesession
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/creategamesessionrequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /:
+    get:
+      summary: socket
+      tags:
+      - Misc
+      operationId: socket
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      responses:
+        200:
+          description: ''
+          headers: {}
+definitions:
+  createuserrequest:
+    title: createuserrequest
+    example:
+      username: frankieme
+      password: 123456
+      confirm: 123456
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      confirm:
+        type: string
+    required:
+    - username
+    - password
+    - confirm
+  loginuserrequest:
+    title: loginuserrequest
+    example:
+      username: frankieme
+      password: 123456
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+    - username
+    - password
+  creategamesessionrequest:
+    title: creategamesessionrequest
+    example:
+      allowedPlayers: ''
+      baseScore: ''
+      winScore: ''
+      winTime: ''
+      criteria: ''
+      mode: ''
+    type: object
+    properties:
+      allowedPlayers:
+        type: string
+      baseScore:
+        type: string
+      winScore:
+        type: string
+      winTime:
+        type: string
+      criteria:
+        type: string
+      mode:
+        type: string
+    required:
+    - allowedPlayers
+    - baseScore
+    - winScore
+    - winTime
+    - criteria
+    - mode
+tags:
+- name: user
+- name: tetris
+- name: Misc
+  description: ''
