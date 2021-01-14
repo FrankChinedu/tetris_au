@@ -80,17 +80,19 @@ const Tetris: React.FC = () => {
   return (
     <>
     <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-full py-10 text-white bg-gray-900">
-      <div className="col-span-3 border-2 p-5 grid grid-cols-3 gap-3">
+      <div className="col-span-3 py-5 grid grid-cols-3 gap-3">
         {/* score and pause/play, restart and quit comes here */}
-            <p>
-              <small className="block">Score</small>
-              <b className="block">{score}</b>
-            </p>
-            <p>
-              <small className="block">Highest Score</small>
-              <b className="block bg-red-400">{score}</b>
-            </p>
-        <section className="text-right border-2">
+        <section className="col-span-2 border grid grid-cols-2 text-center py-2">
+          <p>
+            <small className="block">Score</small>
+            <b className="block">{score}</b>
+          </p>
+          <p>
+            <small className="block">Highest Score</small>
+            <b className="block">{score}</b>
+          </p>
+        </section>
+        <section className="text-center border-2 py-2">
           <button ref={btnRef} onClick={handleStartGame}>start/pause</button>
         </section>
       </div>
