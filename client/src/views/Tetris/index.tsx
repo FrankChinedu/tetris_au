@@ -3,7 +3,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faAngleDown, faAngleRight, faAngleUp, faUndo } from '@fortawesome/free-solid-svg-icons'
 import useCanvas from '../../hooks/tetris/useCanvas';
 import useBoard from '../../hooks/tetris/useBoard';
 import useDraw from '../../hooks/tetris/useDraw';
@@ -34,6 +35,7 @@ const Tetris: React.FC = () => {
     console.log('canvasWidth', canvasWidth);
     console.log('canvasHeight', canvasHeight);
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [square])
 
 
@@ -77,9 +79,20 @@ const Tetris: React.FC = () => {
 
   return (
     <>
-    <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-screen py-10 text-white bg-gray-900">
-      <div className="col-span-3 border-2 p-8">
-        score and pause/play, restart and quit comes here
+    <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-4 h-full py-10 text-white bg-gray-900">
+      <div className="col-span-3 border-2 p-5 grid grid-cols-3 gap-3">
+        {/* score and pause/play, restart and quit comes here */}
+            <p>
+              <small className="block">Score</small>
+              <b className="block">{score}</b>
+            </p>
+            <p>
+              <small className="block">Highest Score</small>
+              <b className="block bg-red-400">{score}</b>
+            </p>
+        <section className="text-right border-2">
+          <button ref={btnRef} onClick={handleStartGame}>start/pause</button>
+        </section>
       </div>
       <canvas
         ref={canvasRef}
@@ -87,12 +100,42 @@ const Tetris: React.FC = () => {
         height={canvasHeight}
         className="relative border-4 shadow border-white rounded col-span-2"
       ></canvas>
-      <div className="justify-self-end border-2 p-8 col-span-1 w-full">
-        <div className="w-8 h-8 bg-yellow-200">{score}</div>
-        <button ref={btnRef} onClick={handleStartGame}>start game</button>
+
+      <div className="border-2 px-5 py-0 col-span-1 w-full grid grid-cols-1">
+        <div className="mt-14 text-black md:text-2xl text-lg self-end hidden md:block">
+            <div className="md:w-16 md:h-16 w-5 h-5 bg-white rounded-b-full mx-auto flex justify-center items-center">
+              <FontAwesomeIcon icon={faAngleUp} />
+            </div>
+            <div className="grid grid-cols-2 gap-5">
+              <div className="md:w-16 md:h-16 w-5 h-5 bg-white rounded-r-full flex justify-center items-center justify-self-end">
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </div>
+              <div className="md:w-16 md:h-16 w-5 h-5 bg-white rounded-l-full flex justify-center items-center">
+                <FontAwesomeIcon icon={faAngleRight} />
+              </div>
+            </div>
+            <div className="md:w-16 md:h-16 w-5 h-5 bg-white rounded-t-full mx-auto flex justify-center items-center">
+              <FontAwesomeIcon icon={faAngleDown} />
+            </div>
+        </div>
       </div>
-      <div className="col-span-3 border-2 p-8">
-        game controls here
+      <div className="col-span-3 grid grid-cols-3 p-1 text-black items-center md:hidden gap-5 sm:w-8/12">
+        <div className="md:text-2xl text-lg col-span-2 justify-self-start">
+            <div className="grid grid-cols-2 gap-5">
+              <div className="w-14 h-14 bg-white rounded-r-full flex justify-center items-center justify-self-end">
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </div>
+              <div className="w-14 h-14 bg-white rounded-l-full flex justify-center items-center">
+                <FontAwesomeIcon icon={faAngleRight} />
+              </div>
+            </div>
+            <div className="w-14 h-14 bg-white rounded-t-full mx-auto flex justify-center items-center">
+              <FontAwesomeIcon icon={faAngleDown} />
+            </div>
+        </div>
+        <div className="bg-white w-14 h-14 flex justify-center items-center p-4 justify-self-start">
+            <FontAwesomeIcon icon={faUndo} />
+          </div>
       </div>
     </div>
     </>
@@ -100,3 +143,8 @@ const Tetris: React.FC = () => {
 }
 
 export default Tetris;
+
+
+// faAngleLeft
+// faAngleDown
+// faAngleRight
