@@ -1,5 +1,4 @@
-import React from 'react';
-import PageSpinner from '../common/PageSpinner';
+import React from 'react';\
 
 const cells = 200;
 const items: number[] = [];
