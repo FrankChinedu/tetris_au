@@ -1,10 +1,5 @@
 import React from 'react';
 
-const cells = 200;
-const items: number[] = [];
-for (let i = 1; i <= cells; i++) {
-  items.push(i);
-}
 
 const Home: React.FC = () => {
   return (
