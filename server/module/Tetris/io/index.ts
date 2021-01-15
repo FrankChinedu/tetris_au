@@ -15,7 +15,7 @@ export default (client: Socket, io: Server): void => {
     const gameData = createGameData.gameData;
     gameDataStore[gameId] = gameData;
     EventEmitter.removeListener(EVENT_TYPES.CREATE_GAME_DATA, () => {
-      console.log('removed');
+      console.log('listener removed');
     });
   });
 
