@@ -1,10 +1,7 @@
-import { lazy } from 'react';
 import { Route } from 'react-router-dom';
-
-
-const Home = lazy(() => import('./views/Home'));
-const Tetris = lazy(() => import('./views/Tetris'));
-const PageNotFound = lazy(() => import('./views/PageNotFound'));
+import Home from './views/Home';
+import Tetris from './views/Tetris';
+import PageNotFound from './views/PageNotFound';
 
 export const routes = [
     {
