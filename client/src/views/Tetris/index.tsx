@@ -3,8 +3,9 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleDown, faAngleRight, faAngleUp, faUndo } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faAngleDown, faAngleRight, faAngleUp, faUndo, faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons';
 import useCanvas from '../../hooks/tetris/useCanvas';
 import useBoard from '../../hooks/tetris/useBoard';
 import useDraw from '../../hooks/tetris/useDraw';
@@ -18,12 +19,14 @@ const Tetris: React.FC = () => {
   const btnRef = useRef(null) as any;
   const [canvasRef, ctx] = useCanvas();
   const [Draw, square] = useDraw(ctx);
+  const [play, setPlay] = useState(false);
   const [board] = useBoard();
   const [isGameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [drop, setDrop] = useState() as any;
   const [mountControl, setMountControl] = useState() as any;
   const [socket] = useSocket();
+  const history = useHistory();
   
   const getHeight =  ROW * square;
   const [canvasWidth, setWidth] = useState(COLUMN * square);
@@ -75,6 +78,7 @@ const Tetris: React.FC = () => {
 
   const handleStartGame = () => {
     startGame();
+    setPlay(true);
   }
 
   return (
@@ -82,18 +86,39 @@ const Tetris: React.FC = () => {
     <div className="lg:w-8/12 lg:mx-auto px-5 md:px-12 grid grid-cols-3 gap-y-2 h-full text-white bg-black">
       <div className="col-span-3 py-5 grid grid-cols-3 gap-3">
         {/* score and pause/play, restart and quit comes here */}
-        <section className="col-span-2 border grid grid-cols-2 text-center py-2">
+        <section className="col-span-2 border-2 grid grid-cols-2 text-center py-2">
           <p>
             <small className="block">Score</small>
             <b className="block">{score}</b>
           </p>
-          <p>
+          <p className="hidden md:block">
             <small className="block">Highest Score</small>
             <b className="block">{score}</b>
           </p>
+          <div className="md:hidden">
+            <button ref={btnRef} className="p-2 focus:outline-none" onClick={() => history.push('/')}>
+            <FontAwesomeIcon icon={faStop} />
+            </button>
+          </div>
         </section>
-        <section className="text-center border-2 py-2">
-          <button ref={btnRef} onClick={handleStartGame}>start/pause</button>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-2 text-center border-2 justify-center items-center">
+          <div className="hidden md:block">
+            <button ref={btnRef} className="p-2 focus:outline-none" onClick={() => history.push('/')}>
+            <FontAwesomeIcon icon={faStop} />
+            </button>
+          </div>
+          <div className="">
+          {play ? (
+            <button ref={btnRef} className="p-2 focus:outline-none">
+              <FontAwesomeIcon icon={faPause} />
+            </button>
+              ): (
+                <button ref={btnRef} onClick={handleStartGame} className="p-2 focus:outline-none">
+                  <FontAwesomeIcon icon={faPlay} />
+                </button>
+              )}
+            
+          </div>
         </section>
       </div>
       <canvas
@@ -145,8 +170,3 @@ const Tetris: React.FC = () => {
 }
 
 export default Tetris;
-
-
-// faAngleLeft
-// faAngleDown
-// faAngleRight
