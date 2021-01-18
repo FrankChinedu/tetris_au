@@ -1,8 +1,8 @@
 import {useState, useCallback} from 'react'
-import {TETROMINOS,  randomTetromino } from '../../components/Tetriminoes';
-import { STAGE_WIDTH, checkCollision } from '../../gameHelper';
+import {TETROMINOS,  randomTetromino } from '../utils/tetris/Tetriminoes';
+import { STAGE_WIDTH, checkCollision } from '../gameHelper';
 
-import { IPlayer } from './interfaces'
+import { IPlayer } from '../utils/tetris/interfaces'
 
 const usePlayer = () => {
   const [player, setPlayer] = useState<IPlayer>(() => ({

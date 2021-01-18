@@ -1,4 +1,4 @@
-import {IPlayer} from './hooks/tet/interfaces';
+import {IPlayer} from './utils/tetris/interfaces';
 
 export const STAGE_WIDTH = 12;
 export const STAGE_HEIGHT = 20;

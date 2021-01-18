@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import { createStage } from '../../gameHelper';
+import { createStage } from '../gameHelper';
 
-import { IPlayer, } from './interfaces'
-import { IUseStage } from './interfaces';
+import { IUseStage } from '../utils/tetris/interfaces';
 
 const useStage = (param : IUseStage) => {
   const { player, resetPlayer } = param;
