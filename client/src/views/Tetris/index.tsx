@@ -23,7 +23,7 @@ const Tetris: React.FC = () => {
   const [score, setScore] = useState(0);
   const [drop, setDrop] = useState() as any;
   const [mountControl, setMountControl] = useState() as any;
-  const [socket] = useSocket();
+  // const [socket] = useSocket();
   
   const getHeight =  ROW * square;
   const [canvasWidth, setWidth] = useState(COLUMN * square);
@@ -61,16 +61,16 @@ const Tetris: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    //do domething on game over
-    if(socket) {
-      socket.on('start_game', () => {
-        console.log('please start game ooo');
-        startGame();
-      })
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, mountControl, drop])
+  // useEffect(() => {
+  //   //do domething on game over
+  //   if(socket) {
+  //     socket.on('start_game', () => {
+  //       console.log('please start game ooo');
+  //       startGame();
+  //     })
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [socket, mountControl, drop])
 
 
   const handleStartGame = () => {

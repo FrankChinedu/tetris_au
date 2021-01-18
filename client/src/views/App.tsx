@@ -7,7 +7,7 @@ const App: React.FC= () =>  {
 	const [id] = useState(nanoid);
 
   return (
-	<div className="bg-black min-h-screen">
+	<div className=" min-h-screen">
 		<Switch>
 		{routes.map(({path, component, RouteType}) => (
 			<RouteType
