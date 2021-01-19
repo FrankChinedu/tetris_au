@@ -23,6 +23,7 @@ const newStage = createStage();
 const Tetris: React.FC = () => {
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
+  const [pausedGame, setPausedGame] = useState(false);
 
   const [player , updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
@@ -52,10 +53,12 @@ const Tetris: React.FC = () => {
 
   const pauseGame = () => {
     setDropTime(null);
+    setPausedGame(true);
   }
 
   const continueGame = () => {
     setDropTime(1000);
+    setPausedGame(false);
   }
 
   const drop = () => {
@@ -81,7 +84,7 @@ const Tetris: React.FC = () => {
 
   const move = (e: React.KeyboardEvent<HTMLInputElement> ) => {
     const { key } = e;
-    if (!gameOver ) {
+    if (!gameOver && !pausedGame) {
       if (key === 'ArrowUp') {
         playerRotate(stage, 1);
       } else if (key === 'ArrowDown') {
@@ -95,7 +98,7 @@ const Tetris: React.FC = () => {
   }
 
   const keyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(!gameOver) {
+    if(!gameOver && !pausedGame) {
       if (e.key === 'ArrowDown') {
         setDropTime(1000 / (level + 1));
       }
@@ -114,40 +117,41 @@ const Tetris: React.FC = () => {
   }, dropTime);
 
   return (
-    <div className="flex flex-col p-1 text-white">
-      <div className="border border-white sm:w-6/12 w-full mx-auto grid grid-cols-4 sm:gap-x-3 gap-x-1 items-center text-center py-1">
-        <div>
-          <p>Score</p>
-          <small className="text-xl">{score}</small>
-        </div>
-        <div>
-          <p>Highest Score</p>
-          <small className="text-xl">{score}</small>
-        </div>
-        <div className="py-2 px-3 mr-auto">
-          <QuitButton />
-        </div>
-        <div className="py-2 px-3 mr-auto">
-          <StartBtn callback={startGame} pause={pauseGame} play={continueGame} />
-        </div>
-      </div>
-      <TetrisWrapper role="button" tabIndex="0"
-        onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
-        onKeyUp={keyUp} >
-        <StyledTetris>
-          <Stage stage={stage} />
-          <div className="h-36 border border-white py-5 px-2 flex flex-col justify-between">
-              <div>
-                Next Tetrimonios here
-              </div>
-              <div>
-                game controls here
-              </div>
+    <>
+    <TetrisWrapper role="button" tabIndex="0"
+      onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
+      onKeyUp={keyUp} >
+        <div className="border border-white sm:w-6/12 w-full mx-auto grid grid-cols-4 sm:gap-x-3 gap-x-1 items-center text-center py-1">
+          <div>
+            <p>Score</p>
+            <small className="text-xl">{score}</small>
           </div>
-        </StyledTetris>
-      </TetrisWrapper>
+          <div>
+            <p>Highest Score</p>
+            <small className="text-xl">{score}</small>
+          </div>
+          <div className="py-2 px-3 mr-auto">
+            <QuitButton />
+          </div>
+          <div className="py-2 px-3 mr-auto">
+            <StartBtn callback={startGame} pause={pauseGame} play={continueGame} />
+          </div>
+        </div>
+        
+          <StyledTetris>
+            <Stage stage={stage} />
+            <div className="py-5 px-2 flex flex-col justify-between">
+                <div>
+                  Next Tetrimonios here
+                </div>
+                <div>
+                  game controls here
+                </div>
+            </div>
+          </StyledTetris>
       {/* <div className="border border-white">hey</div> */}
-    </div>
+      </TetrisWrapper>
+    </>
   );
 };
 
