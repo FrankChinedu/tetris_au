@@ -50,6 +50,14 @@ const Tetris: React.FC = () => {
     setRows(0);
   }
 
+  const pauseGame = () => {
+    setDropTime(null);
+  }
+
+  const continueGame = () => {
+    setDropTime(1000);
+  }
+
   const drop = () => {
     if (rows > (level + 1) * 10) {
       setLevel((prev: number) => prev + 1);
@@ -107,7 +115,7 @@ const Tetris: React.FC = () => {
 
   return (
     <div className="flex flex-col p-1 text-white">
-      <div className="border border-white w-6/12 mx-auto grid grid-cols-4 gap-x-3 items-center text-center py-1">
+      <div className="border border-white sm:w-6/12 w-full mx-auto grid grid-cols-4 sm:gap-x-3 gap-x-1 items-center text-center py-1">
         <div>
           <p>Score</p>
           <small className="text-xl">{score}</small>
@@ -116,11 +124,11 @@ const Tetris: React.FC = () => {
           <p>Highest Score</p>
           <small className="text-xl">{score}</small>
         </div>
-        <div>
+        <div className="py-2 px-3 mr-auto">
           <QuitButton />
         </div>
         <div className="py-2 px-3 mr-auto">
-          <StartBtn callback={startGame} />
+          <StartBtn callback={startGame} pause={pauseGame} play={continueGame} />
         </div>
       </div>
       <TetrisWrapper role="button" tabIndex="0"
@@ -128,7 +136,14 @@ const Tetris: React.FC = () => {
         onKeyUp={keyUp} >
         <StyledTetris>
           <Stage stage={stage} />
-          <div className="h-36 border border-white"></div>
+          <div className="h-36 border border-white py-5 px-2 flex flex-col justify-between">
+              <div>
+                Next Tetrimonios here
+              </div>
+              <div>
+                game controls here
+              </div>
+          </div>
         </StyledTetris>
       </TetrisWrapper>
       {/* <div className="border border-white">hey</div> */}
