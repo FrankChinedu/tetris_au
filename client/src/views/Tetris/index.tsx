@@ -9,12 +9,12 @@ import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
 
 //hooks
-import usePlayer from '../../hooks/usePlayer'
-import useStage from '../../hooks/useStage'
-import useGameStatus from '../../hooks/useGameStatus'
-import useInterval from '../../hooks/useInterval'
+import usePlayer from '../../hooks/usePlayer';
+import useStage from '../../hooks/useStage';
+import useGameStatus from '../../hooks/useGameStatus';
+import useInterval from '../../hooks/useInterval';
 
-import { IUseStage } from '../../utils/tetris/interfaces'
+import { IUseStage } from '../../utils/tetris/interfaces';
 
 const newStage = createStage();
 
@@ -60,7 +60,7 @@ const Tetris: React.FC = () => {
       updatePlayerPos({x: 0, y: 1, collided: false});
     }else {
       // Game over!
-      if (player.pos.y === 1) {
+      if (player.pos.y <= 1) {
         console.log('GAME OVER!!!');
         setGameOver(true);
         setDropTime(null);
@@ -98,7 +98,9 @@ const Tetris: React.FC = () => {
   }
 
   useInterval(() => {
-    drop()
+    if (!gameOver) {
+      drop()
+    }
   }, dropTime);
 
   return (
