@@ -1,5 +1,6 @@
 import React, {useState, memo, useEffect} from 'react';
 
+
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
 
@@ -7,6 +8,7 @@ import {createStage, checkCollision} from '../../gameHelper';
 import Stage from '../../components/Stage';
 import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
+import QuitButton from '../../components/QuitButton';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
@@ -104,16 +106,33 @@ const Tetris: React.FC = () => {
   }, dropTime);
 
   return (
-    <>
-    <TetrisWrapper role="button" tabIndex="0"
-      onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
-      onKeyUp={keyUp} >
-      <StyledTetris>
-        <Stage stage={stage} />
-        <StartBtn callback={startGame} />
-      </StyledTetris>
-    </TetrisWrapper>
-    </>
+    <div className="flex flex-col p-1 text-white">
+      <div className="border border-white w-6/12 mx-auto grid grid-cols-4 gap-x-3 items-center text-center py-1">
+        <div>
+          <p>Score</p>
+          <small className="text-xl">{score}</small>
+        </div>
+        <div>
+          <p>Highest Score</p>
+          <small className="text-xl">{score}</small>
+        </div>
+        <div>
+          <QuitButton />
+        </div>
+        <div className="py-2 px-3 mr-auto">
+          <StartBtn callback={startGame} />
+        </div>
+      </div>
+      <TetrisWrapper role="button" tabIndex="0"
+        onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
+        onKeyUp={keyUp} >
+        <StyledTetris>
+          <Stage stage={stage} />
+          <div className="h-36 border border-white"></div>
+        </StyledTetris>
+      </TetrisWrapper>
+      {/* <div className="border border-white">hey</div> */}
+    </div>
   );
 };
 
