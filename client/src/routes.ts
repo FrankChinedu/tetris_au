@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom';
 import Home from './views/Home';
-import Tetris from './views/Tetris';
+import Tetris from './views/Tetris/Single';
 import PageNotFound from './views/PageNotFound';
 
 export const routes = [

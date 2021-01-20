@@ -1,6 +1,5 @@
 import React, {useState, memo, useEffect} from 'react';
 
-
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
 
