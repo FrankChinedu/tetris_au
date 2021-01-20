@@ -24,9 +24,9 @@ export const TETROMINOS: any = {
  },
 };
 
-export const randomTetromino = () => {
+export const randomTetromino = (letter?: string) => {
   const tetrominos = 'IJLOSTZ';
-  const randTetromino =
+  const randTetromino = letter ??
     tetrominos[Math.floor(Math.random() * tetrominos.length)];
   return TETROMINOS[randTetromino];
 };

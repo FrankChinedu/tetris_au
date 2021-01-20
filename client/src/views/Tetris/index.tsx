@@ -25,7 +25,8 @@ const Tetris: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
 
-  const [player , updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
+  const [player , updatePlayerPos, resetPlayer,
+     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
@@ -37,8 +38,15 @@ const Tetris: React.FC = () => {
   }
 
   useEffect(() => {
+    setTimeout(()=> {
+      setTetrominoString(`OILIIZZLZZOSJSZJISOSJJSSTZTOJ
+      ITSIOLTLSOILSISJZIJSITITZOSTSTSZLIIOZITZTTZJTLZLOOOTJIJSOLZZSZJSJSZILLSJOIJIIJZZSOOOLLIJS`)
+    },1000)
+  }, []);
+
+  useEffect(() => {
     console.log('score',score);
-  }, [score])
+  }, [score, nextPlayer])
 
 
   const startGame = () => {
@@ -57,8 +65,12 @@ const Tetris: React.FC = () => {
   }
 
   const continueGame = () => {
-    setDropTime(1000);
+    setDropTime(1000); // we need to keep refrence to old dropTime incase its more 
+    // 1000 we would not send it back to 1000
     setPausedGame(false);
+    if(gameOver) {
+      startGame()
+    }
   }
 
   const drop = () => {

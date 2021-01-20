@@ -5,6 +5,11 @@ import { STAGE_WIDTH, checkCollision } from '../gameHelper';
 import { IPlayer } from '../utils/tetris/interfaces'
 
 const usePlayer = () => {
+   const [tetrominoString, setTetrominoString] = useState<string>();
+   const [nextTet, setNextTet] = useState(0);
+   const [nextPlayer, setNextPlayer] = useState({
+    tetromino: TETROMINOS[0].shape,
+   });
   const [player, setPlayer] = useState<IPlayer>(() => ({
     pos: { x: 0, y: 0 },
     tetromino: TETROMINOS[0].shape,
@@ -63,16 +68,31 @@ const usePlayer = () => {
   };
 
   const resetPlayer = useCallback(() => {
+    let tet = tetrominoString && tetrominoString[nextTet];
+    tet = nextTet === tetrominoString?.length ?
+    tetrominoString && tetrominoString[0] : tet;
     setPlayer(
       {
         pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
-        tetromino: randomTetromino().shape,
+        tetromino: randomTetromino(tet).shape,
         collided: false,
       })
-  }, []) as any;
+      if (tetrominoString) {
+        let nextTetrimino = tetrominoString && tetrominoString[nextTet + 1];
+        nextTetrimino = nextTet === tetrominoString?.length ?
+         tetrominoString && tetrominoString[0] : nextTetrimino
+        setNextPlayer({
+          tetromino: randomTetromino(nextTetrimino)
+        })
+        if (nextTet === tetrominoString?.length) setNextTet(0);
+        else setNextTet(prev => prev + 1);
+      }
+  }, [nextTet, tetrominoString]) as any;
 
 
-  return [player,  updatePlayerPos, resetPlayer, playerRotate];
+  return [player,  updatePlayerPos,
+     resetPlayer, playerRotate, setTetrominoString, 
+     nextPlayer];
 };
 
 export default usePlayer;
