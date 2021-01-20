@@ -8,6 +8,7 @@ import Stage from '../../components/Stage';
 import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
 import QuitButton from '../../components/QuitButton';
+import NextTetrimino from '../../components/NextTetrimino';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
@@ -153,7 +154,7 @@ const Tetris: React.FC = () => {
             <Stage stage={stage} />
             <div className="py-5 px-2 flex flex-col justify-between">
                 <div>
-                  Next Tetrimonios here
+                  <NextTetrimino nextShape={nextPlayer} />
                 </div>
                 <div>
                   game controls here
