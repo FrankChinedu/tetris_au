@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom';
 import Home from './views/Home';
-import Tetris from './views/Tetris/Single';
+import SingleGame from './views/Tetris/Single';
+import MultiplayerGame from './views/Tetris/Multiplayer';
 import PageNotFound from './views/PageNotFound';
 
 export const routes = [
@@ -10,8 +11,13 @@ export const routes = [
         RouteType: Route,
     },
     {
-        component: Tetris,
+        component: SingleGame,
         path: '/game',
+        RouteType: Route,
+    },
+    {
+        component: MultiplayerGame,
+        path: '/multi-game',
         RouteType: Route,
     },
     {
