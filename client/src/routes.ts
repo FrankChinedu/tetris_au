@@ -1,5 +1,6 @@
 import { Route } from 'react-router-dom';
 import Home from './views/Home';
+import MultiPlayerSteps from './views/MultiPlayerSteps';
 import SingleGame from './views/Tetris/Single';
 import MultiplayerGame from './views/Tetris/Multiplayer';
 import PageNotFound from './views/PageNotFound';
@@ -18,6 +19,11 @@ export const routes = [
     {
         component: MultiplayerGame,
         path: '/multi-game',
+        RouteType: Route,
+    },
+    {
+        component: MultiPlayerSteps,
+        path: '/steps',
         RouteType: Route,
     },
     {
