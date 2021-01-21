@@ -10,15 +10,13 @@ interface INextShape {
 }
 
 const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
-    const [stage, setStage] = useState(tet);
-    console.log('satge', stage);
+    const [stage] = useState(tet);
 
     const shape = useMemo(() => {
 
         console.log('main nextshape', nextShape);
         const map: {[key: string]: string} = {}
         const m = nextShape.tetromino?.shape ?? [];
-        console.log('nextshape', m);
         
         for(let i = 0; i < m.length; i++) {
           for(let j  = 0; j < m[i].length; j++) {
@@ -28,7 +26,6 @@ const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
           }
         }
         
-        console.log('map', map);
         const stageCopy = JSON.parse(JSON.stringify(stage));
         
         for(let i = 0; i < stage.length; i++) {
@@ -41,18 +38,13 @@ const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
         return stageCopy;
 
     }, [nextShape, stage]);
-
-    console.log('shape', shape);
  
     
     return (
         <>
         <div className="grid grid-cols-4 grid-rows-4 w-16 h-16">
-            {shape.map((tetrimino: Array<[]>, j: number) => tetrimino.map((t, i) => {
-                console.log('shape', shape[j][i]);
-                
-                return <div className={`h-4 w-4 ${shape[j][i] !== 0 && `bg-${nextShape.tetromino.color} border-2 border-gray-700 border-opacity-50 rounded`}`} key={i}></div>
-            }))}
+            {shape.map((tetrimino: Array<[]>, j: number) => tetrimino.map((t, i) => <div className={`h-4 w-4 ${shape[j][i] !== 0 && `bg-${nextShape.tetromino.color} border-2 border-gray-700 border-opacity-50 rounded`}`} key={i}></div>
+            ))}
 
         </div>
         </>
