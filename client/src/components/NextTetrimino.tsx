@@ -1,20 +1,57 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 
 const tet =  (() =>
-  Array.from(Array(4), () => Array(4).fill([0, 'clear'])))();
+  Array.from(Array(4), () => Array(4).fill(0)))();
+
+
 
 interface INextShape {
     nextShape: any
 }
 
 const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
-    console.log('nextShape', nextShape);
+    const [stage, setStage] = useState(tet);
+    console.log('satge', stage);
+
+    const shape = useMemo(() => {
+
+        console.log('main nextshape', nextShape);
+        const map: {[key: string]: string} = {}
+        const m = nextShape.tetromino?.shape ?? [];
+        console.log('nextshape', m);
+        
+        for(let i = 0; i < m.length; i++) {
+          for(let j  = 0; j < m[i].length; j++) {
+            if(m[i][j] !== 0) {
+              map[`${i}-${j}`] = m[i][j];
+            }
+          }
+        }
+        
+        console.log('map', map);
+        const stageCopy = JSON.parse(JSON.stringify(stage));
+        
+        for(let i = 0; i < stage.length; i++) {
+          for(let j = 0; j < stage[i].length; j++) {
+            if(map[`${i}-${j}`]) {
+                stageCopy[i][j] = map[`${i}-${j}`]
+            }
+          }
+        }
+        return stageCopy;
+
+    }, [nextShape, stage]);
+
+    console.log('shape', shape);
+ 
     
     return (
         <>
-        <div className="grid grid-cols-4 grid-rows-4 border border-white w-16 h-16">
-            {tet.map((tetrimino) => tetrimino.map((t, i) => {
-                return <div className="border border-gray-500 border-opacity-5 h-4 w-4" key={i}></div>
+        <div className="grid grid-cols-4 grid-rows-4 w-16 h-16">
+            {shape.map((tetrimino: Array<[]>, j: number) => tetrimino.map((t, i) => {
+                console.log('shape', shape[j][i]);
+                
+                return <div className={`h-4 w-4 ${shape[j][i] !== 0 && `bg-${nextShape.tetromino.color} border-2 border-gray-700 border-opacity-50 rounded`}`} key={i}></div>
             }))}
 
         </div>
@@ -23,3 +60,5 @@ const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
 }
 
 export default React.memo(NextTetrimino);
+
+
