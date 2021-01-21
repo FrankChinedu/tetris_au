@@ -9,6 +9,7 @@ import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
 import QuitButton from '../../components/QuitButton';
 import NextTetrimino from '../../components/NextTetrimino';
+import Controls from '../../components/Controls';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
@@ -94,8 +95,9 @@ const Tetris: React.FC = () => {
     }
   }
 
-  const move = (e: React.KeyboardEvent<HTMLInputElement> ) => {
+  const move = (e: any ) => {
     const { key } = e;
+    
     if (!gameOver && !pausedGame) {
       if (key === 'ArrowUp') {
         playerRotate(stage, 1);
@@ -109,7 +111,7 @@ const Tetris: React.FC = () => {
     }
   }
 
-  const keyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const keyUp = (e: any) => {
     if(!gameOver && !pausedGame) {
       if (e.key === 'ArrowDown') {
         setDropTime(1000 / (level + 1));
@@ -133,12 +135,12 @@ const Tetris: React.FC = () => {
     <TetrisWrapper role="button" tabIndex="0"
       onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
       onKeyUp={keyUp} >
-        <div className="border border-white sm:w-6/12 w-full mx-auto grid grid-cols-4 sm:gap-x-3 gap-x-1 items-center text-center py-1">
+        <div className=" sm:w-6/12 w-full mx-auto grid sm:grid-cols-4 grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center">
           <div>
             <p>Score</p>
             <small className="text-xl">{score}</small>
           </div>
-          <div>
+          <div className="hidden sm:block">
             <p>Highest Score</p>
             <small className="text-xl">{score}</small>
           </div>
@@ -156,12 +158,14 @@ const Tetris: React.FC = () => {
                 <div>
                   <NextTetrimino nextShape={nextPlayer} />
                 </div>
-                <div>
-                  game controls here
+                <div className="hidden sm:block">
+                  {/* <Controls control={move} dropDown={keyUp} /> */}
                 </div>
             </div>
           </StyledTetris>
-      {/* <div className="border border-white">hey</div> */}
+      <div className="sm:hidden flex items-start justify-center">
+        <Controls control={move} dropDown={keyUp} />
+      </div>
       </TetrisWrapper>
     </>
   );
