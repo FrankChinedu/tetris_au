@@ -30,3 +30,12 @@ export const randomTetromino = (letter?: string) => {
     tetrominos[Math.floor(Math.random() * tetrominos.length)];
   return TETROMINOS[randTetromino];
 };
+
+export const randomStrings = (length: number, characters: string = 'IJLOSTZ'): string => {
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

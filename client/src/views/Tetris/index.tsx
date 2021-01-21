@@ -17,6 +17,7 @@ import useGameStatus from '../../hooks/useGameStatus';
 import useInterval from '../../hooks/useInterval';
 
 import { IUseStage } from '../../utils/tetris/interfaces';
+import { randomStrings } from '../../utils/tetris/Tetriminoes';
 
 const newStage = createStage();
 
@@ -38,10 +39,9 @@ const Tetris: React.FC = () => {
   }
 
   useEffect(() => {
-    setTimeout(()=> {
-      setTetrominoString(`OILIIZZLZZOSJSZJISOSJJSSTZTOJ
-      ITSIOLTLSOILSISJZIJSITITZOSTSTSZLIIOZITZTTZJTLZLOOOTJIJSOLZZSZJSJSZILLSJOIJIIJZZSOOOLLIJS`)
-    },1000)
+    
+      setTetrominoString(randomStrings(1000))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
