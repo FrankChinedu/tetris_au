@@ -13,6 +13,9 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ['active'],
+      textColor: ['disabled'],
+      cursor: ['disabled'],
+      borderColor: ['disabled'],
     },
   },
   plugins: [],
