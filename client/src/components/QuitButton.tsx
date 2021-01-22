@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStopCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 const QuitButton: React.FC = () => {
@@ -13,8 +13,8 @@ const QuitButton: React.FC = () => {
     }
 
     return (
-        <button onClick={handleQuit} className="focus:outline-none">
-          <FontAwesomeIcon icon={faStopCircle} size="2x" />
+        <button onClick={handleQuit} className="focus:outline-none md:ml-0">
+          <FontAwesomeIcon icon={faSignOutAlt} size="2x" flip="both" />
         </button>
       );
 }

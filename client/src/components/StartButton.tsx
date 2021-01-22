@@ -28,17 +28,17 @@ const StartButton: React.FC<IBtn> = ({ callback, pause, play }) => {
     <>
       {!started ? (
         <button onClick={handleStart} className="focus:outline-none">
-        <FontAwesomeIcon icon={faPlayCircle} size="2x" />
+        <FontAwesomeIcon icon={faPlayCircle} size="2x" color="green" />
       </button>
       ) : (
           <>
           {!playing ? (
             <button onClick={handlePlay} className="focus:outline-none">
-              <FontAwesomeIcon icon={faPlayCircle} size="2x" />
+              <FontAwesomeIcon icon={faPlayCircle} size="2x" color="green" />
             </button>
           ) : (
             <button onClick={handlePause} className="focus:outline-none">
-              <FontAwesomeIcon icon={faPauseCircle} size="2x" />
+              <FontAwesomeIcon icon={faPauseCircle} size="2x" color="yellow" />
             </button>
           )}
           </>
