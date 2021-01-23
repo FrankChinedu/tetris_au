@@ -31,24 +31,24 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
     control(e);
   }
     return (
-        <div className="grid grid-cols-2 items-center justify-items-center">
+        <div className="flex w-11/12 justify-evenly items-center">
          <div className="flex flex-col items-center">
           <div className="grid grid-cols-2 gap-5 my-5">
               <div
-                className="w-20 h-20 shadow-inner border border-white focus:outline-none flex justify-center items-center"
+                className="w-20 h-20 shadow-inner border border-indigo-600 focus:outline-none flex justify-center items-center"
                 onClick={leftClick}
               >
                 <FontAwesomeIcon className="md:text-2xl" icon={faArrowLeft} />
               </div>
               <button
-                className="w-20 h-20 shadow-inner border border-white focus:outline-none flex justify-center items-center"
+                className="w-20 h-20 shadow-inner border border-red-300 focus:outline-none flex justify-center items-center"
                 onClick={rightClick}
               >
                 <FontAwesomeIcon className="md:text-2xl" icon={faArrowRight} />
               </button>
           </div>
           <button
-            className="w-20 h-20 shadow-inner border border-white focus:outline-none flex justify-center items-center"
+            className="w-20 h-20 shadow-inner border border-yellow-300 focus:outline-none flex justify-center items-center"
             onMouseDown={downClick}
             onMouseUp={downMouseUp}
           >
@@ -57,7 +57,7 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
          </div>
          <div>
           <button
-            className="w-20 h-20 shadow-inner border border-white focus:outline-none flex justify-center items-center"
+            className="w-20 h-20 shadow-inner border border-blue-500 focus:outline-none flex justify-center items-center"
             onClick={upClick}
           >
               <FontAwesomeIcon className="md:text-2xl" icon={faSync} />
