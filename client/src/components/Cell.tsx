@@ -5,7 +5,7 @@ import { TETROMINOS } from '../utils/tetris/Tetriminoes';
 const Cell: React.FC <any> = ({type}) => {
   
   return (
-  <div className={`bg-${TETROMINOS[type].color} ${type === 0 ? `border border-gray-500 border-opacity-5`: `border-2 border-gray-700 border-opacity-50 rounded`} xl:w-8 xl:h-8 sm:w-6 sm:h-6 w-4 h-4`} >
+  <div className={`bg-${TETROMINOS[type].color} ${type === 0 ? `border border-red-300 border-opacity-5`: `border-2 border-gray-700 border-opacity-50 rounded`} xl:w-8 xl:h-8 sm:w-6 sm:h-6 w-4 h-4`} >
   </div>
 )};
 

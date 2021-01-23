@@ -135,7 +135,8 @@ const Tetris: React.FC = () => {
     <TetrisWrapper role="button" tabIndex="0"
       onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
       onKeyUp={keyUp} >
-        <div className=" sm:w-6/12 w-full mx-auto grid sm:grid-cols-4 grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center border pt-2">
+        <div
+          className=" sm:w-6/12 w-full mx-auto grid sm:grid-cols-4 grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat">
         <div className="py-2 px-3 mr-auto">
             <QuitButton />
           </div>
@@ -152,15 +153,17 @@ const Tetris: React.FC = () => {
             <StartBtn callback={startGame} pause={pauseGame} play={continueGame} />
           </div>
         </div>
-        
           <StyledTetris>
             <Stage stage={stage} />
-            <div className="py-5 px-2 flex flex-col justify-between">
+            <div className="py-5 px-2 md:pl-4 flex flex-col justify-between">
                 <div>
                   <NextTetrimino nextShape={nextPlayer} />
                 </div>
+                <div>
+                  levels
+                </div>
                 <div className="hidden sm:block">
-                  {/* <Controls control={move} dropDown={keyUp} /> */}
+                  <Controls control={move} dropDown={keyUp} />
                 </div>
             </div>
           </StyledTetris>

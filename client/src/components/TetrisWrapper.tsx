@@ -12,7 +12,7 @@ export const TetrisWrapper: React.FC <any> = (props) => {
 export const StyledTetris: React.FC = ({ children}) => {
 
   return (
-    <div className="flex p-4 justify-evenly md:w-10/12 md:m-auto">
+    <div className="flex p-4 justify-evenly md:m-auto">
       {children}
     </div>
   )
