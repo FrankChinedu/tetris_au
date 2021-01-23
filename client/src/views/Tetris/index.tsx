@@ -8,6 +8,7 @@ import Stage from '../../components/Stage';
 import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
 import QuitButton from '../../components/QuitButton';
+import Level from '../../components/Levels';
 import NextTetrimino from '../../components/NextTetrimino';
 import Controls from '../../components/Controls';
 
@@ -160,7 +161,7 @@ const Tetris: React.FC = () => {
                   <NextTetrimino nextShape={nextPlayer} />
                 </div>
                 <div>
-                  levels
+                  <Level level={level} />
                 </div>
                 <div className="hidden sm:block">
                   <Controls control={move} dropDown={keyUp} />

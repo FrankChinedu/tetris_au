@@ -34,12 +34,12 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
         <div className="flex w-11/12 sm:w-full justify-evenly items-center">
          <div className="flex flex-col items-center">
           <div className="grid grid-cols-2 gap-5 my-5">
-              <div
+              <button
                 className="w-20 h-20 shadow-inner border border-indigo-600 focus:outline-none flex justify-center items-center"
                 onClick={leftClick}
               >
                 <FontAwesomeIcon className="md:text-2xl" icon={faArrowLeft} />
-              </div>
+              </button>
               <button
                 className="w-20 h-20 shadow-inner border border-red-300 focus:outline-none flex justify-center items-center"
                 onClick={rightClick}
