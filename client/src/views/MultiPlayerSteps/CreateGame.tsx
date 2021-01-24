@@ -23,6 +23,12 @@ const CreateGame: React.FC  = () => {
         setErrorMsg('');
     }
 
+    const  preventSpace = (e: any) => {
+        if (e.key === " ") {
+            e.preventDefault();
+          }
+    }
+
     const create = async () => {
         try {
                 clearError();
@@ -73,7 +79,13 @@ const CreateGame: React.FC  = () => {
                                 className="focus:outline-none bg-transparent placeholder-white w-full"
                                 placeholder="Please enter your username"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e) => {
+                                    if (e.currentTarget.value.includes(" ")) {
+                                        e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+                                    }
+                                    setUsername(e.target.value)
+                                }}
+                                onKeyDown={(e) => preventSpace(e)}
                             />
                         </div>
                         <button

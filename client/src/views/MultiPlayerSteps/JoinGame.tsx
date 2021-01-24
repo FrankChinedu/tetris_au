@@ -15,6 +15,12 @@ const JoinGame: React.FC  = () => {
     const playGame = () => {
         history.push('/game');
     }
+
+    const  preventSpace = (e: any) => {
+      if (e.key === " ") {
+          e.preventDefault();
+        }
+  }
     
     return (
         <div className="text-white montserrat w-11/12 mx-auto mt-10">
@@ -25,7 +31,13 @@ const JoinGame: React.FC  = () => {
                     className="focus:outline-none bg-transparent placeholder-white w-full"
                     placeholder="Please enter your username"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                      if (e.currentTarget.value.includes(" ")) {
+                        e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+                      }
+                      setUsername(e.target.value)
+                    }}
+                    onKeyDown={(e) => preventSpace(e)}
                 />
               </div>
               <div className="bg-indigo-600 py-2 px-5">
@@ -34,7 +46,13 @@ const JoinGame: React.FC  = () => {
                     className="focus:outline-none bg-transparent placeholder-white w-full"
                     placeholder="enter the ID shared with you"
                     value={gameId}
-                    onChange={(e) => setGameId(e.target.value)}
+                    onChange={(e) => {
+                      if (e.currentTarget.value.includes(" ")) {
+                        e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+                      }
+                      setGameId(e.target.value)
+                    }}
+                    onKeyDown={(e) => preventSpace(e)}
                 />
               </div>
             <button
