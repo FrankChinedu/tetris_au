@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect, useRef} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
