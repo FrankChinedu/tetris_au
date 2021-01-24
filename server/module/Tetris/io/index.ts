@@ -40,24 +40,24 @@ export default (client: Socket, io: Server): void => {
   function handleJoinTetrisSession (roomName: string, username: string) {
     const roomLength = (io.in(roomName).allSockets() as unknown) as number;
     const gameData = gameDataStore[roomName] as GameData;
-    if (gameData) {
+    if (gameDataRecords[roomName][username]) {
+      // user name already picked
+      client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
+      return;
+    }
+    if (gameData && gameDataRecords[roomName]) {
       gameRooms[client.id] = roomName;
       client.join(roomName);
-      if (gameDataRecords[roomName]) {
-        gameDataRecords[roomName][username] = {
-          name: username,
-          score: 0
-        };
-      }
-
+      gameDataRecords[roomName][username] = {
+        name: username,
+        score: 0
+      };
+      client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
       if (+roomLength === +gameData.allowedPlayers) {
         client.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
       }
+    } else {
+      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
     }
   }
-  // socket.i/
-  // setTimeout(() => {
-  //   client.emit('start_game');
-  //   console.log('done');
-  // }, 3000);
 };
