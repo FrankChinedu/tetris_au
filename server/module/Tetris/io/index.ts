@@ -60,4 +60,8 @@ export default (client: Socket, io: Server): void => {
       client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
     }
   }
+
+  client.on('disconnect', (reason) => {
+    console.log('reason', reason);
+  });
 };
