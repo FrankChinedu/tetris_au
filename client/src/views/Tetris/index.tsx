@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo, useEffect, useRef} from 'react';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
@@ -29,6 +29,7 @@ const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
+  const [dropTimeRef, setDropTimeRef] = useState(0);
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -53,6 +54,7 @@ const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
 
   const startGame = () => {
     setDropTime(1000);
+    setDropTimeRef(1000);
     setStage(newStage);
     resetPlayer();
     setGameOver(false);
@@ -67,7 +69,7 @@ const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
   }
 
   const continueGame = () => {
-    setDropTime(1000); // we need to keep refrence to old dropTime incase its more 
+    setDropTime(dropTimeRef); // we need to keep refrence to old dropTime incase its more 
     // 1000 we would not send it back to 1000
     setPausedGame(false);
     if(gameOver) {
@@ -79,7 +81,9 @@ const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
     if (rows > (level + 1) * 10) {
       setLevel((prev: number) => prev + 1);
       // Also increase speed
-      setDropTime(1000 / (level + 1) + 200);
+      const newDropTime = (1000 / (level + 1)) + 200;
+      setDropTimeRef(newDropTime);
+      setDropTime(newDropTime);
     }
 
     const canNotMove = checkCollision( player, stage, { x: 0, y: 1} );
@@ -115,7 +119,7 @@ const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
   const keyUp = (e: any) => {
     if(!gameOver && !pausedGame) {
       if (e.key === 'ArrowDown') {
-        setDropTime(1000 / (level + 1));
+        setDropTime(dropTimeRef);
       }
     }
   }
