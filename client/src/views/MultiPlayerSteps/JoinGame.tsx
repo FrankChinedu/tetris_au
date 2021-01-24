@@ -39,7 +39,7 @@ const JoinGame: React.FC  = () => {
               </div>
             <button
                 className="bg-transparent border border-indigo-600 mt-2 py-2 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
-                disabled={username === '' || gameId === ''}
+                disabled={username.trim() === '' || gameId.trim() === ''}
                 onClick={playGame}
             >
                 Join Game
