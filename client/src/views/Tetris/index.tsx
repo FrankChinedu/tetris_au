@@ -19,11 +19,13 @@ import useGameStatus from '../../hooks/useGameStatus';
 import useInterval from '../../hooks/useInterval';
 
 import { IUseStage } from '../../utils/tetris/interfaces';
-import { randomStrings } from '../../utils/tetris/Tetriminoes';
 
 const newStage = createStage();
+interface ITetris {
+  getTetriminoesString?: string
+}
 
-const Tetris: React.FC = () => {
+const Tetris: React.FC<ITetris> = ({ getTetriminoesString}) => {
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
@@ -41,13 +43,11 @@ const Tetris: React.FC = () => {
   }
 
   useEffect(() => {
-    
-      setTetrominoString(randomStrings(1000))
+      setTetrominoString(getTetriminoesString)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log('score',score);
   }, [score, nextPlayer])
 
 
