@@ -13,7 +13,7 @@ const JoinGame: React.FC  = () => {
     const history = useHistory();
 
     const playGame = () => {
-        history.push('/game');
+        history.push('/tetris');
     }
 
     const  preventSpace = (e: any) => {
