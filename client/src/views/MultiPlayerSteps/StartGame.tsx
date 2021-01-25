@@ -37,6 +37,7 @@ const SGame: React.FC  = () => {
                     history.push(ROUTES.multiGame);
                 }else {
                     setErrorMsg('An unknown error occured');
+                    localStorage.clear();
                 }
             }, 1000)
         })
@@ -47,7 +48,7 @@ const SGame: React.FC  = () => {
         if(errorMsg) {
             setTimeout(() => {
                 history.push(ROUTES.multiGameSteps);
-            }, 3000) 
+            }, 2000) 
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errorMsg]);
