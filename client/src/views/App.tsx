@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Switch } from 'react-router-dom';
 import { routes } from '../routes';
-import {SocketContext, SocketProvider} from '../context/socket'
+import {SocketProvider} from '../context/socket'
 
 const App: React.FC= () =>  {
 	const [id] = useState(nanoid);
