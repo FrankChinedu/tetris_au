@@ -44,7 +44,7 @@ const SingleGame: React.FC = () => {
   }
 
   useEffect(() => {
-      setTetrominoString(randomStrings)
+      setTetrominoString(randomStrings(1000))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
