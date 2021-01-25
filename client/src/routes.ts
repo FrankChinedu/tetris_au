@@ -18,7 +18,7 @@ export const routes = [
     },
     {
         component: MultiplayerGame,
-        path: '/multi-game',
+        path: '/tetris',
         RouteType: Route,
     },
     {
