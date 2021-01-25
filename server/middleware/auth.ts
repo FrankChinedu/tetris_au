@@ -80,7 +80,7 @@ export async function hasOnlyUserName (
   }
 
   const nextSchema = Joi.object().keys({
-    username: Joi.string().alphanum().required().min(2).trim()
+    username: Joi.string().required().min(2).trim().pattern(/^\S*$/)
   });
 
   const { error: err, value } = nextSchema.validate({ ...req.query }, { abortEarly: false });
