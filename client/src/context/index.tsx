@@ -1,6 +1,12 @@
 import React, { useState, createContext } from 'react';
+interface IUserContext {
+  gameId: string,
+  setGameId: (gameId: string) => void
+  username: string,
+  setUsername: (gameId: string) => void
+}
 
-const UserContext = createContext<any>([]);
+const UserContext = createContext<IUserContext|null>(null);
 
 let _username = ''
 let _gameId = ''
@@ -18,7 +24,7 @@ const UserProvider = (props: any) => {
 
     return (
         <UserContext.Provider
-            value={[gameId, setGameId, username, setUsername]}
+            value={{gameId, setGameId, username, setUsername}}
         >
             {props.children}
         </UserContext.Provider>
