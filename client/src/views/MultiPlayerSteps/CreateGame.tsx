@@ -1,11 +1,12 @@
-import React, { useState, } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
-import PageSpinner from '../common/PageSpinner';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faCopy } from '@fortawesome/free-solid-svg-icons';
 
+import PageSpinner from '../common/PageSpinner';
+import { UserContext } from '../../context/user';
 // interface IFirstStep {
 //     setAction: (value: string) => void
 //   }
@@ -14,12 +15,10 @@ const url = process.env.REACT_APP_API_URL;
   
 
 const CreateGame: React.FC  = () => {
-
-    const [username, setUsername] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>('');
-    const [gameId, setGameId] = useState<string>('');
     const [copied, setCopied] = React.useState<boolean>(false);
+    const {gameId, setGameId, setUsername, username } = useContext(UserContext);
 
 
     const clearError = () => {
@@ -40,6 +39,7 @@ const CreateGame: React.FC  = () => {
                 axios.post(`${url}/tetris?username=${username}`)
                 const { gameId } = response.data.data
                 setGameId(gameId);
+                // setUsername(_username);
         } catch (er) {
             const { error } = er.response.data;
             const err = error.split(':');
@@ -91,14 +91,15 @@ const CreateGame: React.FC  = () => {
                                     setUsername(e.target.value)
                                 }}
                                 onKeyDown={(e) => preventSpace(e)}
+                                disabled={gameId !== ''}
                             />
                         </div>
                         <button
                             className="bg-transparent border border-indigo-600 py-2 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
-                            disabled={username.trim() === ''}
+                            disabled={username.trim() === '' || gameId !== ''}
                             onClick={create}
                         >
-                            Join Game
+                            Create Game
                         </button>
                     </form>
                     {gameId && (

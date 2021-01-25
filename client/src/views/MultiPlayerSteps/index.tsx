@@ -8,6 +8,7 @@ import { faArrowLeft, faChevronRight, faChevronLeft } from '@fortawesome/free-so
 import FirstStep from './FirstStep';
 import JoinGame from './JoinGame';
 import CreateGame from './CreateGame';
+import StartGame from './StartGame';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,7 @@ const MultiPlayerSteps: React.FC = () => {
       case 1:
         return action === 'create' ? <CreateGame /> : <JoinGame />;
       case 2:
-        return 'Step 3';
+        return <StartGame />;
       default:
         return 'Unknown step';
     }

@@ -51,7 +51,6 @@ const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
   useEffect(() => {
   }, [score, nextPlayer])
 
-
   const startGame = () => {
     setDropTime(1000);
     setDropTimeRef(1000);

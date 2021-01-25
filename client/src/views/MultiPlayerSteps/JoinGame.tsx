@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../context/user';
+
+import ROUTES from '../../utils/constants/routes';
 
 // interface IFirstStep {
 //     setAction: (value: string) => void
@@ -7,13 +10,13 @@ import { useHistory } from 'react-router-dom';
   
 
 const JoinGame: React.FC  = () => {
+  
 
-    const [username, setUsername] = useState('');
-    const [gameId, setGameId] = useState('');
+    const {gameId, setGameId, setUsername, username } = useContext(UserContext);
     const history = useHistory();
 
     const playGame = () => {
-        history.push('/tetris');
+        history.push(ROUTES.multiGame);
     }
 
     const  preventSpace = (e: any) => {
