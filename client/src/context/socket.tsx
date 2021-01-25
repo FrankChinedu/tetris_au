@@ -6,7 +6,7 @@ interface ISocketContext {
 }
 
 const SocketContext = createContext<ISocketContext| undefined>(undefined);
-const SOCKET_SERVER_URL = 'http://127.0.0.1:3002';
+const SOCKET_SERVER_URL = process.env.REACT_APP_SERVER_URL as string;
 console.log('SOCKET_SERVER_URL', SOCKET_SERVER_URL);
 
 const io: SocketIOClient.Socket = socketClient.connect(SOCKET_SERVER_URL, {
