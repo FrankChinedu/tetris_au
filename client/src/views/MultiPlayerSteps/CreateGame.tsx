@@ -17,7 +17,8 @@ const url = process.env.REACT_APP_API_URL;
 const CreateGame: React.FC  = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>('');
-    const [copied, setCopied] = React.useState<boolean>(false);
+    const [copied, setCopied] = useState<boolean>(false);
+    const [userName, setUserName] = useState('');
     const {gameId, setGameId, setUsername, username } = useContext(UserContext);
 
 
@@ -36,10 +37,10 @@ const CreateGame: React.FC  = () => {
                 clearError();
                 setLoading(true);
                 const response = await 
-                axios.post(`${url}/tetris?username=${username}`)
+                axios.post(`${url}/tetris?username=${userName}`)
                 const { gameId } = response.data.data
                 setGameId(gameId);
-                // setUsername(_username);
+                setUsername(userName);
         } catch (er) {
             const { error } = er.response.data;
             const err = error.split(':');
@@ -83,12 +84,12 @@ const CreateGame: React.FC  = () => {
                                 type="text"
                                 className="focus:outline-none bg-transparent placeholder-white w-full"
                                 placeholder="Please enter your username"
-                                value={username}
+                                value={username === "" ? userName : username}
                                 onChange={(e) => {
                                     if (e.currentTarget.value.includes(" ")) {
                                         e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
                                     }
-                                    setUsername(e.target.value)
+                                    setUserName(e.target.value)
                                 }}
                                 onKeyDown={(e) => preventSpace(e)}
                                 disabled={gameId !== ''}
@@ -96,7 +97,7 @@ const CreateGame: React.FC  = () => {
                         </div>
                         <button
                             className="bg-transparent border border-indigo-600 py-2 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
-                            disabled={username.trim() === '' || gameId !== ''}
+                            disabled={userName.trim() === '' || gameId !== ''}
                             onClick={create}
                         >
                             Create Game
@@ -105,7 +106,7 @@ const CreateGame: React.FC  = () => {
                     {gameId && (
                         <div className="my-7 bg-blue-500 rounded-sm p-3 flex items-center">
                             <p className="col-span-2">
-                                Your game has been created and your game id is <span className="font-semibold">{gameId}</span> share your game ID with your frends to join your game
+                                Your game has been created and your game id is <span className="font-semibold">{gameId}</span> share your game ID with your frends to click on next to start your game
                             </p>
                             <div className="relative">
                                 <button onClick={copyToClipboard} className="px-2 focus:outline-none"><FontAwesomeIcon icon={faCopy} /></button>
