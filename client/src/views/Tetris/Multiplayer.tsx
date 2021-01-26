@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo, useEffect, useContext} from 'react';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
@@ -19,6 +19,8 @@ import useGameStatus from '../../hooks/useGameStatus';
 import useInterval from '../../hooks/useInterval';
 
 import { IUseStage } from '../../utils/tetris/interfaces';
+import { SocketContext } from '../../context/socket';
+import SOCKET_EVENTS from '../../utils/constants/socketEvent';
 
 const newStage = createStage();
 interface ITetris {
@@ -26,6 +28,8 @@ interface ITetris {
 }
 
 const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
+  
+  const { socket } = useContext(SocketContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
@@ -45,6 +49,18 @@ const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
 
   useEffect(() => {
       setTetrominoString(getTetriminoesString)
+      socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
+        console.log('data', data);
+      });
+
+      socket?.on(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE, (data: any) => {
+        console.log('data', data);
+      });
+
+      return () => {
+        socket?.off(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM);
+        socket?.off(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE);
+      }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
