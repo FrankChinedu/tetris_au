@@ -42,6 +42,9 @@ const CreateGame: React.FC  = () => {
                 setGameId(gameId);
                 setUsername(userName);
         } catch (er) {
+            if (er.toString() === 'Error: Network Error') {
+                return setErrorMsg('Please check your network connection and try again');
+            }
             const { error } = er.response.data;
             const err = error.split(':');
             setErrorMsg(err[1]);

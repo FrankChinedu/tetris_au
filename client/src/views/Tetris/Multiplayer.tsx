@@ -11,29 +11,42 @@ import QuitButton from '../../components/QuitButton';
 import Level from '../../components/Levels';
 import NextTetrimino from '../../components/NextTetrimino';
 import Controls from '../../components/Controls';
+import Snackbar from '../../components/Snackbar';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
 import useStage from '../../hooks/useStage';
 import useGameStatus from '../../hooks/useGameStatus';
 import useInterval from '../../hooks/useInterval';
-
 import { IUseStage } from '../../utils/tetris/interfaces';
+
+// Contexts
+import { UserContext } from '../../context/user';
 import { SocketContext } from '../../context/socket';
 import SOCKET_EVENTS from '../../utils/constants/socketEvent';
 
-const newStage = createStage();
-interface ITetris {
-  getTetriminoesString?: string
-}
 
-const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
+
+const newStage = createStage();
+
+const MultiplayerGame: React.FC = () => {
   
   const { socket } = useContext(SocketContext);
+  const { gameInfo } = useContext(UserContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
   const [dropTimeRef, setDropTimeRef] = useState(0);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState('');
+
+  const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -48,9 +61,10 @@ const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
   }
 
   useEffect(() => {
-      setTetrominoString(getTetriminoesString)
+      setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
-        console.log('data', data);
+        setOpenSnackbar(true);
+        setSnackbarMsg(data.message);
       });
 
       socket?.on(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE, (data: any) => {
@@ -190,6 +204,7 @@ const MultiplayerGame: React.FC<ITetris> = ({ getTetriminoesString}) => {
       <div className="sm:hidden flex items-start justify-center">
         <Controls control={move} dropDown={keyUp} />
       </div>
+      <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
       </TetrisWrapper>
     </>
   );
