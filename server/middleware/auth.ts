@@ -90,7 +90,7 @@ export async function hasOnlyUserName (
   }
 
   req.justUserName = true;
-  req.query.username = value;
+  req.query.username = value.username;
 
   return next();
 }
