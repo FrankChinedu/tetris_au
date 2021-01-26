@@ -47,6 +47,8 @@ Score based the user creates a game and sets the winning condition score based i
 
    - to start game admin should emit `START_TETRIS_GAME` and listen on `START_TETRIS_GAME_SESSION`
    - all should listen on `START_TETRIS_GAME_SESSION`
+   - listen on `TETRIS_GAME_ROOM_SIZE` incase you are the only on in the room
+   - listen on `PLAYER_JOIN_GAME_ROOM` to get the new players that join the room and the updated room list
    
 
   # GAME:::
