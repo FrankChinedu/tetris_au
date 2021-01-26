@@ -44,6 +44,9 @@ Score based the user creates a game and sets the winning condition score based i
 
    - listen on `INVALID_TETRIS_GAME_ROOM` incase game room does not exist
    - listen on `USERNAME_TAKEN_ERROR` incase username is taken user can choose another user name
+
+   - to start game admin should emit `START_TETRIS_GAME` and listen on `START_TETRIS_GAME_SESSION`
+   - all should listen on `START_TETRIS_GAME_SESSION`
    
 
   # GAME:::
