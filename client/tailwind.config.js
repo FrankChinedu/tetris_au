@@ -8,6 +8,9 @@ module.exports = {
         "100": "28rem",
         "200": "50rem",
        },
+       animation: {
+        'ping-slow': 'ping 2s linear infinite',
+       }
     },
   },
   variants: {

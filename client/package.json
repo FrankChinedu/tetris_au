@@ -23,6 +23,7 @@
     "axios": "^0.21.1",
     "nanoid": "^3.1.20",
     "postcss": "^7.0.35",
+    "prevent-pull-refresh": "^1.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",

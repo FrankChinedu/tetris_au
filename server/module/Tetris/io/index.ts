@@ -72,7 +72,7 @@ export default (client: Socket, io: Server): void => {
         client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'seems like only you is in the room' });
         return;
       }
-      client.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
+      io.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
     } else {
       client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
     }

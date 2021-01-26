@@ -1,5 +1,7 @@
 import React, {useState, memo, useEffect, useContext} from 'react';
 
+import 'prevent-pull-refresh';
+
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
 
@@ -7,7 +9,7 @@ import {createStage, checkCollision} from '../../gameHelper';
 import Stage from '../../components/Stage';
 import { StyledTetris, TetrisWrapper} from '../../components/TetrisWrapper';
 import StartBtn from '../../components/StartButton';
-import QuitButton from '../../components/QuitButton';
+// import QuitButton from '../../components/QuitButton';
 import Level from '../../components/Levels';
 import NextTetrimino from '../../components/NextTetrimino';
 import Controls from '../../components/Controls';
@@ -26,32 +28,25 @@ import { SocketContext } from '../../context/socket';
 import SOCKET_EVENTS from '../../utils/constants/socketEvent';
 
 
-
 const newStage = createStage();
 
 const MultiplayerGame: React.FC = () => {
   
   const { socket } = useContext(SocketContext);
-  const { gameInfo } = useContext(UserContext);
+  const { gameInfo, username } = useContext(UserContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
   const [dropTimeRef, setDropTimeRef] = useState(0);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState('');
-
-  const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenSnackbar(false);
-  };
-
+  const [countdown, setCountdown] = useState(0);
+  const [admin] = useState(gameInfo.username);
   const [player , updatePlayerPos, resetPlayer,
-     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
-  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
-  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+    playerRotate, setTetrominoString, nextPlayer] = usePlayer();
+ const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
+ const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+
 
   const movePlayer = (dir: number) => {
     const canNotMove = checkCollision( player, stage, { x: dir, y: 0} );
@@ -60,7 +55,20 @@ const MultiplayerGame: React.FC = () => {
     }
   }
 
+
+  const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
   useEffect(() => {
+
+    window.addEventListener("beforeunload", event => {
+      prompt('hsekdef')
+    })
+
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
@@ -71,15 +79,34 @@ const MultiplayerGame: React.FC = () => {
         console.log('data', data);
       });
 
+      socket?.on(SOCKET_EVENTS.START_TETRIS_GAME_SESSION, (data: any) => {
+        console.log('game started');
+        let i = 6;
+          const cle = setInterval(() => {
+            i--
+            setCountdown(i);
+            console.log(i)
+            if (i === 0 ) {
+              clearInterval(cle)
+              startGame()
+            }
+          }, 1500)
+            });
+
       return () => {
         socket?.off(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM);
         socket?.off(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE);
+        socket?.off(SOCKET_EVENTS.START_TETRIS_GAME_SESSION);
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   useEffect(() => {
-  }, [score, nextPlayer])
+    if(score) {
+      // socket?.emit()
+    }
+  }, [score])
 
   const startGame = () => {
     setDropTime(1000);
@@ -92,6 +119,10 @@ const MultiplayerGame: React.FC = () => {
     setRows(0);
   }
 
+  const emitStartGame = () => {
+    socket?.emit(SOCKET_EVENTS.START_TETRIS_GAME, gameInfo.gameId);
+  }
+
   const pauseGame = () => {
     setDropTime(null);
     setPausedGame(true);
@@ -102,7 +133,7 @@ const MultiplayerGame: React.FC = () => {
     // 1000 we would not send it back to 1000
     setPausedGame(false);
     if(gameOver) {
-      startGame()
+      // startGame()
     }
   }
 
@@ -169,11 +200,18 @@ const MultiplayerGame: React.FC = () => {
     <TetrisWrapper role="button" tabIndex="0"
       onKeyDown={ (e: React.KeyboardEvent<HTMLInputElement> ) => move(e)}
       onKeyUp={keyUp} >
+
+      {countdown !== 0 && (
+        <div className="absolute bg-black inset-0 flex justify-center items-center montserrat text-5xl md:text-9xl bg-opacity-90 animate-pulse">
+           <p className="animate-ping-slow">{countdown}</p>
+        </div>
+      )}
+
         <div
-          className=" sm:w-6/12 w-full mx-auto grid sm:grid-cols-4 grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat">
-        <div className="py-2 px-3 mr-auto">
+          className=" sm:w-6/12 w-full mx-auto grid grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat">
+        {/* <div className="py-2 px-3 mr-auto">
             <QuitButton />
-          </div>
+          </div> */}
           <div>
             <p>Score</p>
             <small className="text-xl">{score}</small>
@@ -184,7 +222,9 @@ const MultiplayerGame: React.FC = () => {
           </div>
           
           <div className="py-2 px-3">
-            <StartBtn callback={startGame} pause={pauseGame} play={continueGame} />
+            {username === admin && (
+              <StartBtn callback={emitStartGame} pause={pauseGame} play={continueGame} />
+            )}
           </div>
         </div>
           <StyledTetris>

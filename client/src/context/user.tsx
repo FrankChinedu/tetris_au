@@ -1,25 +1,68 @@
 import React, { useState, createContext, useEffect } from 'react';
+
+interface IGameInfo {
+  allowedPlayers: number;
+  baseScore: number;
+  criteria: string;
+  ended: boolean;
+  gameId: string;
+  id: string;
+  mode: string;
+  tetriminoes: string;
+  type: string;
+  username: string;
+  winScore: number;
+  winTime: number;
+}
 interface IUserContext {
   gameId: string,
   setGameId: (gameId: string) => void
   username: string,
   setUsername: (gameId: string) => void,
-  gameInfo: any
+  gameInfo: IGameInfo,
   setGameInfo: (gameInfo: any) => void,
 }
+
+
 
 const UserContext = createContext<IUserContext>({
   gameId: '',
   setGameId: () => true,
   username: '',
   setUsername: () => true,
-  gameInfo: {},
+  gameInfo: {
+    allowedPlayers: 0,
+    baseScore: 0,
+    criteria: '',
+    ended: false,
+    gameId: '',
+    id: '',
+    mode: '',
+    tetriminoes: '',
+    type: '',
+    username: '',
+    winScore: 0,
+    winTime: 0
+  },
   setGameInfo: () => true,
 });
 
 let _username = ''
 let _gameId = ''
-let _gameInfo = {}
+let _gameInfo = {
+  allowedPlayers: 0,
+  baseScore: 0,
+  criteria: '',
+  ended: false,
+  gameId: '',
+  id: '',
+  mode: '',
+  tetriminoes: '',
+  type: '',
+  username: '',
+  winScore: 0,
+  winTime: 0
+}
 if(localStorage.getItem('username')) {
   _username = JSON.parse(localStorage.getItem('username') || '');
 }
@@ -35,7 +78,7 @@ if(localStorage.getItem('gameInfo')) {
 const UserProvider = (props: any) => {
     const [gameId, setGameId] = useState(_gameId);
     const [username, setUsername] = useState(_username);
-    const [gameInfo, setGameInfo] = useState(_gameInfo);
+    const [gameInfo, setGameInfo] = useState<IGameInfo>(_gameInfo);
 
     useEffect(() => {
       gameId && localStorage.setItem('gameId', JSON.stringify(gameId));
