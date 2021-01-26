@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, InputHTMLAttributes, SyntheticEvent } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
