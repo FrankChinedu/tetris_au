@@ -1,6 +1,8 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 
+import ROUTES from '../../utils/constants/routes';
+
 
 const PageNotFound: React.FC = () => {
     let history = useHistory();
@@ -40,7 +42,7 @@ const PageNotFound: React.FC = () => {
             </div>
             <div>
                 <p className="mx-3 text-3xl md:text-5xl">We couldn't find that page</p>
-                <p onClick={() => history.push('/')} className="text-sm cursor-pointer">Click here to go back to the game app</p>
+                <p onClick={() => history.push(ROUTES.home)} className="text-sm cursor-pointer montserrat mt-10 border p-4 border-blue-500">Click here to go back to the game app</p>
             </div>
         </div>
     );
