@@ -3,6 +3,7 @@ const ROUTES = {
     singleGame: '/game',
     multiGame: '/tetris',
     multiGameSteps: '/steps',
+    howToPlay: '/howto',
     notFound: '/404/page-not-found'
   };
   
