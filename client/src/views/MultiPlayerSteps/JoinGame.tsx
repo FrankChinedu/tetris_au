@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, InputHTMLAttributes, SyntheticEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -10,18 +10,14 @@ import { SocketContext } from '../../context/socket';
 
 import ROUTES from '../../utils/constants/routes';
 import SOCKET_EVENTS from '../../utils/constants/socketEvent';
-
-// interface IFirstStep {
-//     setAction: (value: string) => void
-//   }
   
-
 const JoinGame: React.FC  = () => {
-  
 
     const {gameId, setGameId, setUsername, username, setGameInfo } = useContext(UserContext);
     const history = useHistory();
     const [errorMsg, setErrorMsg] = useState<string>('');
+    const [_userName, _setUserName] = useState(username);
+    const [_gameID, _setGameID] = useState(gameId);
 
     const { socket } = useContext(SocketContext);
 
@@ -30,8 +26,9 @@ const JoinGame: React.FC  = () => {
   }
 
     const playGame = () => {
-      if(gameId && username) {
-        socket?.emit(SOCKET_EVENTS.JOIN_TETRIS_GAME_SESSION, gameId, username)
+      if(_gameID && _userName) {
+        socket?.emit(SOCKET_EVENTS.JOIN_TETRIS_GAME_SESSION, _gameID, _userName)
+        setGameId(_gameID);
       }
     }
 
@@ -39,7 +36,9 @@ const JoinGame: React.FC  = () => {
       socket?.on(SOCKET_EVENTS.TETRIS_GAME_SESSION_DATA, (res: any) => {
           setGameInfo(res);
           setTimeout(() => {
-              if(res.gameId === gameId) {
+              if(res.gameId === _gameID) {
+                setGameId(_gameID);
+                setUsername(_userName);
                   history.push(ROUTES.multiGame);
               }else {
                   setErrorMsg('An unknown error occured');
@@ -55,10 +54,14 @@ const JoinGame: React.FC  = () => {
       socket?.on(SOCKET_EVENTS.USERNAME_TAKEN_ERROR, (res: any) => {
         setErrorMsg('Username has been taken, please try another name')
       });
+
+      return () => {
+        socket?.off(SOCKET_EVENTS.TETRIS_GAME_SESSION_DATA);
+        socket?.off(SOCKET_EVENTS.USERNAME_TAKEN_ERROR);
+        socket?.off(SOCKET_EVENTS.INVALID_TETRIS_GAME_ROOM);
+      }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
+  }, [_gameID, _userName]);
 
     const  preventSpace = (e: any) => {
       if (e.key === " ") {
@@ -80,12 +83,13 @@ const JoinGame: React.FC  = () => {
                     type="text"
                     className="focus:outline-none bg-transparent placeholder-white w-full"
                     placeholder="Please enter your username"
-                    value={username}
+                    disabled={username !== ''}
+                    value={_userName}
                     onChange={(e) => {
                       if (e.currentTarget.value.includes(" ")) {
                         e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
                       }
-                      setUsername(e.target.value)
+                      _setUserName(e.target.value)
                     }}
                     onKeyDown={(e) => preventSpace(e)}
                 />
@@ -95,19 +99,19 @@ const JoinGame: React.FC  = () => {
                     type="text"
                     className="focus:outline-none bg-transparent placeholder-white w-full"
                     placeholder="enter the ID shared with you"
-                    value={gameId}
+                    value={_gameID}
                     onChange={(e) => {
                       if (e.currentTarget.value.includes(" ")) {
                         e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
                       }
-                      setGameId(e.target.value)
+                      _setGameID(e.target.value)
                     }}
                     onKeyDown={(e) => preventSpace(e)}
                 />
               </div>
             <button
                 className="bg-transparent border border-indigo-600 mt-2 py-2 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
-                disabled={username.trim() === '' || gameId.trim() === ''}
+                disabled={_userName.trim() === '' || _gameID.trim() === ''}
                 onClick={playGame}
             >
                 Join Game

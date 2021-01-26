@@ -37,15 +37,17 @@ export default (client: Socket, io: Server): void => {
     }
   }
 
-  function handleJoinTetrisSession (roomName: string, username: string) {
-    const roomLength = (io.in(roomName).allSockets() as unknown) as number;
+  async function handleJoinTetrisSession (roomName: string, username: string) {
+    const roomLength = await (io.in(roomName).allSockets() as unknown) as any;
+
     const gameData = gameDataStore[roomName] as GameData;
-    if (gameDataRecords[roomName][username]) {
-      // user name already picked
-      client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
-      return;
-    }
+
     if (gameData && gameDataRecords[roomName]) {
+      if (gameDataRecords[roomName][username]) {
+        // user name already picked
+        client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
+        return;
+      }
       gameRooms[client.id] = roomName;
       client.join(roomName);
       gameDataRecords[roomName][username] = {
@@ -53,6 +55,7 @@ export default (client: Socket, io: Server): void => {
         score: 0
       };
       client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
+
       if (+roomLength === +gameData.allowedPlayers) {
         client.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
       }
@@ -62,6 +65,7 @@ export default (client: Socket, io: Server): void => {
   }
 
   client.on('disconnect', (reason) => {
+    console.log('client', client.id);
     console.log('reason', reason);
   });
 };

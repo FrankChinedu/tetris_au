@@ -36,6 +36,7 @@ const Tetris = {
         winTime: gameSession.winTime,
         tetriminoes: gameSession.tetriminoes,
         creatorId: gameSession.creatorId,
+        username: user && user.username ? user.username : username,
         gameId: gameSession.gameId,
         id: gameSession._id
       };
