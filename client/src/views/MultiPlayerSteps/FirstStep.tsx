@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import SOCKET_EVENTS from '../../utils/constants/socketEvent';
+import { UserContext } from '../../context/user';
+import { SocketContext } from '../../context/socket';
 
 interface IFirstStep {
     setAction: (value: string) => void
@@ -7,12 +11,15 @@ interface IFirstStep {
 
 const FirstStep: React.FC <IFirstStep> = ({ setAction }) => {
 
-  const gameId = localStorage.getItem('gameId') || undefined;
+  const { gameId, username, gameInfo } = useContext(UserContext);
+    const { socket } = useContext(SocketContext);
 
   const deleteGameSession = () => {
     localStorage.clear();
-    window.location.reload();
-
+    socket?.emit(SOCKET_EVENTS.DELETE_GAME_SESSION, gameId, username, gameInfo.username);
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   }
 
   return (
