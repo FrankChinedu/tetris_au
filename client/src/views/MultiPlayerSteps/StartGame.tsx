@@ -18,6 +18,7 @@ const SGame: React.FC  = () => {
     const { socket } = useContext(SocketContext);
     const history = useHistory();
     const [errorMsg, setErrorMsg] = useState<string>('');
+    const [disabled, setDisabled] = useState<boolean>(false);
 
     const createGameSession = () => {
         if(gameId && username) {
@@ -32,6 +33,7 @@ const SGame: React.FC  = () => {
     useEffect(() => {
         socket?.on(SOCKET_EVENTS.TETRIS_GAME_SESSION_DATA, (res: any) => {
             setGameInfo(res);
+            setDisabled(true);
             setTimeout(() => {
                 if(res.gameId === gameId) {
                     history.push(ROUTES.multiGame);
@@ -39,7 +41,7 @@ const SGame: React.FC  = () => {
                     setErrorMsg('An unknown error occured');
                     localStorage.clear();
                 }
-            }, 1000)
+            }, 500)
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -63,7 +65,7 @@ const SGame: React.FC  = () => {
             )}
             <button
             className="bg-transparent border border-indigo-600 p-5 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
-            disabled={ !!!gameId }
+            disabled={ !!!gameId || disabled }
             onClick={createGameSession}
         >
            <FontAwesomeIcon icon={faPlay} /> <span className="pl-3">Start Game</span>

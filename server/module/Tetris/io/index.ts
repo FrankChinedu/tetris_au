@@ -67,8 +67,10 @@ export default (client: Socket, io: Server): void => {
     const roomSize = Object.entries(gameRooms).length;
 
     const gameData = gameDataStore[roomName] as GameData;
+    console.log('roomSize', roomSize);
     if (gameData) {
-      if (roomSize >= 1) {
+      if (roomSize <= 1) {
+        console.log('here hrer');
         client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'seems like only you is in the room' });
         return;
       }
