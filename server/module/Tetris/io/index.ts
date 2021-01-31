@@ -23,6 +23,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.JOIN_TETRIS_GAME_SESSION, handleJoinTetrisSession);
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
   client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
+  client.on(EVENT_TYPES.USER_GAME_OVER, handUserGameOver);
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName];
@@ -73,7 +74,6 @@ export default (client: Socket, io: Server): void => {
     const gameData = gameDataStore[roomName] as GameData;
     if (gameData) {
       if (roomSize <= 1) {
-        console.log('here hrer');
         client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'seems like only you is in the room' });
         return;
       }
@@ -111,6 +111,12 @@ export default (client: Socket, io: Server): void => {
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
       io.in(roomName).emit(EVENT_TYPES.UPDATED_GAME_SESSION_DATA, gameData);
     }
+  }
+
+  function handUserGameOver (roomName: string, username: string) {
+    console.log('username', username);
+    // set user as the user that gamed over.
+    io.in(roomName).emit(EVENT_TYPES.ALL_GAME_OVER);
   }
 
   client.on('disconnect', (reason) => {

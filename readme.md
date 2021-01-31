@@ -53,6 +53,9 @@ Score based the user creates a game and sets the winning condition score based i
    - when you delete a game Session emit `DELETE_TETRIS_GAME_SESSION` 
    - listen on `UPDATED_ROOM_MEMBER_STATE` to get the updated room member state
    - listen on `UPDATED_GAME_SESSION_DATA` to get the updated game session data
+
+   - once a user looses that user should emit `USER_GAME_OVER` 
+   - listen on `ALL_GAME_OVER` to end all games in that game session
    
 
   # GAME:::

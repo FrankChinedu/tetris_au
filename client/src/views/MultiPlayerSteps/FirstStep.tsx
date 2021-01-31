@@ -15,7 +15,6 @@ const FirstStep: React.FC <IFirstStep> = ({ setAction }) => {
     const { socket } = useContext(SocketContext);
 
   const deleteGameSession = () => {
-    console.log('deleting setGameInfo');
     socket?.emit(SOCKET_EVENTS.DELETE_GAME_SESSION, gameId, username, gameInfo.username);
     setGameInfo(initGameInfo);
     setGameId('');
