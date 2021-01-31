@@ -22,6 +22,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.NEW_TETRIS_GAME_SESSION, handleCreateNewTetrisSession);
   client.on(EVENT_TYPES.JOIN_TETRIS_GAME_SESSION, handleJoinTetrisSession);
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
+  client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName];
@@ -64,10 +65,12 @@ export default (client: Socket, io: Server): void => {
   }
 
   function handleStartGame (roomName: string) {
-    const roomSize = Object.entries(gameRooms).length;
+    const userGameRoom = gameDataRecords[roomName];
+
+    if (!userGameRoom) return;
+    const roomSize = Object.entries(userGameRoom).length;
 
     const gameData = gameDataStore[roomName] as GameData;
-    console.log('roomSize', roomSize);
     if (gameData) {
       if (roomSize <= 1) {
         console.log('here hrer');
@@ -77,6 +80,36 @@ export default (client: Socket, io: Server): void => {
       io.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
     } else {
       client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
+    }
+  }
+
+  function handleDeleteGameSession (roomName: string, username: string, adminName: string) {
+    const userGameRoom = gameDataRecords[roomName];
+
+    if (!userGameRoom) return;
+    const roomSize = Object.entries(userGameRoom).length;
+
+    if (roomSize === 1 && username === adminName) {
+      delete gameDataRecords[roomName];
+    } else if (roomSize === 1 && username === adminName) {
+      delete gameDataRecords[roomName];
+    } else if (username !== adminName) {
+      delete userGameRoom[username];
+      // send new roomMember state
+      const roomMembers = gameDataRecords[roomName];
+
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
+    } else if (username === adminName) {
+      delete userGameRoom[username];
+
+      const nextAdmin = (Object.keys(userGameRoom)[0] as unknown) as string;
+      const GameData = gameDataStore[roomName] as GameData;
+      GameData.username = nextAdmin;
+      const gameData = GameData;
+
+      const roomMembers = gameDataRecords[roomName];
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_GAME_SESSION_DATA, gameData);
     }
   }
 

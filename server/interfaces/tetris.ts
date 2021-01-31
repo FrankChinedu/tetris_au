@@ -12,6 +12,7 @@ export interface GameData {
   tetriminoes: string;
   creatorId: string;
   gameId: string;
+  username: string;
 }
 
 export interface IcreateGame {

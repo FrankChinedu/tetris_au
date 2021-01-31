@@ -11,15 +11,15 @@ interface IFirstStep {
 
 const FirstStep: React.FC <IFirstStep> = ({ setAction }) => {
 
-  const { gameId, username, gameInfo } = useContext(UserContext);
+  const { gameId, username, gameInfo, setGameInfo, initGameInfo, setGameId, setUsername } = useContext(UserContext);
     const { socket } = useContext(SocketContext);
 
   const deleteGameSession = () => {
-    localStorage.clear();
+    console.log('deleting setGameInfo');
     socket?.emit(SOCKET_EVENTS.DELETE_GAME_SESSION, gameId, username, gameInfo.username);
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    setGameInfo(initGameInfo);
+    setGameId('');
+    setUsername('');
   }
 
   return (

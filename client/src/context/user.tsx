@@ -20,36 +20,11 @@ interface IUserContext {
   username: string,
   setUsername: (gameId: string) => void,
   gameInfo: IGameInfo,
+  initGameInfo: IGameInfo,
   setGameInfo: (gameInfo: any) => void,
 }
 
-
-
-const UserContext = createContext<IUserContext>({
-  gameId: '',
-  setGameId: () => true,
-  username: '',
-  setUsername: () => true,
-  gameInfo: {
-    allowedPlayers: 0,
-    baseScore: 0,
-    criteria: '',
-    ended: false,
-    gameId: '',
-    id: '',
-    mode: '',
-    tetriminoes: '',
-    type: '',
-    username: '',
-    winScore: 0,
-    winTime: 0
-  },
-  setGameInfo: () => true,
-});
-
-let _username = ''
-let _gameId = ''
-let _gameInfo = {
+const initialGameInfoState =  {
   allowedPlayers: 0,
   baseScore: 0,
   criteria: '',
@@ -62,7 +37,22 @@ let _gameInfo = {
   username: '',
   winScore: 0,
   winTime: 0
-}
+};
+
+const UserContext = createContext<IUserContext>({
+  gameId: '',
+  setGameId: () => true,
+  username: '',
+  setUsername: () => true,
+  gameInfo: initialGameInfoState,
+  setGameInfo: () => true,
+  initGameInfo: initialGameInfoState,
+});
+
+let _username = ''
+let _gameId = ''
+let _gameInfo = initialGameInfoState;
+
 if(localStorage.getItem('username')) {
   _username = JSON.parse(localStorage.getItem('username') || '');
 }
@@ -79,16 +69,18 @@ const UserProvider = (props: any) => {
     const [gameId, setGameId] = useState(_gameId);
     const [username, setUsername] = useState(_username);
     const [gameInfo, setGameInfo] = useState<IGameInfo>(_gameInfo);
+    const [initGameInfo] = useState<IGameInfo>(() => _gameInfo);
 
     useEffect(() => {
-      gameId && localStorage.setItem('gameId', JSON.stringify(gameId));
-      username && localStorage.setItem('username', JSON.stringify(username));
+      console.log('calledddd');
+      localStorage.setItem('gameId', JSON.stringify(gameId));
+      localStorage.setItem('username', JSON.stringify(username));
       Object.entries(gameInfo).length && localStorage.setItem('gameInfo', JSON.stringify(gameInfo));
     }, [gameId, username, gameInfo])
 
     return (
         <UserContext.Provider
-            value={{gameId, setGameId, username, setUsername, gameInfo, setGameInfo}}
+            value={{gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo}}
         >
             {props.children}
         </UserContext.Provider>
