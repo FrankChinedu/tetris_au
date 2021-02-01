@@ -11,6 +11,7 @@ import QuitButton from '../../components/QuitButton';
 import Level from '../../components/Levels';
 import NextTetrimino from '../../components/NextTetrimino';
 import Controls from '../../components/Controls';
+import GameOverPrompt from '../../components/GameOverPrompt';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
@@ -30,6 +31,7 @@ const SingleGame: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
   const [dropTimeRef, setDropTimeRef] = useState(0);
+  const [openGameOverDialog, setOpenGameOverDialog] = useState<boolean>(false);
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -41,6 +43,17 @@ const SingleGame: React.FC = () => {
     if (!canNotMove) {
       updatePlayerPos ( { x: dir, y: 0} as any)
     }
+  }
+
+  const closeGameOverPrompt = () => {
+    setOpenGameOverDialog(false);
+    resetPlayer();
+    setGameOver(false);
+    setScore(0);
+    setLevel(0);
+    setRows(0);
+    setStage(newStage);
+
   }
 
   useEffect(() => {
@@ -92,9 +105,9 @@ const SingleGame: React.FC = () => {
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        console.log('GAME OVER!!!');
         setGameOver(true);
         setDropTime(null);
+        setOpenGameOverDialog(true);
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -176,6 +189,8 @@ const SingleGame: React.FC = () => {
       <div className="sm:hidden flex items-start justify-center">
         <Controls control={move} dropDown={keyUp} />
       </div>
+
+      <GameOverPrompt open={openGameOverDialog} handleClose={closeGameOverPrompt} score={score} />
       </TetrisWrapper>
     </>
   );
