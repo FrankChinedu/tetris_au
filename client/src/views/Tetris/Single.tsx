@@ -53,6 +53,7 @@ const SingleGame: React.FC = () => {
     setLevel(0);
     setRows(0);
     setStage(newStage);
+    setPausedGame(false);
 
   }
 
@@ -189,7 +190,6 @@ const SingleGame: React.FC = () => {
       <div className="sm:hidden flex items-start justify-center">
         <Controls control={move} dropDown={keyUp} />
       </div>
-
       <GameOverPrompt open={openGameOverDialog} handleClose={closeGameOverPrompt} score={score} />
       </TetrisWrapper>
     </>

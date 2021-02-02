@@ -27,6 +27,7 @@ import { IUseStage } from '../../utils/tetris/interfaces';
 import { UserContext } from '../../context/user';
 import { SocketContext } from '../../context/socket';
 import SOCKET_EVENTS from '../../utils/constants/socketEvent';
+import { string } from 'joi';
 
 
 const newStage = createStage();
@@ -41,6 +42,7 @@ const MultiplayerGame: React.FC = () => {
   const [dropTimeRef, setDropTimeRef] = useState<number>(0);
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [snackbarMsg, setSnackbarMsg] = useState<string>('');
+  const [players, setPlayers] = useState<any>([]);
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [admin] = useState(gameInfo.username);
@@ -69,17 +71,16 @@ const MultiplayerGame: React.FC = () => {
     setErrorMsg('');
   }
 
-
   useEffect(() => {
 
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
         setSnackbarMsg(data.message);
+        setPlayers((prev: any) => [...prev, data.message]);
       });
 
       socket?.on(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE, (data: any) => {
-        console.log('data', data);
         setErrorMsg(data.message);
       });
 
@@ -239,6 +240,11 @@ const MultiplayerGame: React.FC = () => {
       <div className="sm:hidden flex items-start justify-center">
         <Controls control={move} dropDown={keyUp} />
       </div>
+      {players.length && players.map((player: string, ix: number) => (
+        <div className="w-80 bg-gray-800 absolute right-5 bottom-14 hidden md:block py-3 px-2 montserrat text-sm" key={ix}>
+            {player}
+        </div>
+      ))}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
       </TetrisWrapper>
     </>
@@ -246,3 +252,6 @@ const MultiplayerGame: React.FC = () => {
 };
 
 export default memo(MultiplayerGame);
+
+
+// leaderboard
