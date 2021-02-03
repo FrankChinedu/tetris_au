@@ -27,7 +27,6 @@ import { IUseStage } from '../../utils/tetris/interfaces';
 import { UserContext } from '../../context/user';
 import { SocketContext } from '../../context/socket';
 import SOCKET_EVENTS from '../../utils/constants/socketEvent';
-import { string } from 'joi';
 
 
 const newStage = createStage();
@@ -35,7 +34,7 @@ const newStage = createStage();
 const MultiplayerGame: React.FC = () => {
   
   const { socket } = useContext(SocketContext);
-  const { gameInfo, username } = useContext(UserContext);
+  const { gameInfo, username, setGameInfo } = useContext(UserContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [startedGame, setGameStatus] = useState<boolean>(false);
@@ -46,6 +45,7 @@ const MultiplayerGame: React.FC = () => {
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [admin] = useState(gameInfo.username);
+  const [emitNew, setEmitNew] = useState(false);
   const [player , updatePlayerPos, resetPlayer,
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
@@ -72,12 +72,19 @@ const MultiplayerGame: React.FC = () => {
   }
 
   useEffect(() => {
+    setTimeout(() => {
+      // setEmitNew(true)
+      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
+    }, 0)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
 
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
         setSnackbarMsg(data.message);
-        setPlayers((prev: any) => [...prev, data.message]);
       });
 
       socket?.on(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE, (data: any) => {
@@ -98,10 +105,21 @@ const MultiplayerGame: React.FC = () => {
           }, 1500)
             });
 
+      socket?.on(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA, (data: any) => {
+        setGameInfo(data);
+      });
+
+      socket?.on(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE, (data: any) => {
+        console.log('here');
+        setPlayers(data);
+      })
+
       return () => {
         socket?.off(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM);
         socket?.off(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE);
         socket?.off(SOCKET_EVENTS.START_TETRIS_GAME_SESSION);
+        socket?.off(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA);
+        socket?.off(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE)
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -240,11 +258,18 @@ const MultiplayerGame: React.FC = () => {
       <div className="sm:hidden flex items-start justify-center">
         <Controls control={move} dropDown={keyUp} />
       </div>
-      {players.length && players.map((player: string, ix: number) => (
-        <div className="w-80 bg-gray-800 absolute right-5 bottom-14 hidden md:block py-3 px-2 montserrat text-sm" key={ix}>
-            {player}
-        </div>
-      ))}
+     
+      {Object.keys(players).length && (
+         <div className="w-80 bg-gray-800 absolute right-5 bottom-16 hidden md:block py-3 px-2 montserrat text-sm">
+          <div className="mb-5">{'People in this room'}</div>
+          {Object.keys(players).map(player => (
+            <div key={player} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
+              <div>{players[player].name}</div>
+              <div className="text-right">{players[player].score}</div>
+          </div>
+          ))}
+         </div>
+      )}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
       </TetrisWrapper>
     </>

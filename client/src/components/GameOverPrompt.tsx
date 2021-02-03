@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import ROUTES from '../utils/constants/routes';
 import { OShape } from './Tetriminoes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo, faDoorOpen } from '@fortawesome/free-solid-svg-icons';
+import { faRedo, } from '@fortawesome/free-solid-svg-icons';
 
 interface IGameOverPrompt {
     open: boolean,

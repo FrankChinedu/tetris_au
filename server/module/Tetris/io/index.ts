@@ -24,6 +24,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
   client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
   client.on(EVENT_TYPES.USER_GAME_OVER, handUserGameOver);
+  client.on(EVENT_TYPES.GET_MEMBER_STATE, handGetMemberState);
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName];
@@ -37,6 +38,14 @@ export default (client: Socket, io: Server): void => {
       };
       client.join(roomName);
       client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
+    }
+  }
+
+  function handGetMemberState (roomName: string) {
+    const roomMembers = gameDataRecords[roomName];
+    console.log('-----', roomMembers);
+    if (!roomMembers) {
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     }
   }
 
@@ -60,6 +69,10 @@ export default (client: Socket, io: Server): void => {
       client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
       client.to(roomName).emit(EVENT_TYPES.PLAYER_JOIN_GAME_ROOM,
         { message: `${username} just joined the game`, roomMembers: gameDataRecords[roomName] });
+
+      const roomMembers = gameDataRecords[roomName];
+
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     } else {
       client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
     }
