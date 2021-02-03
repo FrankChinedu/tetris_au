@@ -43,8 +43,7 @@ export default (client: Socket, io: Server): void => {
 
   function handGetMemberState (roomName: string) {
     const roomMembers = gameDataRecords[roomName];
-    console.log('-----', roomMembers);
-    if (!roomMembers) {
+    if (roomMembers) {
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     }
   }
