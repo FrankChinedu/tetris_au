@@ -53,14 +53,14 @@ class Server {
       useCreateIndex: true,
       useUnifiedTopology: true
     }, () => {
-      console.log('connectes to Database');
+      console.log('connects to Database');
       const server = this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
       const io = this.socketIO(server);
 
       io.on('connection', (socket: Socket) => {
         GameIo(socket, io);
-        console.log('socker --socker coneected');
+        console.log('socket --socket connected');
       });
     });
   }
