@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect, useContext} from 'react';
+import React, {useState, memo, useEffect, useContext, useCallback} from 'react';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,7 @@ import Level from '../../components/Levels';
 import NextTetrimino from '../../components/NextTetrimino';
 import Controls from '../../components/Controls';
 import Snackbar from '../../components/Snackbar';
+import LeaderBoard from '../../components/LeaderBoard';
 
 //hooks
 import usePlayer from '../../hooks/usePlayer';
@@ -44,11 +45,23 @@ const MultiplayerGame: React.FC = () => {
   const [players, setPlayers] = useState<any>([]);
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [openLeaderBoard, setOpenLeaderBoard] = useState<boolean>(false);
   const [admin] = useState(gameInfo.username);
   const [player , updatePlayerPos, resetPlayer,
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+
+ const curry = useCallback(() => {
+  const gameId = gameInfo.gameId;
+    return (arg?: any) => {
+      return {gameId, ...arg};
+    }
+  },[gameInfo.gameId]);
+
+const emitArgs = curry();
+
+// emitArgs({username})
 
 
   const movePlayer = (dir: number) => {
@@ -71,7 +84,7 @@ const MultiplayerGame: React.FC = () => {
   }
 
   useEffect(() => {
-      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
+      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, emitArgs())
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
@@ -102,6 +115,13 @@ const MultiplayerGame: React.FC = () => {
 
       socket?.on(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE, (data: any) => {
         setPlayers(data);
+      });
+
+      socket?.on(SOCKET_EVENTS.GAME_SESSON_OVER, (data: any) => {
+        console.log('Game over');
+        setGameOver(true);
+        setDropTime(null);
+        setOpenLeaderBoard(true);
       })
 
       return () => {
@@ -117,9 +137,10 @@ const MultiplayerGame: React.FC = () => {
 
   useEffect(() => {
     if(score) {
-      // socket?.emit()
+      socket?.emit(SOCKET_EVENTS.USER_SCORE__CHANGE, emitArgs({username, score}))
     }
-  }, [score])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score]);
 
   const startGame = () => {
     setDropTime(1000);
@@ -133,7 +154,7 @@ const MultiplayerGame: React.FC = () => {
   }
 
   const emitStartGame = () => {
-    socket?.emit(SOCKET_EVENTS.START_TETRIS_GAME, gameInfo.gameId)
+    socket?.emit(SOCKET_EVENTS.START_TETRIS_GAME, emitArgs())
   }
 
   const drop = () => {
@@ -151,14 +172,12 @@ const MultiplayerGame: React.FC = () => {
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        console.log('GAME OVER!!!');
-        setGameOver(true);
-        setDropTime(null);
+        socket?.emit(SOCKET_EVENTS.GAME_OVER, emitArgs())
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
   }
-
+  
   const move = (e: any ) => {
     const { key } = e;
     
@@ -261,6 +280,7 @@ const MultiplayerGame: React.FC = () => {
          </div>
       )}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
+      <LeaderBoard open={openLeaderBoard} />
       </TetrisWrapper>
     </>
   );
