@@ -45,7 +45,6 @@ const MultiplayerGame: React.FC = () => {
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [admin] = useState(gameInfo.username);
-  const [emitNew, setEmitNew] = useState(false);
   const [player , updatePlayerPos, resetPlayer,
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
