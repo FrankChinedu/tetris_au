@@ -54,7 +54,8 @@ const SingleGame: React.FC = () => {
     setRows(0);
     setStage(newStage);
     setPausedGame(false);
-
+    setDropTime(1000);
+    setDropTimeRef(1000);
   }
 
   useEffect(() => {
