@@ -59,10 +59,7 @@ const MultiplayerGame: React.FC = () => {
     }
   },[gameInfo.gameId]);
 
-const emitArgs = curry();
-
-// emitArgs({username})
-
+const emitArgs = curry() as any;
 
   const movePlayer = (dir: number) => {
     const canNotMove = checkCollision( player, stage, { x: dir, y: 0} );
@@ -70,7 +67,6 @@ const emitArgs = curry();
       updatePlayerPos ( { x: dir, y: 0} as any)
     }
   }
-
 
   const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
     if (reason === 'clickaway') {
@@ -84,7 +80,7 @@ const emitArgs = curry();
   }
 
   useEffect(() => {
-      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, emitArgs())
+      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, emitArgs().gameId)
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
