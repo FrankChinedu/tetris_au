@@ -71,15 +71,7 @@ const MultiplayerGame: React.FC = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      // setEmitNew(true)
       socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
-    }, 0)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
@@ -109,7 +101,6 @@ const MultiplayerGame: React.FC = () => {
       });
 
       socket?.on(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE, (data: any) => {
-        console.log('here');
         setPlayers(data);
       })
 
