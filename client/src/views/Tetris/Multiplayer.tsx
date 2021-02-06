@@ -60,7 +60,6 @@ const MultiplayerGame: React.FC = () => {
     }
   }
 
-
   const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
