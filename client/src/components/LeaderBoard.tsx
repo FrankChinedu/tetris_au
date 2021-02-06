@@ -1,10 +1,10 @@
 import React from 'react';
 import { Dialog, } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import ROUTES from '../utils/constants/routes';
-import { OShape } from './Tetriminoes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo, } from '@fortawesome/free-solid-svg-icons';
+// import { useHistory } from 'react-router-dom';
+// import ROUTES from '../utils/constants/routes';
+// import { OShape } from './Tetriminoes';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faRedo, } from '@fortawesome/free-solid-svg-icons';
 
 interface IGameOverPrompt {
     open: boolean,
@@ -13,7 +13,7 @@ interface IGameOverPrompt {
 
 const LeaderBoard: React.FC<IGameOverPrompt> = ({open, }) => {
 
-    const history = useHistory();
+    // const history = useHistory();
 
   return (
     <React.Fragment>

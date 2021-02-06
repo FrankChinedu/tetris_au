@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect, useContext, useCallback} from 'react';
+import React, {useState, memo, useEffect, useContext,} from 'react';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,17 +52,6 @@ const MultiplayerGame: React.FC = () => {
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
- const curry = useCallback(() => {
-  const gameId = gameInfo.gameId;
-    return (arg?: any) => {
-      return {gameId, ...arg};
-    }
-  },[gameInfo.gameId]);
-
-const emitArgs = curry();
-
-// emitArgs({username})
-
 
   const movePlayer = (dir: number) => {
     const canNotMove = checkCollision( player, stage, { x: dir, y: 0} );
@@ -84,7 +73,7 @@ const emitArgs = curry();
   }
 
   useEffect(() => {
-      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, emitArgs())
+      socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
       setTetrominoString(gameInfo.tetriminoes)
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
@@ -137,7 +126,7 @@ const emitArgs = curry();
 
   useEffect(() => {
     if(score) {
-      socket?.emit(SOCKET_EVENTS.USER_SCORE__CHANGE, emitArgs({username, score}))
+      socket?.emit(SOCKET_EVENTS.USER_SCORE__CHANGE, gameInfo.gameId, username, score)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score]);
@@ -154,7 +143,7 @@ const emitArgs = curry();
   }
 
   const emitStartGame = () => {
-    socket?.emit(SOCKET_EVENTS.START_TETRIS_GAME, emitArgs())
+    socket?.emit(SOCKET_EVENTS.START_TETRIS_GAME, gameInfo.gameId)
   }
 
   const drop = () => {
@@ -172,7 +161,7 @@ const emitArgs = curry();
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        socket?.emit(SOCKET_EVENTS.GAME_OVER, emitArgs())
+        socket?.emit(SOCKET_EVENTS.GAME_OVER, {gameId: gameInfo.gameId})
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
