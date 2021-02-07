@@ -32,7 +32,7 @@ const MultiPlayerSteps: React.FC = () => {
           </details>
           <details className="my-10">
             <summary className="text-3xl p-2">How to play multi Player</summary>
-            <p className="montserrat my-10">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore beatae reprehenderit cupiditate impedit, iure minus nulla nam excepturi, nihil quo cumque aspernatur, nemo ipsam neque? Laboriosam perferendis consectetur eligendi sequi.</p>
+            <p className="montserrat my-10">it amet consectetur adipisicing elit. Tempore beatae reprehenderit cupiditate impedit, iure minus nulla nam excepturi, nihil quo cumque aspernatur, nemo ipsam neque? Laboriosam perferendis consectetur eligendi sequi.</p>
           </details>
         </div>
       </main>
