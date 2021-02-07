@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
 
-import useWindowSize from '../../hooks/useWindowSize';
 
 import ROUTES from '../../utils/constants/routes';
 
 
 const MultiPlayerSteps: React.FC = () => {
-
-  const [checked, setChecked] = useState<boolean>(false);
-  const [checked2, setChecked2] = useState<boolean>(false);
-
-  const { width } = useWindowSize();
 
 
   return (
