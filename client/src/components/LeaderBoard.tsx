@@ -6,13 +6,19 @@ import { Dialog, } from '@material-ui/core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faRedo, } from '@fortawesome/free-solid-svg-icons';
 
+interface IPlayers {
+  name: string;
+  score: number;
+}
+
 interface IGameOverPrompt {
-    open: boolean,
-    hasNotEnded: boolean,
+    open: boolean;
+    players?: Array<IPlayers>;
+    hasNotEnded: boolean;
 }
 
 
-const LeaderBoard: React.FC<IGameOverPrompt> = ({open, hasNotEnded}) => {
+const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) => {
 
     // const history = useHistory();
 
@@ -30,9 +36,13 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, hasNotEnded}) => {
         <div id="game-over-dialog" className="p-5 text-center text-3xl">Game Over</div>
         {hasNotEnded ? 'Game has not ended but you lost kindly watch leader board to see live update': '💸'}
         <div className="text-center mb-5">
-            LeaderBoard
-
-            list of all users in a game here
+            <p>LeaderBoard</p>
+            {players?.map((player: any, i: number) => (
+            <div key={i} className="p-2 my-2 grid grid-cols-2">
+                <div>{player.name}</div>
+                <div className="text-right">{player.score}</div>
+            </div>
+            ))}  
         </div>
         </div>
       </Dialog>
