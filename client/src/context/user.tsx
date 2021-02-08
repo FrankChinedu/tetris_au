@@ -72,7 +72,6 @@ const UserProvider = (props: any) => {
     const [initGameInfo] = useState<IGameInfo>(() => _gameInfo);
 
     useEffect(() => {
-      console.log('calledddd');
       localStorage.setItem('gameId', JSON.stringify(gameId));
       localStorage.setItem('username', JSON.stringify(username));
       Object.entries(gameInfo).length && localStorage.setItem('gameInfo', JSON.stringify(gameInfo));
