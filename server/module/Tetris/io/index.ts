@@ -23,7 +23,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.JOIN_TETRIS_GAME_SESSION, handleJoinTetrisSession);
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
   client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
-  client.on(EVENT_TYPES.USER_GAME_OVER, handUserGameOver);
+  client.on(EVENT_TYPES.GAME_OVER, handUserGameOver);
   client.on(EVENT_TYPES.GET_MEMBER_STATE, handGetMemberState);
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
@@ -125,10 +125,10 @@ export default (client: Socket, io: Server): void => {
     }
   }
 
-  function handUserGameOver (roomName: string, username: string) {
+  function handUserGameOver ({ roomName, username }: {[key: string]: string}) {
     console.log('username', username);
     // set user as the user that gamed over.
-    io.in(roomName).emit(EVENT_TYPES.ALL_GAME_OVER);
+    io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER);
   }
 
   client.on('disconnect', (reason) => {

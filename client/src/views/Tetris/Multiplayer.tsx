@@ -95,7 +95,7 @@ const MultiplayerGame: React.FC = () => {
               setGameStatus(true)
             }
           }, 1500)
-            });
+      });
 
       socket?.on(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA, (data: any) => {
         setGameInfo(data);
@@ -105,7 +105,7 @@ const MultiplayerGame: React.FC = () => {
         setPlayers(data);
       });
 
-      socket?.on(SOCKET_EVENTS.GAME_SESSON_OVER, (data: any) => {
+      socket?.on(SOCKET_EVENTS.GAME_SESSION_OVER, (data: any) => {
         console.log('Game over');
         setGameOver(true);
         setDropTime(null);
