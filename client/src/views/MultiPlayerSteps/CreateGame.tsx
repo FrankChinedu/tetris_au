@@ -54,7 +54,7 @@ const CreateGame: React.FC  = () => {
     }
 
     const copyToClipboard = () => {
-        const shareMessage = `Hey play tetris with me at game_url use this ID ${gameId} to join, gameID`;
+        const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at game_url. Use this game id to join the game\nGame Id: ${gameId}`;
         const permissionName = "clipboard-write" as PermissionName;
         navigator.permissions.query({name: permissionName}).then(result => {
             if (result.state === "granted" || result.state === "prompt") {
