@@ -38,6 +38,7 @@ const MultiplayerGame: React.FC = () => {
   const { gameInfo, username, setGameInfo } = useContext(UserContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [hasGameEnded, setGameHasNotEnded] = useState<boolean>(false);
   const [startedGame, setGameStatus] = useState<boolean>(false);
   const [dropTimeRef, setDropTimeRef] = useState<number>(0);
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
@@ -83,9 +84,15 @@ const MultiplayerGame: React.FC = () => {
   useEffect(() => {
       socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
       setTetrominoString(gameInfo.tetriminoes)
+
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
         setSnackbarMsg(data.message);
+      });
+
+      socket?.on(SOCKET_EVENTS.USER_HAS_CHECKED_OUT_GAME_SESSION, (message: string) => {
+        setOpenSnackbar(true);
+        setSnackbarMsg(message);
       });
 
       socket?.on(SOCKET_EVENTS.TETRIS_GAME_ROOM_SIZE, (data: any) => {
@@ -123,6 +130,7 @@ const MultiplayerGame: React.FC = () => {
         console.log('Game over');
         setGameOver(true);
         setDropTime(null);
+        setGameHasNotEnded(data.gameHasNotEnded);
         setOpenLeaderBoard(true);
       })
 
@@ -174,7 +182,7 @@ const MultiplayerGame: React.FC = () => {
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        socket?.emit(SOCKET_EVENTS.GAME_OVER, getSocketParams())
+        socket?.emit(SOCKET_EVENTS.GAME_OVER, getSocketParams({userName: username}))
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -282,7 +290,7 @@ const MultiplayerGame: React.FC = () => {
          </div>
       )}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
-      <LeaderBoard open={openLeaderBoard} players={players} />
+      <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
       </TetrisWrapper>
     </>
   );

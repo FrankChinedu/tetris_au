@@ -1,6 +1,6 @@
 import { ResponseDataI } from './responseInterface';
-import { GameData, IcreateGame } from './tetris';
+import { GameData, IcreateGame, IRoomMembers, IRoomValues } from './tetris';
 
 export {
-  ResponseDataI, GameData, IcreateGame
+  ResponseDataI, GameData, IcreateGame, IRoomMembers, IRoomValues
 };

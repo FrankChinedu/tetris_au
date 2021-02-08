@@ -13,11 +13,12 @@ interface IPlayers {
 
 interface IGameOverPrompt {
     open: boolean;
-    players?: Array<IPlayers>
+    players?: Array<IPlayers>;
+    hasNotEnded: boolean;
 }
 
 
-const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players}) => {
+const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) => {
 
   const randomColors: any = () => {
     return Math.floor(Math.random() * (COLORS.length - 1))

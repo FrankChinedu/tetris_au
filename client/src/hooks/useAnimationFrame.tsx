@@ -9,17 +9,10 @@ const useAnimationFrame = (callback: () => void, dropTime: number | null) => {
 
   const animate = (time: any) => {
     if (previousTimeRef.current !== undefined) {
-      // console.log('previousTimeRef.current', previousTimeRef.current);
-      // console.log('time', time);
       const deltaTime = time - previousTimeRef.current as number;
-      // console.log('deltaTime', deltaTime);
       dropCounter.current += deltaTime;
-      // console.log('dropCounter.current', dropCounter.current);
-      // if()
       if(dropTime && dropCounter.current > dropTime) {
         dropCounter.current = 0;
-        // console.log('calledddd');
-        // console.log('callback', callback)
         callback()
       }
     }
@@ -28,7 +21,6 @@ const useAnimationFrame = (callback: () => void, dropTime: number | null) => {
   }
 
   useEffect(() => {
-    console.log('createdddd');
     if(dropTime) {
       requestRef.current = requestAnimationFrame(animate as any);
     }

@@ -2,6 +2,7 @@
 export interface GameData {
   type: string;
   ended: boolean;
+  started: boolean;
   mode: string;
   allowedPlayers: number;
   criteria: string;
@@ -13,9 +14,19 @@ export interface GameData {
   creatorId: string;
   gameId: string;
   username: string;
+  clientId: string;
 }
 
 export interface IcreateGame {
   gameCreatorUsername: string,
   gameData: GameData
 };
+
+export interface IRoomValues {
+    name: string;
+    score: number;
+    checkedOut: boolean
+}
+export interface IRoomMembers {
+    [key: string]: IRoomValues
+}
