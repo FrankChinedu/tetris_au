@@ -40,7 +40,9 @@ Score based the user creates a game and sets the winning condition score based i
    > Joining a existing game session
    - emit an event `JOIN_TETRIS_GAME_SESSION` pass the roomName and userName
    - listen on `TETRIS_GAME_SESSION_DATA` to get game data
-   - listen on `START_TETRIS_GAME_SESSION` 
+   - listen on `START_TETRIS_GAME_SESSION`
+
+   - listen on `GAME_SESSION_STARTED` if game session had already started member will not be able to join
 
    - listen on `INVALID_TETRIS_GAME_ROOM` incase game room does not exist
    - listen on `USERNAME_TAKEN_ERROR` incase username is taken user can choose another user name

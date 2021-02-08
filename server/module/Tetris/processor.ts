@@ -28,6 +28,7 @@ const Tetris = {
       const gameData = {
         type: gameSession.type,
         ended: gameSession.ended,
+        started: gameSession.started,
         mode: gameSession.mode,
         allowedPlayers: gameSession.allowedPlayers,
         criteria: gameSession.criteria,

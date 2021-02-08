@@ -8,6 +8,7 @@ interface ITetris {
   gameId: string;
   type: GameType;
   ended: Boolean;
+  started: Boolean;
   mode: IGameMode;
   allowedPlayers: number;
   criteria: ICriteria;
@@ -22,6 +23,7 @@ export interface TetrisDoc extends mongoose.Document {
   gameId: string;
   type: GameType;
   ended: Boolean;
+  started: Boolean;
   mode: IGameMode;
   allowedPlayers: number;
   criteria: ICriteria;
@@ -48,6 +50,11 @@ const tetrisSchema = new mongoose.Schema({
     default: 'TETRIS'
   },
   ended: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  started: {
     type: Boolean,
     required: true,
     default: false

@@ -55,10 +55,15 @@ const JoinGame: React.FC  = () => {
         setErrorMsg('Username has been taken, please try another name')
       });
 
+      socket?.on(SOCKET_EVENTS.GAME_SESSION_STARTED, (res: any) => {
+        setErrorMsg(res.message);
+      });
+
       return () => {
         socket?.off(SOCKET_EVENTS.TETRIS_GAME_SESSION_DATA);
         socket?.off(SOCKET_EVENTS.USERNAME_TAKEN_ERROR);
         socket?.off(SOCKET_EVENTS.INVALID_TETRIS_GAME_ROOM);
+        socket?.off(SOCKET_EVENTS.GAME_SESSION_STARTED);
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_gameID, _userName]);

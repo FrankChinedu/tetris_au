@@ -8,10 +8,11 @@ import { Dialog, } from '@material-ui/core';
 
 interface IGameOverPrompt {
     open: boolean,
+    hasNotEnded: boolean,
 }
 
 
-const LeaderBoard: React.FC<IGameOverPrompt> = ({open, }) => {
+const LeaderBoard: React.FC<IGameOverPrompt> = ({open, hasNotEnded}) => {
 
     // const history = useHistory();
 
@@ -27,6 +28,7 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, }) => {
       >
         <div className="bg-gray-800 text-white montserrat p-5">
         <div id="game-over-dialog" className="p-5 text-center text-3xl">Game Over</div>
+        {hasNotEnded ? 'Game has not ended but you lost kindly watch leader board to see live update': '💸'}
         <div className="text-center mb-5">
             LeaderBoard
 
