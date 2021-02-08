@@ -111,7 +111,12 @@ const MultiplayerGame: React.FC = () => {
       });
 
       socket?.on(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE, (data: any) => {
-        setPlayers(data);
+        let players = Object.values(data);
+
+        if (players.length) {
+          players = players.sort((a: any,b: any) => b.score - a.score)
+        }
+        setPlayers(players);
       });
 
       socket?.on(SOCKET_EVENTS.GAME_SESSION_OVER, (data: any) => {
@@ -265,15 +270,15 @@ const MultiplayerGame: React.FC = () => {
         <Controls control={move} dropDown={keyUp} />
       </div>
      
-      {Object.keys(players).length && (
+      {players.length && (
          <div className="w-80 bg-gray-800 absolute right-5 bottom-16 hidden md:block py-3 px-2 montserrat text-sm">
           <div className="mb-5">{'People in this room'}</div>
-          {Object.keys(players).map(player => (
-            <div key={player} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
-              <div>{players[player].name}</div>
-              <div className="text-right">{players[player].score}</div>
-          </div>
-          ))}
+          {players.map((player: any, i: number) => (
+            <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
+                <div>{player.name}</div>
+                <div className="text-right">{player.score}</div>
+            </div>
+            ))}  
          </div>
       )}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
