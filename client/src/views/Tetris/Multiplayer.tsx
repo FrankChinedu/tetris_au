@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect, useContext,} from 'react';
+import React, {useState, memo, useEffect, useContext, useCallback} from 'react';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,6 +51,15 @@ const MultiplayerGame: React.FC = () => {
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+
+  const curry = useCallback(() => {
+    const gameId = gameInfo.gameId;
+    return (args?: any) => {
+      return {roomName: gameId, ...args}
+    }
+  }, [gameInfo.gameId]);
+
+  const getSocketParams = curry();
 
 
   const movePlayer = (dir: number) => {
@@ -125,7 +134,7 @@ const MultiplayerGame: React.FC = () => {
 
   useEffect(() => {
     if(score) {
-      socket?.emit(SOCKET_EVENTS.USER_SCORE__CHANGE, gameInfo.gameId, username, score)
+      socket?.emit(SOCKET_EVENTS.USER_SCORE_CHANGE, getSocketParams({userName: username, score}))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score]);
@@ -160,7 +169,7 @@ const MultiplayerGame: React.FC = () => {
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        socket?.emit(SOCKET_EVENTS.GAME_OVER, {gameId: gameInfo.gameId})
+        socket?.emit(SOCKET_EVENTS.GAME_OVER, getSocketParams())
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }

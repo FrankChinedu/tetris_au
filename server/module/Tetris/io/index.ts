@@ -23,8 +23,9 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.JOIN_TETRIS_GAME_SESSION, handleJoinTetrisSession);
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
   client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
-  client.on(EVENT_TYPES.GAME_OVER, handUserGameOver);
-  client.on(EVENT_TYPES.GET_MEMBER_STATE, handGetMemberState);
+  client.on(EVENT_TYPES.GAME_OVER, handleUserGameOver);
+  client.on(EVENT_TYPES.GET_MEMBER_STATE, handleGetMemberState);
+  client.on(EVENT_TYPES.USER_SCORE_CHANGE, handleUserScoreChange);
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName];
@@ -41,7 +42,7 @@ export default (client: Socket, io: Server): void => {
     }
   }
 
-  function handGetMemberState (roomName: string) {
+  function handleGetMemberState (roomName: string) {
     const roomMembers = gameDataRecords[roomName];
     if (roomMembers) {
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
@@ -125,10 +126,18 @@ export default (client: Socket, io: Server): void => {
     }
   }
 
-  function handUserGameOver ({ roomName, username }: {[key: string]: string}) {
+  function handleUserGameOver ({ roomName, username }: {[key: string]: string}) {
     console.log('username', username);
     // set user as the user that gamed over.
     io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER);
+  }
+
+  function handleUserScoreChange ({ roomName, userName, score }: {[key: string]: string}) {
+    const roomMembers = gameDataRecords[roomName];
+    if (roomMembers) {
+      roomMembers[userName].score = score;
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
+    };
   }
 
   client.on('disconnect', (reason) => {
