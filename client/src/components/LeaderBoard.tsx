@@ -1,10 +1,10 @@
 import React from 'react';
 import { Dialog, } from '@material-ui/core';
 // import { useHistory } from 'react-router-dom';
-// import ROUTES from '../utils/constants/routes';
+import COLORS from '../utils/constants/colors';
 // import { OShape } from './Tetriminoes';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faRedo, } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrophy, } from '@fortawesome/free-solid-svg-icons';
 
 interface IPlayers {
   name: string;
@@ -20,27 +20,39 @@ interface IGameOverPrompt {
 
 const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) => {
 
-    // const history = useHistory();
+  const randomColors: any = () => {
+    return Math.floor(Math.random() * (COLORS.length - 1))
+  }
 
   return (
     <React.Fragment>
       <Dialog
         fullWidth
-        maxWidth="xs"
+        maxWidth="sm"
         open={open}
         aria-labelledby="game-over-dialog"
         disableBackdropClick
         disableEscapeKeyDown
       >
-        <div className="bg-gray-800 text-white montserrat p-5">
-        <div id="game-over-dialog" className="p-5 text-center text-3xl">Game Over</div>
-        {hasNotEnded ? 'Game has not ended but you lost kindly watch leader board to see live update': '💸'}
-        <div className="text-center mb-5">
-            <p>LeaderBoard</p>
+        <div className="bg-white montserrat p-2">
+        <div id="game-over-dialog" className="pt-3 text-center text-3xl">Leaderboard</div>
+        <div>
+          <div className="w-4/12 text-center rounded shadow-lg h-40 p-4 flex flex-col mx-auto">
+              <div className="text-right my-3"><FontAwesomeIcon icon={faTrophy} color="yellow" /></div>
+              <div>{players && players[0]?.name}</div>
+              <div>{players && players[0]?.score}</div>
+              <div className="text-green-300 text-xl my-3">Rank - 1st</div>
+          </div>
+        </div>
+        <div className="text-center mb-5 w-10/12 mx-auto">
+          <div className="p-2 my-2 grid grid-cols-2 font-bold">
+            <div>Username</div>
+            <div>Score</div>
+          </div>
             {players?.map((player: any, i: number) => (
-            <div key={i} className="p-2 my-2 grid grid-cols-2">
+            <div key={i} className={`p-2 my-2 grid grid-cols-2 bg-blue-200 rounded-lg font-medium ${COLORS[randomColors()]}`}>
                 <div>{player.name}</div>
-                <div className="text-right">{player.score}</div>
+                <div className="">{player.score}</div>
             </div>
             ))}  
         </div>
