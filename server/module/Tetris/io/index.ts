@@ -34,7 +34,8 @@ export default (client: Socket, io: Server): void => {
         [username]: {
           name: username,
           score: 0,
-          checkedOut: false
+          checkedOut: false,
+          timestamp: Date.now()
         }
       };
       client.join(roomName);
@@ -78,7 +79,8 @@ export default (client: Socket, io: Server): void => {
       gameDataRecords[roomName][username] = {
         name: username,
         score: 0,
-        checkedOut: false
+        checkedOut: false,
+        timestamp: Date.now()
       };
       client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
       client.to(roomName).emit(EVENT_TYPES.PLAYER_JOIN_GAME_ROOM,
@@ -181,6 +183,7 @@ export default (client: Socket, io: Server): void => {
     const roomMembers = gameDataRecords[roomName];
     if (roomMembers) {
       roomMembers[userName].score = score;
+      roomMembers[userName].timestamp = Date.now();
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     };
     const gameData = gameDataStore[roomName] as GameData;
