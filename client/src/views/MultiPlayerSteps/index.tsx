@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import {useHistory, useLocation} from 'react-router';
 import { MobileStepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+
+import ROUTES from '../../utils/constants/routes';
 
 import FirstStep from './FirstStep';
 import JoinGame from './JoinGame';
@@ -19,9 +22,24 @@ const useStyles = makeStyles((theme) => ({
 
 const MultiPlayerSteps: React.FC = () => {
   const classes = useStyles();
+  const location = useLocation()
+  const history = useHistory()
   const [activeStep, setActiveStep] = React.useState(0);
   const [totalSteps, setTotalSteps] = React.useState(3);
   const [action, setAction] = useState('');
+
+  useEffect(() => {
+    let val = location.search as string;
+    val = val.trim();
+
+    if (val) {
+        //show user a modal of reason for redirect
+    }
+    
+    history.replace(ROUTES.multiGameSteps);
+    
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
 
   useEffect(() => {
     if(action) {

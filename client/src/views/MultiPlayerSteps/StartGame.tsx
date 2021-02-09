@@ -36,7 +36,10 @@ const SGame: React.FC  = () => {
             setDisabled(true);
             setTimeout(() => {
                 if(res.gameId === gameId) {
-                    history.push(ROUTES.multiGame);
+                    history.push({
+                        pathname: ROUTES.multiGame,
+                        search: '?game=true',
+                      });
                 }else {
                     setErrorMsg('An unknown error occured');
                     localStorage.clear();
