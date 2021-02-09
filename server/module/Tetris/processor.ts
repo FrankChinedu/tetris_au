@@ -68,10 +68,7 @@ const Tetris = {
       .skip((page - 1) * limit)
       .exec();
 
-    console.log('limit', limit);
-    console.log('page', page);
     const count = await TetrisModel.countDocuments();
-    console.log('codocodc', count);
 
     return {
       status: 200,
