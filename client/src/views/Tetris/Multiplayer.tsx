@@ -1,4 +1,11 @@
-import React, {useState, memo, useEffect, useContext, useCallback} from 'react';
+import React, {
+    useState,
+    memo, 
+    useEffect, 
+    useContext, 
+    useCallback
+} from 'react';
+import { useHistory } from 'react-router';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,6 +13,7 @@ import { faTimesCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
+import ROUTES from '../../utils/constants/routes';
 
 //components
 import Stage from '../../components/Stage';
@@ -33,7 +41,7 @@ import SOCKET_EVENTS from '../../utils/constants/socketEvent';
 const newStage = createStage();
 
 const MultiplayerGame: React.FC = () => {
-  
+  const history = useHistory();
   const { socket } = useContext(SocketContext);
   const { gameInfo, username, setGameInfo } = useContext(UserContext);
   const [dropTime, setDropTime] = useState<number | null>(null);
@@ -99,6 +107,11 @@ const MultiplayerGame: React.FC = () => {
         setErrorMsg(data.message);
       });
 
+      socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
+        console.log('cancelled redirecting');
+        history.push(ROUTES.multiGameSteps, 'message');
+      });
+
       socket?.on(SOCKET_EVENTS.START_TETRIS_GAME_SESSION, (data: any) => {
         let i = 6;
           const cle = setInterval(() => {
@@ -140,6 +153,7 @@ const MultiplayerGame: React.FC = () => {
         socket?.off(SOCKET_EVENTS.START_TETRIS_GAME_SESSION);
         socket?.off(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA);
         socket?.off(SOCKET_EVENTS.UPDATED_ROOM_MEMBER_STATE)
+        socket?.off(SOCKET_EVENTS.CANCEL_GAME_SESSION)
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

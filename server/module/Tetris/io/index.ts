@@ -42,8 +42,21 @@ export default (client: Socket, io: Server): void => {
     }
   }
 
+  function hasRestarted (undefinedValue: string | undefined): void {
+    if (!undefinedValue) {
+      client.emit(EVENT_TYPES.CANCEL_GAME_SESSION);
+    }
+  }
+
   function handleGetMemberState (roomName: string) {
     const roomMembers = gameDataRecords[roomName];
+    const gameData = gameDataStore[roomName] as GameData;
+
+    if (!gameData) {
+      hasRestarted(gameData);
+      return;
+    }
+    // gameDataStore
     if (roomMembers) {
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     }
@@ -51,38 +64,41 @@ export default (client: Socket, io: Server): void => {
 
   async function handleJoinTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName] as GameData;
-    if (!gameData.started) {
-      if (gameData && gameDataRecords[roomName]) {
-        if (gameDataRecords[roomName][username]) {
-        // user name already picked
-          client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
-          return;
-        }
-        client.join(roomName);
-        gameDataRecords[roomName][username] = {
-          name: username,
-          score: 0,
-          checkedOut: false
-        };
-        client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
-        client.to(roomName).emit(EVENT_TYPES.PLAYER_JOIN_GAME_ROOM,
-          { message: `${username} just joined the game`, roomMembers: gameDataRecords[roomName] });
-
-        const roomMembers = gameDataRecords[roomName];
-
-        io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
-      } else {
-        client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
+    if (gameData && gameDataRecords[roomName]) {
+      if (gameData.started) {
+        client.emit(EVENT_TYPES.GAME_SESSION_STARTED, { message: 'Sorry You cant join. Game session has started' });
+        return;
       }
+      if (gameDataRecords[roomName][username]) {
+        // user name already picked
+        client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
+        return;
+      }
+      client.join(roomName);
+      gameDataRecords[roomName][username] = {
+        name: username,
+        score: 0,
+        checkedOut: false
+      };
+      client.emit(EVENT_TYPES.TETRIS_GAME_SESSION_DATA, gameData);
+      client.to(roomName).emit(EVENT_TYPES.PLAYER_JOIN_GAME_ROOM,
+        { message: `${username} just joined the game`, roomMembers: gameDataRecords[roomName] });
+
+      const roomMembers = gameDataRecords[roomName];
+
+      io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     } else {
-      client.emit(EVENT_TYPES.GAME_SESSION_STARTED, { message: 'Sorry You cant join. Game session has started' });
+      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
     }
   }
 
   function handleStartGame (roomName: string) {
     const userGameRoom = gameDataRecords[roomName];
 
-    if (!userGameRoom) return;
+    if (!userGameRoom) {
+      hasRestarted(userGameRoom);
+      return;
+    };
     const roomSize = Object.entries(userGameRoom).length;
 
     const gameData = gameDataStore[roomName] as GameData;
@@ -95,11 +111,21 @@ export default (client: Socket, io: Server): void => {
       io.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
     } else {
       client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
+      if (!gameData) {
+        hasRestarted(gameData);
+      }
     }
   }
 
   function handleDeleteGameSession (roomName: string, username: string, adminName: string) {
     const userGameRoom = gameDataRecords[roomName];
+
+    const gameData = gameDataStore[roomName] as GameData;
+
+    if (!gameData) {
+      hasRestarted(gameData);
+      return;
+    }
 
     if (!userGameRoom) return;
     const roomSize = Object.entries(userGameRoom).length;
@@ -130,8 +156,13 @@ export default (client: Socket, io: Server): void => {
 
   function handleUserGameOver ({ roomName, userName }: {[key: string]: string}) {
     const roomMembers = gameDataRecords[roomName] as IRoomMembers;
-    roomMembers[userName].checkedOut = true;
     const gameData = gameDataStore[roomName] as GameData;
+
+    if (!gameData) {
+      hasRestarted(gameData);
+      return;
+    }
+    roomMembers[userName].checkedOut = true;
 
     const roomArray = Object.values(roomMembers) as IRoomValues[];
     const hasNotCheckedOut = roomArray.filter(value => value.checkedOut === false);
@@ -152,6 +183,11 @@ export default (client: Socket, io: Server): void => {
       roomMembers[userName].score = score;
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     };
+    const gameData = gameDataStore[roomName] as GameData;
+
+    if (!gameData) {
+      hasRestarted(gameData);
+    }
   }
 
   client.on('disconnect', (reason) => {
