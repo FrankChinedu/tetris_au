@@ -46,14 +46,20 @@ const SGame: React.FC  = () => {
                 }
             }, 500)
         })
+
+        return () => {
+            socket?.off(SOCKET_EVENTS.TETRIS_GAME_SESSION_DATA);
+          }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    
 
     useEffect(() => {
         if(errorMsg) {
             setTimeout(() => {
                 history.push(ROUTES.multiGameSteps);
-            }, 2000) 
+            }, 2000)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errorMsg]);

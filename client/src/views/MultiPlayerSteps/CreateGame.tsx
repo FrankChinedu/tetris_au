@@ -7,6 +7,7 @@ import { faTimesCircle, faCopy } from '@fortawesome/free-solid-svg-icons';
 
 import PageSpinner from '../common/PageSpinner';
 import { UserContext } from '../../context/user';
+import copyToClipboard from '../../utils/constants/copyToClipboard';
 // interface IFirstStep {
 //     setAction: (value: string) => void
 //   }
@@ -53,23 +54,14 @@ const CreateGame: React.FC  = () => {
         }
     }
 
-    const copyToClipboard = () => {
+    const copyText = () => {
         const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at game_url. Use this game id to join the game\nGame Id: *${gameId}*`;
-        const permissionName = "clipboard-write" as PermissionName;
-        navigator.permissions.query({name: permissionName}).then(result => {
-            if (result.state === "granted" || result.state === "prompt") {
-                navigator.clipboard.writeText(shareMessage).then(function() {
-                    setCopied(true);
-                    setTimeout(() => {
-                        setCopied(false);
-                    }, 2000)
-                  }, function() {
-                    console.log('Copy failed');
-                  });
-            }
-          });
-        }
-
+        copyToClipboard(shareMessage);
+        setCopied(true);
+        setTimeout(() => {
+        setCopied(false);
+        }, 2000);
+    }
 
     return (
         <div className="text-white montserrat w-11/12 mx-auto mt-10">
@@ -112,7 +104,7 @@ const CreateGame: React.FC  = () => {
                                 Your game has been created and your game id is <span className="font-semibold">{gameId}</span> share your game ID with your frends to click on next to start your game
                             </p>
                             <div className="relative">
-                                <button onClick={copyToClipboard} className="px-2 focus:outline-none"><FontAwesomeIcon icon={faCopy} /></button>
+                                <button onClick={copyText} className="px-2 focus:outline-none"><FontAwesomeIcon icon={faCopy} /></button>
                                 {copied && (
                                     <p className="inline absolute bg-gray-400 rounded-sm -top-10 left-0 p-2">Copied</p>
                                 )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {useHistory, useLocation} from 'react-router';
 import { MobileStepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,11 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import ROUTES from '../../utils/constants/routes';
+import SOCKET_EVENTS from '../../utils/constants/socketEvent';
+
+import { UserContext } from '../../context/user';
+import { SocketContext } from '../../context/socket';
 
 import FirstStep from './FirstStep';
 import JoinGame from './JoinGame';
 import CreateGame from './CreateGame';
 import StartGame from './StartGame';
+
+import RedirectDialog from '../../components/RedirectDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,19 +33,35 @@ const MultiPlayerSteps: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [totalSteps, setTotalSteps] = React.useState(3);
   const [action, setAction] = useState('');
+  const [message, setMessage] =useState<string>('');
+  const [openDialog, setOpenDialog] =useState<boolean>(false);
+
+  const { gameId, username, gameInfo, setGameInfo, initGameInfo, setGameId, setUsername } = useContext(UserContext);
+    const { socket } = useContext(SocketContext);
+
+    const deleteGameSession = () => {
+      socket?.emit(SOCKET_EVENTS.DELETE_GAME_SESSION, gameId, username, gameInfo.username);
+      setGameInfo(initGameInfo);
+      setGameId('');
+      setUsername('');
+    }
 
   useEffect(() => {
     let val = location.search as string;
     val = val.trim();
 
     if (val) {
-        if (val === '?cancel=true') {
-            //game session was cancelled
-        }
-        if (val === '?redirect=true') {
-            //user was redirected because the trying to access invalid or ended game session
-        }
-        //show user a modal of reason for redirect
+      setOpenDialog(true)
+      deleteGameSession()
+      if (val === '?cancel=true') {
+        //game session was cancelled server reloaded
+        setMessage("Sorry! You were kicked out of the game. This is from our end please try creating or joining a new game")
+      }
+      if (val === '?redirect=true') {
+        //user was redirected because the trying to access invalid or ended game session refresh or something.
+        setMessage("Sorry! You were kicked out of the game. This may be because you refreshed this page. Please try creating or joining a new game")
+      }
+      //show user a modal of reason for redirect
     }
     
     history.replace(ROUTES.multiGameSteps);
@@ -90,6 +112,7 @@ const MultiPlayerSteps: React.FC = () => {
         <h3 className="md:text-5xl text-lg col-span-2 mr-auto p-3">Play MultiPlayer</h3>
       </nav>
       <main className="md:max-w-3xl max-w-lg mx-auto px-1 montserrat">
+        <RedirectDialog open={openDialog} message={message} close={() => setOpenDialog(false)} />
         <MobileStepper
           variant="dots"
           steps={totalSteps}

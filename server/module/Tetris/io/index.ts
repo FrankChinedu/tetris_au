@@ -67,12 +67,12 @@ export default (client: Socket, io: Server): void => {
     const gameData = gameDataStore[roomName] as GameData;
     if (gameData && gameDataRecords[roomName]) {
       if (gameData.started) {
-        client.emit(EVENT_TYPES.GAME_SESSION_STARTED, { message: 'Sorry You cant join. Game session has started' });
+        client.emit(EVENT_TYPES.GAME_SESSION_STARTED, { message: 'Sorry You cant join this game anymore. The game has started' });
         return;
       }
       if (gameDataRecords[roomName][username]) {
         // user name already picked
-        client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'user name already taken' });
+        client.emit(EVENT_TYPES.USERNAME_TAKEN_ERROR, { message: 'That username has already been taken. Sorry' });
         return;
       }
       client.join(roomName);
@@ -100,7 +100,7 @@ export default (client: Socket, io: Server): void => {
 
       io.in(roomName).emit(EVENT_TYPES.UPDATED_ROOM_MEMBER_STATE, roomMembers);
     } else {
-      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
+      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'The game ID you entered does not exist' });
     }
   }
 
@@ -116,7 +116,7 @@ export default (client: Socket, io: Server): void => {
     const gameData = gameDataStore[roomName] as GameData;
     if (gameData) {
       if (roomSize <= 1) {
-        client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'seems like only you is in the room' });
+        client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'It seems like you\'re the only one in the room, wanna play single player instead?' });
         return;
       }
       Tetris.findOne({
@@ -132,7 +132,7 @@ export default (client: Socket, io: Server): void => {
       gameData.started = true;
       io.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
     } else {
-      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'Game room does not exist' });
+      client.emit(EVENT_TYPES.INVALID_TETRIS_GAME_ROOM, { message: 'The game ID you entered does not exist' });
       if (!gameData) {
         hasRestarted(gameData);
       }
