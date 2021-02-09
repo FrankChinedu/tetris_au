@@ -128,7 +128,7 @@ const MultiplayerGame: React.FC = () => {
         console.log('cancelled redirecting');
         history.push({
             pathname: ROUTES.multiGameSteps,
-            search: '?redirect=true'
+            search: '?cancel=true'
         });
       });
 

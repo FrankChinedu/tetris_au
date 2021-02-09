@@ -33,6 +33,12 @@ const MultiPlayerSteps: React.FC = () => {
     val = val.trim();
 
     if (val) {
+        if (val === '?cancel=true') {
+            //game session was cancelled
+        }
+        if (val === '?redirect=true') {
+            //user was redirected because the trying to access invalid or ended game session
+        }
         //show user a modal of reason for redirect
     }
     
