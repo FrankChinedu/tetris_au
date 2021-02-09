@@ -2,8 +2,6 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import * as path from 'path';
 import { json } from 'body-parser';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
 import mongoose from 'mongoose';
 import { Socket, Server as SocketServer } from 'socket.io';
 
@@ -21,9 +19,6 @@ class Server {
 
     this.app.use(json());
     this.app.use(cors());
-
-    const swaggerDocument = YAML.load(path.resolve(__dirname, '../swagger.yaml'));
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     this.app.use(express.static(`${path.resolve('./')}/build/client`));
 
