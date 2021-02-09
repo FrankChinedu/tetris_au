@@ -254,16 +254,15 @@ const MultiplayerGame: React.FC = () => {
            <p className="animate-ping-slow">{countdown}</p>
         </div>
       )}
-
         <div
-          className=" sm:w-6/12 w-full mx-auto grid grid-cols-3 sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat">
+          className={` ${username === admin && !startedGame ? 'grid-cols-3' : 'grid-cols-2'} sm:w-6/12 w-full mx-auto grid sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat`}>
           <div>
-            <p>Score</p>
+            <p>Your Score</p>
             <small className="text-xl">{score}</small>
           </div>
-          <div className="hidden sm:block">
+          <div>
             <p>Highest Score</p>
-            <small className="text-xl">{score}</small>
+            <small className="text-xl">{players[0]?.score}</small>
           </div>
           
           <div className="py-2 px-3">
@@ -299,31 +298,33 @@ const MultiplayerGame: React.FC = () => {
       </div>
      
       {players.length && (
-         <div className="w-80 bg-gray-800 absolute right-5 bottom-16 hidden md:block py-3 px-2 montserrat text-sm">
-          <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`}>
-          <div>{`People in this room (${players.length})`}</div>
-          <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
-            {collapseRoom ? (
-              <FontAwesomeIcon icon={faAngleUp} />
-            ): (
-            <FontAwesomeIcon icon={faAngleDown} />
-            )}
-          </button>
-          </div>
-          {collapseRoom && (
-            <div className="mx-auto max-h-100 overflow-y-auto">
-              {players.map((player: any, i: number) => (
-                <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
-                    <div>{player.name}</div>
-                    <div className="text-right">{player.score}</div>
-                </div>
-                ))}
+        <div>
+           <div className="md:w-80 w-40 bg-gray-800 absolute right-5 bottom-0 md:block py-3 md:px-2 montserrat md:text-sm text-xs">
+            <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`}>
+            <div>{`People in this room (${players.length})`}</div>
+            <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
+              {collapseRoom ? (
+                <FontAwesomeIcon icon={faAngleUp} />
+              ): (
+              <FontAwesomeIcon icon={faAngleDown} />
+              )}
+            </button>
             </div>
-          )}
-         </div>
+            {collapseRoom && (
+              <div className="mx-auto max-h-100 overflow-y-auto">
+                {players.map((player: any, i: number) => (
+                  <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
+                      <div>{player.name}</div>
+                      <div className="text-right">{player.score}</div>
+                  </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        </div>
       )}
-      <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
-      <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
+        <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
+        <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
       </TetrisWrapper>
     </>
   );
