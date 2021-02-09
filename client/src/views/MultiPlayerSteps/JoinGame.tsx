@@ -47,7 +47,7 @@ const JoinGame: React.FC  = () => {
                   setErrorMsg('An unknown error occured');
                   localStorage.clear();
               }
-          }, 1000)
+          }, 100)
       });
 
       socket?.on(SOCKET_EVENTS.INVALID_TETRIS_GAME_ROOM, (res: any) => {
