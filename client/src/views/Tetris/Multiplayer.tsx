@@ -135,7 +135,12 @@ const MultiplayerGame: React.FC = () => {
         let players = Object.values(data);
 
         if (players.length) {
-          players = players.sort((a: any,b: any) => b.score - a.score)
+          players = players.sort((a: any,b: any) =>{
+              if(b.score === a.score) {
+                  return b.timestamp - a.timestamp
+              }
+               return b.score - a.score
+            })
         }
         setPlayers(players);
       });
