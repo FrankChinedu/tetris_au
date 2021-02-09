@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faPlayCircle, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
@@ -60,6 +60,7 @@ const MultiplayerGame: React.FC = () => {
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+ const [collapseRoom, setCollapseRoom] = useState<boolean>(false)
 
   const curry = useCallback(() => {
     const gameId = gameInfo.gameId;
@@ -294,13 +295,26 @@ const MultiplayerGame: React.FC = () => {
      
       {players.length && (
          <div className="w-80 bg-gray-800 absolute right-5 bottom-16 hidden md:block py-3 px-2 montserrat text-sm">
-          <div className="mb-5">{'People in this room'}</div>
-          {players.map((player: any, i: number) => (
-            <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
-                <div>{player.name}</div>
-                <div className="text-right">{player.score}</div>
+          <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`}>
+          <div>{`People in this room (${players.length})`}</div>
+          <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
+            {collapseRoom ? (
+              <FontAwesomeIcon icon={faAngleUp} />
+            ): (
+            <FontAwesomeIcon icon={faAngleDown} />
+            )}
+          </button>
+          </div>
+          {collapseRoom && (
+            <div className="mx-auto max-h-100 overflow-y-auto">
+              {players.map((player: any, i: number) => (
+                <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
+                    <div>{player.name}</div>
+                    <div className="text-right">{player.score}</div>
+                </div>
+                ))}
             </div>
-            ))}  
+          )}
          </div>
       )}
       <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
@@ -313,4 +327,3 @@ const MultiplayerGame: React.FC = () => {
 export default memo(MultiplayerGame);
 
 
-// leaderboard

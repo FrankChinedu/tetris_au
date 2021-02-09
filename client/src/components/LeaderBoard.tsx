@@ -34,23 +34,23 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) =>
         disableBackdropClick
         disableEscapeKeyDown
       >
-        <div className="bg-white montserrat p-2">
-        <div id="game-over-dialog" className="pt-3 text-center text-3xl">Leaderboard</div>
+        <div className="bg-gray-900 montserrat p-2 text-white">
+        <div id="game-over-dialog" className="py-4 text-center text-3xl">Leaderboard</div>
         <div>
-          <div className="w-4/12 text-center rounded shadow-lg h-40 p-4 flex flex-col mx-auto">
-              <div className="text-right my-3"><FontAwesomeIcon icon={faTrophy} color="yellow" /></div>
+          <div className="w-4/12 text-center rounded shadow-2xl h-44 p-4 flex flex-col mx-auto">
+              <div className="text-right my-3 text-2xl"><FontAwesomeIcon icon={faTrophy} color="yellow" /></div>
               <div>{players && players[0]?.name}</div>
-              <div>{players && players[0]?.score}</div>
+              <div className="font-semibold">{players && players[0]?.score}</div>
               <div className="text-green-300 text-xl my-3">Rank - 1st</div>
           </div>
         </div>
-        <div className="text-center mb-5 w-10/12 mx-auto">
+        <div className="text-center mb-5 w-10/12 mx-auto max-h-100 overflow-y-auto">
           <div className="p-2 my-2 grid grid-cols-2 font-bold">
             <div>Username</div>
             <div>Score</div>
           </div>
             {players?.map((player: any, i: number) => (
-            <div key={i} className={`p-2 my-2 grid grid-cols-2 bg-blue-200 rounded-lg font-medium ${COLORS[randomColors()]}`}>
+            <div key={i} className={`p-2 my-2 grid grid-cols-2 bg-blue-200 rounded-lg font-medium text-black ${COLORS[randomColors()]}`}>
                 <div>{player.name}</div>
                 <div className="">{player.score}</div>
             </div>
