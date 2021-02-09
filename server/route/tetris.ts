@@ -5,6 +5,8 @@ import { authenticate, hasOnlyUserName } from '../middleware/auth';
 
 const Router = express.Router();
 
+Router.get('/stat', validator.get, TetrisController.get);
+
 Router.use(hasOnlyUserName);
 Router.use(authenticate);
 

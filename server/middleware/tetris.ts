@@ -25,6 +25,23 @@ const Tetris = {
     }
     req.body = value;
     next();
+  },
+  get: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | undefined | void> => {
+    const schema = Joi.object().keys({
+      page: Joi.number().min(1).optional(),
+      limit: Joi.number().min(1).optional()
+    });
+
+    const { error } = schema.validate({ ...req.params }, { abortEarly: false });
+
+    if (error) {
+      return next(new ValidationError('validation error', error));
+    }
+    next();
   }
 };
 

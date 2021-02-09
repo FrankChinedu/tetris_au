@@ -1,4 +1,4 @@
-
+import { Tetris, TetrisDoc } from '../../../database/model';
 import { Socket, Server } from 'socket.io';
 import EVENT_TYPES from '../../../Events/constant';
 
@@ -76,6 +76,16 @@ export default (client: Socket, io: Server): void => {
         return;
       }
       client.join(roomName);
+      Tetris.findOne({
+        gameId: roomName
+      }, (err: Error, tetris: TetrisDoc) => {
+        if (err) {
+          console.log('err', err);
+        } else {
+          tetris.players += 1;
+          tetris.save();
+        }
+      });
       gameDataRecords[roomName][username] = {
         name: username,
         score: 0,
@@ -109,6 +119,16 @@ export default (client: Socket, io: Server): void => {
         client.emit(EVENT_TYPES.TETRIS_GAME_ROOM_SIZE, { message: 'seems like only you is in the room' });
         return;
       }
+      Tetris.findOne({
+        gameId: roomName
+      }, (err: Error, tetris: TetrisDoc) => {
+        if (err) {
+          console.log('err', err);
+        } else {
+          tetris.started = true;
+          tetris.save();
+        }
+      });
       gameData.started = true;
       io.in(roomName).emit(EVENT_TYPES.START_TETRIS_GAME_SESSION);
     } else {
@@ -170,6 +190,16 @@ export default (client: Socket, io: Server): void => {
     if (hasNotCheckedOut.length === 1) {
       io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: false });
       gameData.ended = true;
+      Tetris.findOne({
+        gameId: roomName
+      }, (err: Error, tetris: TetrisDoc) => {
+        if (err) {
+          console.log('err', err);
+        } else {
+          tetris.ended = true;
+          tetris.save();
+        }
+      });
       delete gameDataRecords[roomName];
       delete gameDataStore[roomName];
     } else {

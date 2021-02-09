@@ -17,6 +17,7 @@ interface ITetris {
   winTime: number; // if criteria is tome win time is time to determine who winner is in seconds
   creatorId?: mongoose.Types.ObjectId;
   tetriminoes: string;
+  players: number;
 }
 
 export interface TetrisDoc extends mongoose.Document {
@@ -32,6 +33,7 @@ export interface TetrisDoc extends mongoose.Document {
   winTime: number;
   creatorId?: mongoose.Types.ObjectId;
   tetriminoes: string;
+  players: number;
 }
 
 interface tettisModelInterface extends mongoose.Model<TetrisDoc> {
@@ -96,6 +98,11 @@ const tetrisSchema = new mongoose.Schema({
   tetriminoes: {
     type: String,
     required: true
+  },
+  players: {
+    type: Number,
+    required: true,
+    default: 1
   }
 });
 
