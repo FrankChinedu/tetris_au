@@ -55,7 +55,7 @@ class Server {
 
       io.on('connection', (socket: Socket) => {
         GameIo(socket, io);
-        console.log('socket --socket connected');
+        // console.log('socket --socket connected');
       });
     });
   }
