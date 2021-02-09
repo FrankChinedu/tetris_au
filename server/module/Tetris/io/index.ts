@@ -134,8 +134,7 @@ export default (client: Socket, io: Server): void => {
 
     if (roomSize === 1 && username === adminName) {
       delete gameDataRecords[roomName];
-    } else if (roomSize === 1 && username === adminName) {
-      delete gameDataRecords[roomName];
+      delete gameDataStore[roomName];
     } else if (username !== adminName) {
       delete userGameRoom[username];
       // send new roomMember state
