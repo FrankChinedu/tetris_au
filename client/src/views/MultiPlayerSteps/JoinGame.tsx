@@ -39,7 +39,10 @@ const JoinGame: React.FC  = () => {
               if(res.gameId === _gameID) {
                 setGameId(_gameID);
                 setUsername(_userName);
-                  history.push(ROUTES.multiGame);
+                  history.push({
+                    pathname: ROUTES.multiGame,
+                    search: '?game=true',
+                  });
               }else {
                   setErrorMsg('An unknown error occured');
                   localStorage.clear();
