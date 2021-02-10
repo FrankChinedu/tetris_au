@@ -207,6 +207,13 @@ const MultiplayerGame: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score]);
 
+  useEffect(() => {
+    if(gameOver) {
+        socket?.emit(SOCKET_EVENTS.GAME_OVER, getSocketParams({userName: username}))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameOver])
+
   const startGame = () => {
     setDropTime(1000);
     setDropTimeRef(1000);
@@ -237,7 +244,7 @@ const MultiplayerGame: React.FC = () => {
     }else {
       // Game over!
       if (player.pos.y <= 1) {
-        socket?.emit(SOCKET_EVENTS.GAME_OVER, getSocketParams({userName: username}))
+        setGameOver(true);
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }

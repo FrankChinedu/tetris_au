@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, } from '@material-ui/core';
-// import { useHistory } from 'react-router-dom';
 import COLORS from '../utils/constants/colors';
 import useWindowSize from '../hooks/useWindowSize';
-// import { OShape } from './Tetriminoes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, } from '@fortawesome/free-solid-svg-icons';
 
