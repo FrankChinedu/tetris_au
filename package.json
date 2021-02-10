@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "start": "npm run build && node ./build/index.js",
     "client_build": "bash bash.sh",
-    "build": "rm -rf build && tsc && npm run client_build",
+    "build": "rm -rf build && tsc -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "tsc"
   },
