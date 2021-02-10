@@ -9,7 +9,7 @@ import { faRedo, } from '@fortawesome/free-solid-svg-icons';
 interface IGameOverPrompt {
     open: boolean,
     handleClose: () => void,
-    score: number
+    score: number;
 }
 
 
@@ -35,7 +35,7 @@ const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) =
         <div id="game-over-dialog" className="p-5 text-center text-3xl">Game Over</div>
         <div className="text-center mb-5">
          <p>Your score is {score}</p>
-         <p>Your highest score is {score}</p>
+         <p>Your highest score is {localStorage.getItem('higs')}</p>
         </div>
         <div className="text-right">
           <button onClick={() => {

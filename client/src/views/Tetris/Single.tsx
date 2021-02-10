@@ -110,6 +110,15 @@ const SingleGame: React.FC = () => {
         setGameOver(true);
         setDropTime(null);
         setOpenGameOverDialog(true);
+
+        let highestScore = Number(localStorage.getItem('higs')) || 0;
+
+        if (score < highestScore){
+          localStorage.setItem("higs", String(highestScore));
+        }else{
+          localStorage.setItem("higs", String(score))
+        }
+        
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
@@ -167,7 +176,7 @@ const SingleGame: React.FC = () => {
           </div>
           <div className="hidden sm:block">
             <p>Highest Score</p>
-            <small className="text-xl">{score}</small>
+            <small className="text-xl">{localStorage.getItem("higs") || 0}</small>
           </div>
           
           <div className="py-2 px-3">
