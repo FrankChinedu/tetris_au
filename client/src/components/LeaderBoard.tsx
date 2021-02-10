@@ -16,10 +16,11 @@ interface IGameOverPrompt {
     open: boolean;
     players?: Array<IPlayers>;
     hasNotEnded?: boolean;
+    username?: string;
 }
 
 
-const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) => {
+const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, username}) => {
 
   const [windowWidth, setWidth] = useState<any>('sm');
 
@@ -51,7 +52,7 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) =>
           )}
           <div className="sm:w-4/12 w-10/12 bg-gray-800 text-center rounded shadow-2xl h-44 p-4 flex flex-col mx-auto">
               <div className="text-right my-3 text-2xl"><FontAwesomeIcon icon={faTrophy} color="yellow" /></div>
-              <div>{players && players[0]?.name}</div>
+              <div>{players && players[0]?.name === username ? ("You"): (players && players[0]?.name)}</div>
               <div className="font-semibold">{players && players[0]?.score}</div>
               <div className="text-green-300 sm:text-xl my-3">Rank - 1st</div>
           </div>
@@ -63,7 +64,7 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded}) =>
           </div>
             {players?.map((player: any, i: number) => (
             <div key={i} className={`p-2 my-2 grid grid-cols-2 bg-blue-200 rounded-lg font-medium text-black ${COLORS[randomColors()]}`}>
-                <div>{player.name}</div>
+                <div>{player.name === username ? ('You'): (player.name)}</div>
                 <div className="">{player.score}</div>
             </div>
             ))}  
