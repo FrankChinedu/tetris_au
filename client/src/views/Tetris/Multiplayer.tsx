@@ -98,19 +98,19 @@ const MultiplayerGame: React.FC = () => {
     setClearMsg(true);
   }
 
-  // useEffect(() => {
-  //     let val = location.search as string;
-  //     val = val.trim();
-  //   if (!val || val !== '?game=true') {
-  //       history.push({
-  //           pathname: ROUTES.multiGameSteps,
-  //           search: '?redirect=true'
-  //       });
-  //     } else {
-  //         history.replace(ROUTES.multiGame);
-  //     }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[])
+  useEffect(() => {
+      let val = location.search as string;
+      val = val.trim();
+    if (!val || val !== '?game=true') {
+        history.push({
+            pathname: ROUTES.multiGameSteps,
+            search: '?redirect=true'
+        });
+      } else {
+          history.replace(ROUTES.multiGame);
+      }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
 
   useEffect(() => {
@@ -131,13 +131,13 @@ const MultiplayerGame: React.FC = () => {
         setErrorMsg(data.message);
       });
 
-      // socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
-      //   console.log('cancelled redirecting');
-      //   history.push({
-      //       pathname: ROUTES.multiGameSteps,
-      //       search: '?cancel=true'
-      //   });
-      // });
+      socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
+        console.log('cancelled redirecting');
+        history.push({
+            pathname: ROUTES.multiGameSteps,
+            search: '?cancel=true'
+        });
+      });
 
       socket?.on(SOCKET_EVENTS.START_TETRIS_GAME_SESSION, (data: any) => {
         let i = 6;
