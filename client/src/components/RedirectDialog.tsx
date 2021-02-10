@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, } from '@material-ui/core';
 import useWindowSize from '../hooks/useWindowSize';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faTimesCircle, } from '@fortawesome/free-solid-svg-icons';
 
 interface IGameOverPrompt {
     open: boolean;

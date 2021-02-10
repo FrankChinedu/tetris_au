@@ -179,32 +179,30 @@ export default (client: Socket, io: Server): void => {
     const roomMembers = gameDataRecords[roomName] as IRoomMembers;
     const gameData = gameDataStore[roomName] as GameData;
 
-    if (!gameData) {
-      hasRestarted(gameData);
-      return;
-    }
-    roomMembers[userName].checkedOut = true;
+    if (roomMembers && gameData) {
+      roomMembers[userName].checkedOut = true;
 
-    const roomArray = Object.values(roomMembers) as IRoomValues[];
-    const hasNotCheckedOut = roomArray.filter(value => value.checkedOut === false);
-    if (hasNotCheckedOut.length === 1) {
-      io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: false });
-      gameData.ended = true;
-      Tetris.findOne({
-        gameId: roomName
-      }, (err: Error, tetris: TetrisDoc) => {
-        if (err) {
-          console.log('err', err);
-        } else {
-          tetris.ended = true;
-          tetris.save();
-        }
-      });
-      delete gameDataRecords[roomName];
-      delete gameDataStore[roomName];
-    } else {
-      client.emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: true });
-      client.in(roomName).emit(EVENT_TYPES.USER_HAS_CHECKED_OUT_GAME_SESSION, `${userName} has checked out of game`);
+      const roomArray = Object.values(roomMembers) as IRoomValues[];
+      const hasNotCheckedOut = roomArray.filter(value => value.checkedOut === false);
+      if (hasNotCheckedOut.length === 1) {
+        io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: false });
+        gameData.ended = true;
+        Tetris.findOne({
+          gameId: roomName
+        }, (err: Error, tetris: TetrisDoc) => {
+          if (err) {
+            console.log('err', err);
+          } else {
+            tetris.ended = true;
+            tetris.save();
+          }
+        });
+        delete gameDataRecords[roomName];
+        delete gameDataStore[roomName];
+      } else {
+        client.emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: true });
+        client.in(roomName).emit(EVENT_TYPES.USER_HAS_CHECKED_OUT_GAME_SESSION, `${userName} has checked out of game`);
+      }
     }
   }
 
