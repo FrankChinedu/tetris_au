@@ -1,15 +1,8 @@
 module.exports = {
     purge: {
-        enabled: true,
-        content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-        options: {
-            safelist: {
-                standard: [/red$/, /green$/, /pink$/, /purple$/, /indigo$/, /blue$/,/yellow$/],
-                deep: [/red$/, /green$/, /pink$/, /purple$/, /indigo$/, /blue$/,/yellow$/],
-                greedy:[/red$/, /green$/, /pink$/, /purple$/, /indigo$/, /blue$/,/yellow$/],
-              },
-      },
-  },
+      enabled: true,
+      content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+    },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {

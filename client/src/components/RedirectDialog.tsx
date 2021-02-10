@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import { Dialog, } from '@material-ui/core';
 
 interface IGameOverPrompt {
@@ -14,7 +14,7 @@ const RedirectDialog: React.FC<IGameOverPrompt> = ({open, message, close}) => {
     <React.Fragment>
       <Dialog
         fullWidth
-        maxWidth={'sm'}
+        maxWidth="sm"
         open={open}
         aria-labelledby="game-over-dialog"
         onClose={close}

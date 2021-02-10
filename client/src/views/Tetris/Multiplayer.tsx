@@ -64,6 +64,7 @@ const MultiplayerGame: React.FC = () => {
  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
  const [collapseRoom, setCollapseRoom] = useState<boolean>(false);
  const [copied, setCopied] = useState<boolean>(false);
+ const [clearMsg, setClearMsg] = useState<boolean>(false);
 
   const curry = useCallback(() => {
     const gameId = gameInfo.gameId;
@@ -91,6 +92,10 @@ const MultiplayerGame: React.FC = () => {
 
   const clearError = () => {
     setErrorMsg('');
+  }
+
+  const clearMessage = () => {
+    setClearMsg(true);
   }
 
   useEffect(() => {
@@ -316,10 +321,10 @@ const MultiplayerGame: React.FC = () => {
                 <button onClick={clearError}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
             </div>
           )}
-        {!startedGame && (
+        {!startedGame && !clearMsg && (
             <div className="bg-purple-400 p-3 flex justify-between my-7 transition duration-500 ease-in-out md:w-6/12 w-10/12 m-auto montserrat">
                 <p onClick={copyText}>Your game ID is {gameInfo.gameId}. Click to copy share this ID with others to join this game. Click to copy this ID</p>
-                <button onClick={clearError}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
+                <button onClick={clearMessage}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
                 {copied && (
                   <p className="inline absolute bg-gray-400 rounded-sm top-10 left-8 p-2">Copied</p>
                 )}
@@ -344,36 +349,36 @@ const MultiplayerGame: React.FC = () => {
       </div>
      
       {players.length && (
-        <div>
-           <div className="md:w-80 w-40 bg-gray-800 absolute right-5 bottom-0 md:block py-3 md:px-2 montserrat md:text-sm text-xs">
-            <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`}>
-            <div>{`People in this room (${players.length})`}</div>
-            <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
-              {collapseRoom ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ): (
-              <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </button>
+        <div className="montserrat relative">
+          <div className="md:w-80 w-36 py-1 bg-gray-800 absolute bottom-0 sm:right-5 right-0 sm:py-3 text-xs sm:text-base">
+            <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`} onClick={() => setCollapseRoom(!collapseRoom)}>
+              <div>{`People in this room (${players.length})`}</div>
+              <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
+                {collapseRoom ? (
+                  <FontAwesomeIcon icon={faAngleUp} />
+                ): (
+                <FontAwesomeIcon icon={faAngleDown} />
+                )}
+              </button>
             </div>
             {collapseRoom && (
               <div className="mx-auto max-h-100 overflow-y-auto">
                 {players.map((player: any, i: number) => (
                   <div key={i} className="bg-gray-700 p-2 my-2 grid grid-cols-2">
-                      <div>{player.name}</div>
+                      <div>{player.name === username ? ('You') : (player.name)}</div>
                       <div className="text-right">{player.score}</div>
                   </div>
                   ))}
               </div>
-            )}
-          </div>
+          )}
+        </div>
         </div>
       )}
         {openSnackbar && (
           <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
         )}
         {openLeaderBoard && (
-          <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
+          <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} username={username} />
         )}
       </TetrisWrapper>
     </>
