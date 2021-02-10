@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, } from '@material-ui/core';
 import COLORS from '../utils/constants/colors';
-import useWindowSize from '../hooks/useWindowSize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,14 +19,6 @@ interface IGameOverPrompt {
 
 const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, username}) => {
 
-  const [windowWidth, setWidth] = useState<any>('sm');
-
-  const { width } = useWindowSize();
-
-  if(width && width < 400) {
-    setWidth('xs');
-  }
-
   const randomColors: any = () => {
     return Math.floor(Math.random() * (COLORS.length - 1))
   }
@@ -36,7 +27,7 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, use
     <React.Fragment>
       <Dialog
         fullWidth
-        maxWidth={windowWidth}
+        maxWidth="sm"
         open={open}
         aria-labelledby="game-over-dialog"
         disableBackdropClick

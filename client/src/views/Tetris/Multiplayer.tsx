@@ -98,19 +98,19 @@ const MultiplayerGame: React.FC = () => {
     setClearMsg(true);
   }
 
-  useEffect(() => {
-      let val = location.search as string;
-      val = val.trim();
-    if (!val || val !== '?game=true') {
-        history.push({
-            pathname: ROUTES.multiGameSteps,
-            search: '?redirect=true'
-        });
-      } else {
-          history.replace(ROUTES.multiGame);
-      }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  // useEffect(() => {
+  //     let val = location.search as string;
+  //     val = val.trim();
+  //   if (!val || val !== '?game=true') {
+  //       history.push({
+  //           pathname: ROUTES.multiGameSteps,
+  //           search: '?redirect=true'
+  //       });
+  //     } else {
+  //         history.replace(ROUTES.multiGame);
+  //     }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[])
 
 
   useEffect(() => {
@@ -131,13 +131,13 @@ const MultiplayerGame: React.FC = () => {
         setErrorMsg(data.message);
       });
 
-      socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
-        console.log('cancelled redirecting');
-        history.push({
-            pathname: ROUTES.multiGameSteps,
-            search: '?cancel=true'
-        });
-      });
+      // socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
+      //   console.log('cancelled redirecting');
+      //   history.push({
+      //       pathname: ROUTES.multiGameSteps,
+      //       search: '?cancel=true'
+      //   });
+      // });
 
       socket?.on(SOCKET_EVENTS.START_TETRIS_GAME_SESSION, (data: any) => {
         let i = 6;
@@ -349,8 +349,8 @@ const MultiplayerGame: React.FC = () => {
       </div>
      
       {players.length && (
-        <div className="max-h-full">
-          <div className="md:w-80 w-40 bg-gray-800 absolute right-5 bottom-0 md:block py-3 md:px-2 montserrat md:text-sm text-xs">
+        <div className="montserrat relative">
+          <div className="md:w-80 w-36 py-1 bg-gray-800 absolute bottom-0 sm:right-5 right-0 sm:py-3 text-xs sm:text-base">
             <div className={`${collapseRoom && 'mb-5'} flex justify-between px-4 items-center`} onClick={() => setCollapseRoom(!collapseRoom)}>
               <div>{`People in this room (${players.length})`}</div>
               <button className="focus:outline-none font-extralight text-xl px-2" onClick={() => setCollapseRoom(!collapseRoom)}>
