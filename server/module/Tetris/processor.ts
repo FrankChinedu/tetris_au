@@ -55,6 +55,7 @@ const Tetris = {
         data: gameData
       };
     } catch (error) {
+      console.error('errrorr', error);
       return {
         status: 500,
         message: 'an Error must have occured'
@@ -62,23 +63,31 @@ const Tetris = {
     };
   },
   getGames: async (params: any) => {
-    const limit = params.limit;
-    const page = params.page;
-    const tetrisData = await TetrisModel.find({}, 'ended started players').limit(limit * 1)
-      .skip((page - 1) * limit)
-      .exec();
+    try {
+      const limit = params.limit;
+      const page = params.page;
+      const tetrisData = await TetrisModel.find({}, 'ended started players').limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
 
-    const count = await TetrisModel.countDocuments();
+      const count = await TetrisModel.countDocuments();
 
-    return {
-      status: 200,
-      message: 'success',
-      data: {
-        tetris: tetrisData,
-        total: Math.ceil(count / limit),
-        currentPage: page
-      }
-    };
+      return {
+        status: 200,
+        message: 'success',
+        data: {
+          tetris: tetrisData,
+          total: Math.ceil(count / limit),
+          currentPage: page
+        }
+      };
+    } catch (error) {
+      console.error('error', error);
+      return {
+        status: 500,
+        message: 'an Error must have occured'
+      };
+    }
   }
 };
 
