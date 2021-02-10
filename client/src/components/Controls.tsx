@@ -2,12 +2,28 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft, faArrowDown, faSync } from '@fortawesome/free-solid-svg-icons';
 
+import useLongPress from '../hooks/useLongPress';
+
 interface IControls {
   control: any,
   dropDown: any,
 }
-
+const ms = 50;
 const Controls: React.FC <IControls> = ({ control, dropDown }) => {
+    const leftLongPress = useLongPress(() => {
+        const e = {key: 'ArrowLeft'}
+        control(e);
+    }, ms);
+
+    const rightLongPress = useLongPress(() => {
+        const e = {key: 'ArrowRight'}
+        control(e);
+    }, ms);
+
+    const upLongPress = useLongPress(() => {
+        const e = {key: 'ArrowUp'}
+        control(e);
+    }, ms);
 
   const leftClick = (event: any) => {
     event.preventDefault();
@@ -34,13 +50,13 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
         <div className="flex w-11/12 sm:w-full justify-evenly items-center">
          <div className="flex flex-col items-center">
           <div className="grid grid-cols-2 gap-5 my-5">
-              <button
+              <button {...leftLongPress}
                 className="w-20 h-20 shadow-inner border border-indigo-600 focus:outline-none flex justify-center items-center"
                 onClick={leftClick}
               >
                 <FontAwesomeIcon className="md:text-2xl" icon={faArrowLeft} />
               </button>
-              <button
+              <button {...rightLongPress}
                 className="w-20 h-20 shadow-inner border border-red-300 focus:outline-none flex justify-center items-center"
                 onClick={rightClick}
               >
@@ -56,7 +72,7 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
           </button>
          </div>
          <div className="md:px-2">
-          <button
+          <button {...upLongPress}
             className="w-20 h-20 shadow-inner border border-blue-500 focus:outline-none flex justify-center items-center"
             onClick={upClick}
           >
