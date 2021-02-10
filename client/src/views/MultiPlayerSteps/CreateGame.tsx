@@ -47,7 +47,7 @@ const CreateGame: React.FC  = () => {
                 return setErrorMsg('Please check your network connection and try again');
             }
             const { error } = er.response.data;
-            const err = error.split(':');
+            const err = (error && error.split(':')) || ['','an Error Occured'];
             setErrorMsg(err[1]);
         } finally {
             setLoading(false);

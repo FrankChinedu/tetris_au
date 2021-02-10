@@ -20,17 +20,13 @@ class Server {
     this.app.use(json());
     this.app.use(cors());
 
-    this.app.use(express.static(`${path.resolve('./')}/build/client`));
-
     this.app.get('/api', (_req: Request, res: Response): void => {
       res.send('You have reached the API!');
     });
 
-    // this.app.get('/', (_req: Request, res: Response): void => {
-    //   res.send('home');
-    // });
-
     this.route(this.app);
+
+    this.app.use(express.static(`${path.resolve('./')}/build/client`));
 
     if (NODE_ENV !== 'dev') {
       this.app.get('*', (_req: Request, res: Response): void => {
