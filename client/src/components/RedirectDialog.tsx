@@ -10,7 +10,6 @@ interface IGameOverPrompt {
 
 const RedirectDialog: React.FC<IGameOverPrompt> = ({open, message, close}) => {
 
-
   return (
     <React.Fragment>
       <Dialog
