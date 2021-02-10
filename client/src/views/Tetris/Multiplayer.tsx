@@ -362,8 +362,12 @@ const MultiplayerGame: React.FC = () => {
           </div>
         </div>
       )}
-        <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
-        <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
+        {openSnackbar && (
+          <Snackbar open={openSnackbar} handleClose={handleCloseSnackbar} message={snackbarMsg} />
+        )}
+        {openLeaderBoard && (
+          <LeaderBoard open={openLeaderBoard} players={players} hasNotEnded={hasGameEnded} />
+        )}
       </TetrisWrapper>
     </>
   );

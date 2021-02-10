@@ -112,7 +112,6 @@ const MultiPlayerSteps: React.FC = () => {
         <h3 className="md:text-5xl text-lg col-span-2 mr-auto p-3">Play MultiPlayer</h3>
       </nav>
       <main className="md:max-w-3xl max-w-lg mx-auto px-1 montserrat">
-        <RedirectDialog open={openDialog} message={message} close={() => setOpenDialog(false)} />
         <MobileStepper
           variant="dots"
           steps={totalSteps}
@@ -134,6 +133,9 @@ const MultiPlayerSteps: React.FC = () => {
           {getStepContent(activeStep)}
         </div>
       </main>
+      {openDialog && (
+        <RedirectDialog open={openDialog} message={message} close={() => setOpenDialog(false)} />
+      )}
     </div>
   );
 };
