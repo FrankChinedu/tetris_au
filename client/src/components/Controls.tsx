@@ -11,7 +11,6 @@ interface IControls {
 const ms = 200;
 const Controls: React.FC <IControls> = ({ control, dropDown }) => {
     const leftLongPress = useLongPress(() => {
-        console.log('leftt');
         const e = {key: 'ArrowLeft'}
         control(e);
     }, ms);
