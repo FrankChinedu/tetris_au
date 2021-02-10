@@ -20,23 +20,23 @@ class Server {
     this.app.use(json());
     this.app.use(cors());
 
-    // this.app.use(express.static(`${path.resolve('./')}/build/client`));
+    this.app.use(express.static(`${path.resolve('./')}/build/client`));
 
     this.app.get('/api', (_req: Request, res: Response): void => {
       res.send('You have reached the API!');
     });
 
-    this.app.get('/', (_req: Request, res: Response): void => {
-      res.send('home');
-    });
+    // this.app.get('/', (_req: Request, res: Response): void => {
+    //   res.send('home');
+    // });
 
     this.route(this.app);
 
-    // if (NODE_ENV !== 'dev') {
-    //   this.app.get('*', (_req: Request, res: Response): void => {
-    //     res.sendFile(`${path.resolve('./')}/build/client/index.html`);
-    //   });
-    // }
+    if (NODE_ENV !== 'dev') {
+      this.app.get('*', (_req: Request, res: Response): void => {
+        res.sendFile(`${path.resolve('./')}/build/client/index.html`);
+      });
+    }
 
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       res.status(404).json({ error: 'Route not found' });

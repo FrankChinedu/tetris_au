@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "start": "node ./build/index.js",
     "client_build": "bash bash.sh",
-    "build": "rm -rf build && tsc -p tsconfig.json",
+    "build": "rm -rf build && tsc -p tsconfig.json && bash bash.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "tsc",
     "heroku-postbuild": "npm run build"
