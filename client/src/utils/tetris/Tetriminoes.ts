@@ -2,25 +2,25 @@ export const TETROMINOS: any = {
   0: { shape: [[0]], color: '0, 0, 0' },
   I: {
     shape: [[0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0]],
-    color: 'red-300',
+    color: 'bg-red-300',
   },
   J: { shape: [[0, 'J', 0], [0, 'J', 0], ['J', 'J', 0]],
-  color: 'yellow-600', },
+  color: 'bg-yellow-600', },
   L: {
     shape: [[0, 'L', 0], [0, 'L', 0], [0, 'L', 'L']],
-    color: 'yellow-300',
+    color: 'bg-yellow-300',
   },
   O: { shape: [['O', 'O'], ['O', 'O']],
-  color: 'green-300', },
+  color: 'bg-green-300', },
   S: { shape: [[0, 'S', 'S'], ['S', 'S', 0], [0, 0, 0]],
-  color: 'blue-500',
+  color: 'bg-blue-500',
  },
   T: {
     shape: [['T', 'T', 'T'], [0, 'T', 0], [0, 0, 0],],
-    color: 'indigo-600',
+    color: 'bg-indigo-600',
   },
   Z: { shape: [['Z', 'Z', 0], [0, 'Z', 'Z'], [0, 0, 0]],
-  color: 'purple-600',
+  color: 'bg-purple-600',
  },
 };
 

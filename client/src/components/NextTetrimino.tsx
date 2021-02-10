@@ -3,8 +3,6 @@ import React, {useMemo, useState} from 'react';
 const tet =  (() =>
   Array.from(Array(4), () => Array(4).fill(0)))();
 
-
-
 interface INextShape {
     nextShape: any
 }
@@ -43,7 +41,7 @@ const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
     return (
         <>
         <div className="grid grid-cols-4 grid-rows-4 w-16 h-16">
-            {shape.map((tetrimino: Array<[]>, j: number) => tetrimino.map((t, i) => <div className={`h-4 w-4 ${shape[j][i] !== 0 && `bg-${nextShape.tetromino.color} border-2 border-gray-700 border-opacity-50 rounded`}`} key={i}></div>
+            {shape.map((tetrimino: Array<[]>, j: number) => tetrimino.map((t, i) => <div className={`h-4 w-4 ${shape[j][i] !== 0 && `${nextShape.tetromino.color} border-2 border-gray-700 border-opacity-50 rounded`}`} key={i}></div>
             ))}
 
         </div>
