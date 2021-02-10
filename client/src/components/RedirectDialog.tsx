@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, } from '@material-ui/core';
-import useWindowSize from '../hooks/useWindowSize';
 
 interface IGameOverPrompt {
     open: boolean;
@@ -11,19 +10,11 @@ interface IGameOverPrompt {
 
 const RedirectDialog: React.FC<IGameOverPrompt> = ({open, message, close}) => {
 
-  const [windowWidth, setWidth] = useState<any>('sm');
-
-  const { width } = useWindowSize();
-
-  if(width && width < 400) {
-    setWidth('xs');
-  }
-
   return (
     <React.Fragment>
       <Dialog
         fullWidth
-        maxWidth={windowWidth}
+        maxWidth={'sm'}
         open={open}
         aria-labelledby="game-over-dialog"
         onClose={close}
