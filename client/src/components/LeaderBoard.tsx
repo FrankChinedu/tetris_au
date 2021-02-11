@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Dialog, } from '@material-ui/core';
 import COLORS from '../utils/constants/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, } from '@fortawesome/free-solid-svg-icons';
+
+import ROUTES from '../utils/constants/routes';
 
 interface IPlayers {
   name: string;
@@ -19,8 +22,16 @@ interface IGameOverPrompt {
 
 const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, username}) => {
 
+  const history = useHistory();
   const randomColors: any = () => {
     return Math.floor(Math.random() * (COLORS.length - 1))
+  }
+
+  const endGame = () => {
+    history.push({
+      pathname: ROUTES.multiGameSteps,
+      search: '?endGame=true'
+  });
   }
 
   return (
@@ -58,6 +69,11 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, use
             </div>
             ))}  
         </div>
+        {!hasNotEnded && (
+          <div className="text-right">
+            <button className="border border-green-400 py-3 px-6 focus:outline-none" onClick={endGame}>End Game</button>
+          </div>
+        )}
         </div>
       </Dialog>
     </React.Fragment>

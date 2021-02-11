@@ -61,6 +61,10 @@ const MultiPlayerSteps: React.FC = () => {
         //user was redirected because the trying to access invalid or ended game session refresh or something.
         setMessage("Sorry! You were kicked out of the game. This may be because you refreshed this page. Please try creating or joining a new game")
       }
+
+      if (val === '?endGame=true') {
+        setMessage("The game has ended thank you for playing");
+      }
       //show user a modal of reason for redirect
     }
     

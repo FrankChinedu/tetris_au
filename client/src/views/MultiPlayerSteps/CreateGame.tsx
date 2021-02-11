@@ -55,7 +55,7 @@ const CreateGame: React.FC  = () => {
     }
 
     const copyText = () => {
-        const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at game_url. Use this game id to join the game\nGame Id: *${gameId}*`;
+        const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at https://tetris-au.herokuapp.com. Use this game id to join the game\nGame Id: *${gameId}*`;
         copyToClipboard(shareMessage);
         setCopied(true);
         setTimeout(() => {
@@ -99,15 +99,20 @@ const CreateGame: React.FC  = () => {
                         </button>
                     </form>
                     {gameId && (
-                        <div className="my-7 bg-blue-500 rounded-sm p-3 flex items-center">
-                            <p className="col-span-2">
-                                Your game has been created and your game id is <span className="font-semibold">{gameId}</span> share your game ID with your frends to click on next to start your game
-                            </p>
-                            <div className="relative">
-                                <button onClick={copyText} className="px-2 focus:outline-none"><FontAwesomeIcon icon={faCopy} /></button>
-                                {copied && (
-                                    <p className="inline absolute bg-gray-400 rounded-sm -top-10 left-0 p-2">Copied</p>
-                                )}
+                        <div>
+                            <div className="my-7 bg-blue-500 rounded-sm p-3 flex items-center">
+                                <p className="col-span-2">
+                                    Your game has been created and your game id is <span className="font-semibold">{gameId}</span> share your game ID with your frends to click on next to start your game
+                                </p>
+                                <div className="relative">
+                                    <button onClick={copyText} className="px-2 focus:outline-none"><FontAwesomeIcon icon={faCopy} /></button>
+                                    {copied && (
+                                        <p className="inline absolute bg-gray-400 rounded-sm -top-10 left-0 p-2">Copied</p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="my-3 p-3 bg-purple-800">
+                                Please click on <b>Next</b> and <b>start game session</b> so that others can join your game.
                             </div>
                         </div>
                     )}
