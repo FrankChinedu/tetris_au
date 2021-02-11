@@ -84,12 +84,12 @@ const tetrisSchema = new mongoose.Schema({
   winScore: {
     type: Number,
     required: true,
-    default: 200
+    default: 10000
   },
   winTime: {
     type: Number,
     required: true,
-    default: 60 // in seconds
+    default: 360 // in seconds
   },
   creatorId: {
     type: mongoose.Types.ObjectId,
