@@ -9,7 +9,7 @@ import App from './views/App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-ReactGA.initialize('G-ZKFLY15LQ2');
+ReactGA.initialize('261912923');
 const history = createBrowserHistory();
 
 history.listen(location => {
