@@ -9,8 +9,7 @@ import App from './views/App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-const TRACTING_ID = process.env.REACT_APP_TRACTING_ID as string;
-ReactGA.initialize(TRACTING_ID);
+ReactGA.initialize('G-ZKFLY15LQ2');
 const history = createBrowserHistory();
 
 history.listen(location => {
