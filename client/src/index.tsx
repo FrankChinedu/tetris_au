@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import { createBrowserHistory } from 'history';
+// import { createBrowserHistory } from 'history';
 
 import './index.css';
 import App from './views/App';
@@ -10,20 +10,24 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactGA.initialize('G-ZKFLY15LQ2');
-const history = createBrowserHistory();
+ReactGA.pageview(window.location.pathname + window.location.search);
 
-history.listen(location => {
-    ReactGA.set({ page: location.pathname }); // Update the user's current page
-    ReactGA.pageview(location.pathname); // Record a pageview for the given page
-});
+console.log('React ga here');
+
+// const history = createBrowserHistory();
+
+// history.listen(location => {
+//     ReactGA.set({ page: location.pathname }); // Update the user's current page
+//     ReactGA.pageview(location.pathname); // Record a pageview for the given page
+// });
 
 ReactDOM.render(
   <React.StrictMode>
-      <Router history={history}>
+      {/* <Router history={history}> */}
         <BrowserRouter>
         <App />
         </BrowserRouter>
-      </Router>
+      {/* </Router> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

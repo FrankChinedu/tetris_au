@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-
+import ReactGA from 'react-ga';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle, faCopy } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,8 @@ import { faTimesCircle, faCopy } from '@fortawesome/free-solid-svg-icons';
 import PageSpinner from '../common/PageSpinner';
 import { UserContext } from '../../context/user';
 import copyToClipboard from '../../utils/constants/copyToClipboard';
+
+
 // interface IFirstStep {
 //     setAction: (value: string) => void
 //   }
@@ -51,6 +53,10 @@ const CreateGame: React.FC  = () => {
             setErrorMsg(err[1]);
         } finally {
             setLoading(false);
+            ReactGA.event({
+                category: 'User',
+                action: 'Created a Game'
+              });
         }
     }
 
