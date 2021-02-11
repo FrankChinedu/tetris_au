@@ -77,7 +77,7 @@ const SGame: React.FC  = () => {
             disabled={ !!!gameId || disabled }
             onClick={createGameSession}
         >
-           <FontAwesomeIcon icon={faPlay} /> <span className="pl-3">Start Game</span>
+           <FontAwesomeIcon icon={faPlay} /> <span className="pl-3">Start Game Session</span>
         </button>
         </div>
       );

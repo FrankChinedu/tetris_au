@@ -132,7 +132,6 @@ const MultiplayerGame: React.FC = () => {
       });
 
       socket?.on(SOCKET_EVENTS.CANCEL_GAME_SESSION, (data: any) => {
-        console.log('cancelled redirecting');
         history.push({
             pathname: ROUTES.multiGameSteps,
             search: '?cancel=true'
@@ -191,7 +190,7 @@ const MultiplayerGame: React.FC = () => {
   }, []);
 
   const copyText = () => {
-    const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at game_url. Use this game id to join the game\nGame Id: *${gameInfo.gameId}*`;
+    const shareMessage = `Hey! I want to play a multiplayer Tetris game with you at https://tetris-au.herokuapp.com. Use this game id to join the game\nGame Id: *${gameInfo.gameId}*`;
     copyToClipboard(shareMessage);
     setCopied(true);
     setTimeout(() => {
@@ -322,14 +321,25 @@ const MultiplayerGame: React.FC = () => {
             </div>
           )}
         {!startedGame && !clearMsg && (
-            <div className="bg-purple-400 p-3 flex justify-between my-7 transition duration-500 ease-in-out md:w-6/12 w-10/12 m-auto montserrat">
-                <p onClick={copyText}>Your game ID is {gameInfo.gameId}. Click to copy share this ID with others to join this game. Click to copy this ID</p>
-                <button onClick={clearMessage}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
-                {copied && (
-                  <p className="inline absolute bg-gray-400 rounded-sm top-10 left-8 p-2">Copied</p>
-                )}
+          <div className="md:w-6/12 w-10/12 m-auto montserrat">
+            <div className="bg-purple-400 p-3 flex justify-between my-7 transition duration-500 ease-in-out">
+              <p onClick={copyText}>Your game ID is <b>{gameInfo.gameId}</b>. Click to copy share this ID with others to join this game. Click to copy this ID</p>
+              <button onClick={clearMessage}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
+              {copied && (
+                <p className="inline absolute bg-gray-400 rounded-sm top-10 left-8 p-2">Copied</p>
+              )}
             </div>
-          )}
+            {username === admin ?  (
+              <div className="bg-red-400 my-3 p-3">
+                Once you start the game, others won't be able to join anymore
+              </div>
+            ): (
+              <div className="bg-red-400 my-3 p-3">
+                Once this game starts, others won't be able to join anymore
+              </div>
+            )}
+          </div>
+        )}
           <StyledTetris>
             <Stage stage={stage} />
             <div className="py-5 px-2 md:pl-4 flex flex-col justify-between">
