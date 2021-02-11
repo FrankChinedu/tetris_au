@@ -23,7 +23,7 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
     const upLongPress = useLongPress(() => {
         const e = {key: 'ArrowUp'}
         control(e);
-    }, ms);
+    }, 200);
 
   const leftClick = (event: any) => {
     event.preventDefault();
