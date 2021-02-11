@@ -24,6 +24,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.START_TETRIS_GAME, handleStartGame);
   client.on(EVENT_TYPES.DELETE_GAME_SESSION, handleDeleteGameSession);
   client.on(EVENT_TYPES.GAME_OVER, handleUserGameOver);
+  client.on(EVENT_TYPES.GAME_OVER_ALL, handleGameOverAll);
   client.on(EVENT_TYPES.GET_MEMBER_STATE, handleGetMemberState);
   client.on(EVENT_TYPES.USER_SCORE_CHANGE, handleUserScoreChange);
 
@@ -203,6 +204,28 @@ export default (client: Socket, io: Server): void => {
         client.emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: true });
         client.in(roomName).emit(EVENT_TYPES.USER_HAS_CHECKED_OUT_GAME_SESSION, `${userName} has checked out of game`);
       }
+    }
+  }
+
+  function handleGameOverAll ({ roomName, userName }: {[key: string]: string}) {
+    const roomMembers = gameDataRecords[roomName] as IRoomMembers;
+    const gameData = gameDataStore[roomName] as GameData;
+
+    if (roomMembers && gameData) {
+      io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: false });
+      gameData.ended = true;
+      Tetris.findOne({
+        gameId: roomName
+      }, (err: Error, tetris: TetrisDoc) => {
+        if (err) {
+          console.log('err', err);
+        } else {
+          tetris.ended = true;
+          tetris.save();
+        }
+      });
+      delete gameDataRecords[roomName];
+      delete gameDataStore[roomName];
     }
   }
 

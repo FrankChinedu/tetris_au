@@ -30,6 +30,7 @@ import usePlayer from '../../hooks/usePlayer';
 import useStage from '../../hooks/useStage';
 import useGameStatus from '../../hooks/useGameStatus';
 import useInterval from '../../hooks/useInterval';
+import useCountDown from '../../hooks/useCountDown';
 import { IUseStage } from '../../utils/tetris/interfaces';
 
 // Contexts
@@ -65,6 +66,7 @@ const MultiplayerGame: React.FC = () => {
  const [collapseRoom, setCollapseRoom] = useState<boolean>(false);
  const [copied, setCopied] = useState<boolean>(false);
  const [clearMsg, setClearMsg] = useState<boolean>(false);
+ const {time, isOver, setDuration} = useCountDown();
 
   const curry = useCallback(() => {
     const gameId = gameInfo.gameId;
@@ -72,6 +74,19 @@ const MultiplayerGame: React.FC = () => {
       return {roomName: gameId, ...args}
     }
   }, [gameInfo.gameId]);
+
+  useEffect(() => {
+      if(isOver) {
+        setDuration(1);
+        socket?.emit(SOCKET_EVENTS.GAME_OVER_ALL, getSocketParams({userName: username}));
+      }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[isOver, gameOver])
+
+  useEffect(() => {
+      console.log('time', time);
+  }, [time])
 
   const getSocketParams = curry();
 
@@ -115,7 +130,7 @@ const MultiplayerGame: React.FC = () => {
 
   useEffect(() => {
       socket?.emit(SOCKET_EVENTS.GET_MEMBER_STATE, gameInfo.gameId)
-      setTetrominoString(gameInfo.tetriminoes)
+      setTetrominoString(gameInfo.tetriminoes);
 
       socket?.on(SOCKET_EVENTS.PLAYER_JOIN_GAME_ROOM, (data: any) => {
         setOpenSnackbar(true);
@@ -148,6 +163,7 @@ const MultiplayerGame: React.FC = () => {
               clearInterval(cle)
               startGame()
               setGameStatus(true)
+                setDuration(gameInfo.winTime);
             }
           }, 1500)
       });
@@ -296,7 +312,7 @@ const MultiplayerGame: React.FC = () => {
         </div>
       )}
         <div
-          className={` ${username === admin && !startedGame ? 'grid-cols-3' : 'grid-cols-2'} sm:w-6/12 w-full mx-auto grid sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat`}>
+          className={` ${username === admin && !startedGame ? 'grid-cols-4' : 'grid-cols-3'} sm:w-6/12 w-full mx-auto grid sm:gap-x-3 gap-x-1 items-center text-center border border-opacity-20 border-yellow-300 pt-2 montserrat`}>
           <div>
             <p>Your Score</p>
             <small className="text-xl">{score}</small>
@@ -304,6 +320,10 @@ const MultiplayerGame: React.FC = () => {
           <div>
             <p>Highest Score</p>
             <small className="text-xl">{players[0]?.score}</small>
+          </div>
+          <div>
+            <p>Count Down</p>
+            <small className="text-xl">{time}</small>
           </div>
           
           <div className="py-2 px-3">

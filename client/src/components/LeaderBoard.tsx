@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { useHistory } from 'react-router-dom';
 import { Dialog, } from '@material-ui/core';
 import COLORS from '../utils/constants/colors';
@@ -81,4 +81,4 @@ const LeaderBoard: React.FC<IGameOverPrompt> = ({open, players, hasNotEnded, use
 }
 
 
-export default LeaderBoard;
+export default memo(LeaderBoard);
