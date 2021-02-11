@@ -84,9 +84,6 @@ const MultiplayerGame: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[isOver, gameOver])
 
-  useEffect(() => {
-      console.log('time', time);
-  }, [time])
 
   const getSocketParams = curry();
 
