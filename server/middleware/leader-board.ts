@@ -3,19 +3,15 @@ import { Request, Response, NextFunction } from 'express';
 
 import { ValidationError } from '../exceptions';
 
-const Tetris = {
-  create: async (
+const leaderBoard = {
+  post: async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response | undefined | void> => {
     const schema = Joi.object().keys({
-      allowedPlayers: Joi.number().min(2),
-      baseScore: Joi.number().min(10),
-      winScore: Joi.number().min(200),
-      winTime: Joi.number().min(60),
-      criteria: Joi.string().valid('SCORE', 'TIME'),
-      mode: Joi.string().valid('STRAIGHT') // STRAIGHT' | 'LAST_MAN_STANDING' | 'CHAMPIONSHIP'
+      username: Joi.string().required().min(2),
+      score: Joi.number().required()
     });
 
     const { error, value } = schema.validate({ ...req.body }, { abortEarly: false });
@@ -26,6 +22,7 @@ const Tetris = {
     req.body = value;
     next();
   },
+
   get: async (
     req: Request,
     res: Response,
@@ -45,4 +42,4 @@ const Tetris = {
   }
 };
 
-export default Tetris;
+export default leaderBoard;
