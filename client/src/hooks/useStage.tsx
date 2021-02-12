@@ -28,7 +28,9 @@ const useStage = (param : IUseStage) => {
             count = count + 1
             if((array.length - 1) === index) {
                 setRowsCleared(count);
-                setCleared(true);
+                setTimeout(() => {
+                    setCleared(true);
+                }, 10)
                 count = 0
             }
         ack.unshift(new Array(newStage[0].length).fill([0, 'clear']));
