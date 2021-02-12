@@ -86,27 +86,30 @@ const JoinGame: React.FC  = () => {
             </div>
           )}
           <form className="grid md:grid-cols-2 grid-cols-1 gap-3" onSubmit={(e) => e.preventDefault()}>
-              <div className="bg-indigo-600 py-2 px-5">
-                <input
-                    type="text"
-                    className="focus:outline-none bg-transparent placeholder-white w-full"
-                    placeholder="Please enter your username"
-                    disabled={username !== ''}
-                    value={_userName}
-                    onChange={(e) => {
-                      if (e.currentTarget.value.includes(" ")) {
-                        e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
-                      }
-                      _setUserName(e.target.value)
-                    }}
-                    onKeyDown={(e) => preventSpace(e)}
-                />
+              <div>
+                <div className="bg-indigo-600 py-2 px-5">
+                  <input
+                      type="text"
+                      className="focus:outline-none bg-transparent placeholder-white w-full"
+                      placeholder="Please enter your username"
+                      disabled={username !== ''}
+                      value={_userName}
+                      onChange={(e) => {
+                        if (e.currentTarget.value.includes(" ")) {
+                          e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+                        }
+                        _setUserName(e.target.value)
+                      }}
+                      onKeyDown={(e) => preventSpace(e)}
+                  />
+                </div>
               </div>
+              <div>
               <div className="bg-indigo-600 py-2 px-5">
                 <input
                     type="text"
                     className="focus:outline-none bg-transparent placeholder-white w-full"
-                    placeholder="enter the ID shared with you"
+                    placeholder="Enter the ID shared with you"
                     value={_gameID}
                     onChange={(e) => {
                       if (e.currentTarget.value.includes(" ")) {
@@ -116,6 +119,8 @@ const JoinGame: React.FC  = () => {
                     }}
                     onKeyDown={(e) => preventSpace(e)}
                 />
+              </div>
+                <small>Enter the game ID that was shared with you </small>
               </div>
             <button
                 className="bg-transparent border border-indigo-600 mt-2 py-2 focus:outline-none rounded disabled:text-gray-500 disabled:cursor-not-allowed"
