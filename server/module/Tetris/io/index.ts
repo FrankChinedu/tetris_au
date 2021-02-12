@@ -29,10 +29,7 @@ export default (client: Socket, io: Server): void => {
   client.on(EVENT_TYPES.USER_SCORE_CHANGE, handleUserScoreChange);
   client.on(EVENT_TYPES.PING, handlePing);
 
-  function handlePing (params:string) {
-    console.log('pongg');
-    console.log(params);
-  }
+  function handlePing (params:string) {}
 
   function handleCreateNewTetrisSession (roomName: string, username: string) {
     const gameData = gameDataStore[roomName] as GameData;
