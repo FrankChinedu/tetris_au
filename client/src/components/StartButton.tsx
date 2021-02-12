@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 interface IBtn {
@@ -24,6 +24,16 @@ const StartButton: React.FC<IBtn> = ({ callback, pause, play }) => {
     setPlaying(false);
     pause();
   }
+
+  useEffect(() => {
+    window.addEventListener("blur", handlePause)
+
+    return () => {
+      window.removeEventListener("blur", handlePause)
+    }
+  })
+
+
   return (
     <>
       {!started ? (
