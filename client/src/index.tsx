@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
-ReactGA.initialize("G-ZKFLY15LQ2");
+ReactGA.initialize("UA-189671562-1");
 
 const history = createBrowserHistory();
 
