@@ -1,6 +1,6 @@
 {
-  "short_name": "Tetris",
-  "name": "Multiplayer tetris game app",
+  "short_name": "Tetris_au",
+  "name": "A single amd multiplayer tetris game app. Built with love",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,7 +10,7 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "180x180"
+      "sizes": "192x192"
     },
     {
       "src": "logo512.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "background_color": "#000000"
 }
