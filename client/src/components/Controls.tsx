@@ -20,6 +20,10 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
         control(e);
     }, ms);
 
+    const downLongPress = useLongPress(() => {
+        downClick();
+    }, ms);
+
     const upLongPress = useLongPress(() => {
         const e = {key: 'ArrowUp'}
         control(e);
@@ -37,6 +41,7 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
   const downClick = () => {
     const e = {key: 'ArrowDown'}
     control(e);
+    downMouseUp()
   }
   const downMouseUp = () => {
     const e = {key: 'ArrowDown'}
@@ -63,10 +68,8 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
                 <FontAwesomeIcon className="md:text-2xl" icon={faArrowRight} />
               </button>
           </div>
-          <button
+          <button onClick={downClick} {...downLongPress}
             className="w-20 h-20 shadow-inner border border-yellow-300 focus:outline-none flex justify-center items-center"
-            onMouseDown={downClick}
-            onMouseUp={downMouseUp}
           >
             <FontAwesomeIcon className="md:text-2xl" icon={faArrowDown} />
           </button>
