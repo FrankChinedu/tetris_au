@@ -1,4 +1,5 @@
 import React, { useState, Suspense, useContext, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { nanoid } from 'nanoid';
 import { Switch } from 'react-router-dom';
 import { routes } from '../routes';
@@ -7,8 +8,14 @@ import { UserProvider } from '../context/user';
 import PageSpinner from './common/PageSpinner';
 import EVENTS from '../utils/constants/socketEvent';
 
+
+
+
 const App: React.FC= () =>  {
     const {socket} = useContext(SocketContext);
+    
+    const url = window.location.pathname + window.location.search;
+
 	const [id] = useState(nanoid);
     useEffect(() => {
         const ref = setInterval(() => {
@@ -19,6 +26,11 @@ const App: React.FC= () =>  {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }, [url]);
+
 
   return (
 	<div className=" bg-black min-h-screen">
