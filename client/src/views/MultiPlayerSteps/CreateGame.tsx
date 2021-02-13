@@ -44,6 +44,10 @@ const CreateGame: React.FC  = () => {
                 const { gameId } = response.data.data
                 setGameId(gameId);
                 setUsername(userName);
+                ReactGA.event({
+                    category: 'User',
+                    action: 'Created a Game'
+                });
         } catch (er) {
             if (er.toString() === 'Error: Network Error') {
                 return setErrorMsg('Please check your network connection and try again');
@@ -53,10 +57,7 @@ const CreateGame: React.FC  = () => {
             setErrorMsg(err[1]);
         } finally {
             setLoading(false);
-            ReactGA.event({
-                category: 'User',
-                action: 'Created a Game'
-              });
+            
         }
     }
 

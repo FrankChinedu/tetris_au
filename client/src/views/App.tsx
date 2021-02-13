@@ -13,8 +13,6 @@ import EVENTS from '../utils/constants/socketEvent';
 
 const App: React.FC= () =>  {
     const {socket} = useContext(SocketContext);
-    
-    const url = window.location.pathname + window.location.search;
 
 	const [id] = useState(nanoid);
     useEffect(() => {
@@ -29,7 +27,7 @@ const App: React.FC= () =>  {
 
     useEffect(() => {
       ReactGA.pageview(window.location.pathname + window.location.search);
-    }, [url]);
+    }, []);
 
 
   return (

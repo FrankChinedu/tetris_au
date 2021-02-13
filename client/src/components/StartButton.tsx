@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 interface IBtn {
@@ -14,6 +15,11 @@ const StartButton: React.FC<IBtn> = ({ callback, pause, play }) => {
     setStarted(true);
     setPlaying(true);
     callback();
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Started single player'
+  });
   }
   const handlePlay = () => {
     setPlaying(true);

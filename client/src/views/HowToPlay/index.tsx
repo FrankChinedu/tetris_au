@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,9 @@ import ROUTES from '../../utils/constants/routes';
 
 const MultiPlayerSteps: React.FC = () => {
 
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   return (
     <div className="text-white h-full overflow-hidden">

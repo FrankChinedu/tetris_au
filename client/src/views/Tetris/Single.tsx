@@ -1,4 +1,5 @@
 import React, {useState, memo, useEffect} from 'react';
+import ReactGA from 'react-ga';
 
 //helpers
 import {createStage, checkCollision} from '../../gameHelper';
@@ -61,6 +62,10 @@ const SingleGame: React.FC = () => {
   useEffect(() => {
       setTetrominoString(randomStrings(1000))
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
   useEffect(() => {

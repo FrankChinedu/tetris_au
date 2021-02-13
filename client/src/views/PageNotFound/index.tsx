@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
+import ReactGA from 'react-ga';
 
 import ROUTES from '../../utils/constants/routes';
-import { TShape, OShape, IShape } from '../../components/Tetriminoes'
+import { TShape, OShape, IShape } from '../../components/Tetriminoes';
 
 
 const PageNotFound: React.FC = () => {
     let history = useHistory();
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+      }, []);
     return (
         <div className="h-screen text-white text-center flex flex-col justify-center items-center">
             <div className="flex">
