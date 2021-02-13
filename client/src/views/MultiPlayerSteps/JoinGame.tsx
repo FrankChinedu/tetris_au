@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +30,11 @@ const JoinGame: React.FC  = () => {
       if(_gameID && _userName) {
         socket?.emit(SOCKET_EVENTS.JOIN_TETRIS_GAME_SESSION, _gameID, _userName)
         setGameId(_gameID);
+
+        ReactGA.event({
+          category: 'User',
+          action: 'Joined a game'
+        });
       }
     }
 
@@ -70,6 +76,7 @@ const JoinGame: React.FC  = () => {
       }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_gameID, _userName]);
+
 
     const  preventSpace = (e: any) => {
       if (e.key === " ") {

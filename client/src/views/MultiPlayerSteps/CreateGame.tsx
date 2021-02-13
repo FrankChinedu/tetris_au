@@ -56,7 +56,7 @@ const CreateGame: React.FC  = () => {
             ReactGA.event({
                 category: 'User',
                 action: 'Created a Game'
-              });
+            });
         }
     }
 

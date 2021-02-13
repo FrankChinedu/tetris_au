@@ -6,6 +6,7 @@ import React, {
     useCallback
 } from 'react';
 import { useHistory, useLocation } from 'react-router';
+import ReactGA from 'react-ga';
 
 import 'prevent-pull-refresh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -67,6 +68,10 @@ const MultiplayerGame: React.FC = () => {
  const [copied, setCopied] = useState<boolean>(false);
  const [clearMsg, setClearMsg] = useState<boolean>(false);
  const {time, isOver, setDuration} = useCountDown();
+
+ useEffect(() => {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}, []);
 
   const curry = useCallback(() => {
     const gameId = gameInfo.gameId;

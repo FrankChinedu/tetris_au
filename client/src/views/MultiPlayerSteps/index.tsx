@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ReactGA from 'react-ga';
 import {useHistory, useLocation} from 'react-router';
 import { MobileStepper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -72,6 +73,10 @@ const MultiPlayerSteps: React.FC = () => {
     
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[])
+
+useEffect(() => {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}, []);
 
   useEffect(() => {
     if(action) {
