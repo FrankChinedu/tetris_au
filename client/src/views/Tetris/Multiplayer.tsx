@@ -59,7 +59,7 @@ const MultiplayerGame: React.FC = () => {
   const [countdown, setCountdown] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [openLeaderBoard, setOpenLeaderBoard] = useState<boolean>(false);
-  const [admin] = useState(gameInfo.username);
+  const [admin, setAdmin] = useState(gameInfo.username);
   const [player , updatePlayerPos, resetPlayer,
     playerRotate, setTetrominoString, nextPlayer] = usePlayer();
  const [stage, setStage, rowsCleared] = useStage({ player, resetPlayer } as IUseStage); 
@@ -79,6 +79,10 @@ const MultiplayerGame: React.FC = () => {
       return {roomName: gameId, ...args}
     }
   }, [gameInfo.gameId]);
+
+  useEffect(() => {
+    setAdmin(gameInfo.username)
+  }, [gameInfo.username])
 
   useEffect(() => {
       if(isOver) {
@@ -171,6 +175,7 @@ const MultiplayerGame: React.FC = () => {
       });
 
       socket?.on(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA, (data: any) => {
+          console.log('data', data);
         setGameInfo(data);
       });
 
