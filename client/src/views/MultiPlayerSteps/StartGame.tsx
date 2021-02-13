@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import ReactGA from 'react-ga';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +25,10 @@ const SGame: React.FC  = () => {
         if(gameId && username) {
             socket?.emit(SOCKET_EVENTS.NEW_TETRIS_GAME_SESSION, gameId, username)
         }
+        ReactGA.event({
+            category: 'User',
+            action: 'Started game session'
+        });
     }
 
     const clearError = () => {
@@ -52,8 +57,6 @@ const SGame: React.FC  = () => {
           }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    
 
     useEffect(() => {
         if(errorMsg) {

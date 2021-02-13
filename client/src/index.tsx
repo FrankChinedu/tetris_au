@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
-ReactGA.initialize("UA-189671562-1", {debug: true});
+ReactGA.initialize("UA-189671562-1");
 
 
 ReactDOM.render(
