@@ -22,7 +22,7 @@ const Controls: React.FC <IControls> = ({ control, dropDown }) => {
 
     const downLongPress = useLongPress(() => {
         downClick();
-    }, ms);
+    }, 50);
 
     const upLongPress = useLongPress(() => {
         const e = {key: 'ArrowUp'}
