@@ -12,7 +12,6 @@ const NextTetrimino: React.FC<INextShape> = ({ nextShape }) => {
 
     const shape = useMemo(() => {
 
-        // console.log('main nextshape', nextShape);
         const map: {[key: string]: string} = {}
         const m = nextShape.tetromino?.shape ?? [];
         

@@ -18,7 +18,7 @@ const StartButton: React.FC<IBtn> = ({ callback, pause, play }) => {
 
     ReactGA.event({
       category: 'User',
-      action: 'Stated single player'
+      action: 'Started single player'
   });
   }
   const handlePlay = () => {

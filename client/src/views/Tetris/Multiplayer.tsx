@@ -164,18 +164,20 @@ const MultiplayerGame: React.FC = () => {
           const cle = setInterval(() => {
             i--
             setCountdown(i);
-            console.log(i)
             if (i === 0 ) {
               clearInterval(cle)
               startGame()
               setGameStatus(true)
-                setDuration(gameInfo.winTime);
+              setDuration(gameInfo.winTime);
+              ReactGA.event({
+                category: 'User',
+                action: 'Started multiplayer'
+            });
             }
           }, 1500)
       });
 
       socket?.on(SOCKET_EVENTS.UPDATED_GAME_SESSION_DATA, (data: any) => {
-          console.log('data', data);
         setGameInfo(data);
       });
 
