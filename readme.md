@@ -60,5 +60,5 @@ Score based the user creates a game and sets the winning condition score based i
    - listen on `ALL_GAME_OVER` to end all games in that game session
    
 
-  # GAME:::
+  # GAME::::
    ### continue.
