@@ -30,7 +30,8 @@ const leaderBoard = {
   ): Promise<Response | undefined | void> => {
     const schema = Joi.object().keys({
       page: Joi.number().min(1).optional(),
-      limit: Joi.number().min(1).optional()
+      limit: Joi.number().min(1).optional(),
+      username: Joi.string().min(1).optional()
     });
 
     const { error } = schema.validate({ ...req.query }, { abortEarly: false });
