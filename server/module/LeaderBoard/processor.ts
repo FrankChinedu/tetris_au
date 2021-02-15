@@ -8,7 +8,6 @@ const LeaderBoard = {
     username = username.toLowerCase();
     score = +score;
     body.username = username;
-    console.log('username', username);
     try {
       let leaderBoard = await LeaderBoardModel.findOne({
         username
