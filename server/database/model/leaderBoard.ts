@@ -13,6 +13,10 @@ export interface LeaderBoardDoc extends mongoose.Document {
   score: number;
   twitterUrl: string;
   totalGamesPlayed: number;
+  docs: Array<{data: any, rank: any }>;
+  rank: any;
+  page: number;
+  limit: number;
 }
 
 interface Pagainate {
