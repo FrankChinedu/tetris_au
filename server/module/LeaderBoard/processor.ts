@@ -16,6 +16,10 @@ const LeaderBoard = {
       if (leaderBoard) {
         if (score > leaderBoard.score) {
           leaderBoard.score = score;
+          leaderBoard.totalGamesPlayed += 1;
+          leaderBoard = await leaderBoard.save();
+        } else {
+          leaderBoard.totalGamesPlayed += 1;
           leaderBoard = await leaderBoard.save();
         }
       } else {

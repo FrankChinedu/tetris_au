@@ -5,12 +5,14 @@ interface ILeaderBoard {
   username: string;
   score: number,
   twitterUrl: string,
+  totalGamesPlayed: number
 }
 
 export interface LeaderBoardDoc extends mongoose.Document {
   username: string;
   score: number;
   twitterUrl: string;
+  totalGamesPlayed: number;
 }
 
 interface Pagainate {
@@ -34,6 +36,11 @@ const leaderBoardSchema = new mongoose.Schema({
   score: {
     type: Number,
     required: true
+  },
+  totalGamesPlayed: {
+    type: Number,
+    required: true,
+    default: 1
   }
 }, { timestamps: true });
 
