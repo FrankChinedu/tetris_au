@@ -8,7 +8,6 @@ const LeaderBoard = {
     username = username.toLowerCase();
     score = +score;
     body.username = username;
-    console.log('username', username);
     try {
       let leaderBoard = await LeaderBoardModel.findOne({
         username
@@ -16,6 +15,10 @@ const LeaderBoard = {
       if (leaderBoard) {
         if (score > leaderBoard.score) {
           leaderBoard.score = score;
+          leaderBoard.totalGamesPlayed += 1;
+          leaderBoard = await leaderBoard.save();
+        } else {
+          leaderBoard.totalGamesPlayed += 1;
           leaderBoard = await leaderBoard.save();
         }
       } else {
