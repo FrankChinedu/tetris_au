@@ -4,6 +4,7 @@ const ROUTES = {
     multiGame: '/tetris',
     multiGameSteps: '/steps',
     howToPlay: '/howto',
+    leaderboard: '/leaderboard',
     notFound: '/404/page-not-found'
   };
   

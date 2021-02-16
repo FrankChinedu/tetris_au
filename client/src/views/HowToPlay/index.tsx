@@ -8,7 +8,7 @@ import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
 import ROUTES from '../../utils/constants/routes';
 
 
-const MultiPlayerSteps: React.FC = () => {
+const HowToPlay: React.FC = () => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -43,4 +43,4 @@ const MultiPlayerSteps: React.FC = () => {
 
 
 
-export default MultiPlayerSteps;
+export default HowToPlay;
