@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 import ROUTES from '../../utils/constants/routes';
@@ -16,45 +16,51 @@ const Leaderboard: React.FC = () => {
 
     const [players, setPlayers] = useState<any>([]);
     const [hasNext, setHasNext] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
     const [totalPlayers, setTotalPlayer] = useState<number>(0);
-    const [page, setPage] = useState<number>(2);
+    const [page, setPage] = useState<number>(1);
+    const [error, setError] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
+  const clearError = () => {
+    setError(false);
+    setErrorMsg('');
+}
 
-  useEffect(() => {
-    axios.get(`${url}/leader-board?limit=10`)
+  const fetchPlayers = () => {
+    axios.get(`${url}/leader-board?limit=10&page=${page}`)
     .then((res) => {
         const { docs, hasNextPage, totalDocs,  } = res.data.data;
-        setPlayers(docs);
-        setHasNext(hasNextPage);
-        setTotalPlayer(totalDocs);
-        
-    }).catch((err) => {
-        console.log('error', err)
-    })
-  }, []);
-
-  const fetchNext = () => {
-    
-    axios.get(`${url}/leader-board?page=${page}`)
-    .then((res) => {
-        const { docs, hasNextPage, totalDocs,  } = res.data.data;
-        setPlayers((prev: any) => {
-            console.log('prev', prev);
-            
-            return [...prev, docs]
-        });
+        setPlayers((prev: any) => [...prev, ...docs]);
         setHasNext(hasNextPage);
         setTotalPlayer(totalDocs);
         setPage((prev) => prev + 1);
-        
     }).catch((err) => {
-        console.log('error', err)
+      setError(true);
+      if (err.toString() === 'Error: Network Error') {
+        return setErrorMsg('Please check your network connection and try again');
+      }
+      const { error } = err.response.data;
+      const er = (error && error.split(':')) || ['','an Error Occured'];
+      setErrorMsg(er[1]);
     })
+  }
+
+
+  useEffect(() => {
+    fetchPlayers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchNext = () => {
+    if(hasNext) {
+      fetchPlayers();
+    }else{
+      setHasNext(false);
+    }
   }
 
   
@@ -68,6 +74,12 @@ const Leaderboard: React.FC = () => {
         <h3 className="md:text-5xl text-lg col-span-2 mr-auto p-3">Tetris Leaderboard</h3>
       </nav>
       <main className="w-11/12 mx-auto px-1 montserrat md:max-w-4xl text-center text-xs md:text-base">
+        {error && (
+          <div className="bg-red-300 p-3 flex justify-between my-7 transition duration-500 ease-in-out">
+              <p>{errorMsg}</p>
+              <button onClick={clearError}><FontAwesomeIcon className="md:text-2xl" icon={faTimesCircle} /></button>
+          </div>
+        )}
         {players.length ? (
             <>
             <div className="grid grid-cols-3 md:grid-cols-4 py-5 md:px-2">
@@ -81,22 +93,22 @@ const Leaderboard: React.FC = () => {
                 dataLength={totalPlayers as any} 
                 next={fetchNext}
                 hasMore={hasNext}
-                loader={<h4>Loading...</h4>}
+                loader={<h4> </h4>}
                 >
-                    {players.map((player: any) => (
-                        <div className="grid grid-cols-3 md:grid-cols-4 px-2 py-5 border-b border-gray-300 border-opacity-10 my-py" key={player._id}>
-                            <div>Name</div>
+                    {players.map((player: any, i:number) => (
+                        <div className="grid grid-cols-3 md:grid-cols-4 px-2 py-5 border-b border-gray-300 border-opacity-10 my-py" key={i}>
+                            <div>{i}</div>
                             <div className="text-green-500 hover:text-yellow-300 transition-colors"><a href={player.twitterUrl} target="_blank" rel="noopener noreferrer">{player.username}</a></div>
                             <div>{player.score}</div>
                             <div className="hidden md:block">{player.totalGamesPlayed}</div>
                         </div>
-                    ))}                
+                    ))}
                 </InfiniteScroll>
             </div>
         </>
         ) : (
             <>
-            Nothing to show
+            <div>There's no Leaderboard currently</div>
             </>
         )}
       </main>
