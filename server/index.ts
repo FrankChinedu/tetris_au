@@ -3,6 +3,7 @@ import * as path from 'path';
 import { json } from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import passport from 'passport';
 import { Socket, Server as SocketServer } from 'socket.io';
 
 import Route from './route';
@@ -24,6 +25,8 @@ class Server {
       res.send('You have reached the API!');
     });
 
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
     this.route(this.app);
 
     this.app.use(express.static(`${path.resolve('./')}/build/client`));

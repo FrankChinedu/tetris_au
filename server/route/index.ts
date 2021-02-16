@@ -2,6 +2,7 @@ import { Express, Response, Request, NextFunction } from 'express';
 import userRoute from './users';
 import tetrisRoute from './tetris';
 import leaderBoard from './leader-board';
+import twitter from './twitter';
 
 const api = '/api/v1';
 export default (app: Express): void => {
@@ -16,4 +17,5 @@ export default (app: Express): void => {
   app.use(`${api}/user`, userRoute);
   app.use(`${api}/tetris`, tetrisRoute);
   app.use(`${api}/leader-board`, leaderBoard);
+  app.use('/auth', twitter);
 };
