@@ -53,13 +53,11 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     fetchPlayers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   const fetchNext = () => {
     if(hasNext) {
-      fetchPlayers();
-    }else{
-      setHasNext(false);
+      setPage((prev) => prev + 1);
     }
   }
 
@@ -88,7 +86,7 @@ const Leaderboard: React.FC = () => {
                 <div>Total Points</div>
                 <div className="hidden md:block">Total matches played</div>
             </div>
-            <div className="bg-gray-700 md:px-5">
+            <div className="bg-gray-800 md:px-5">
                 <InfiniteScroll
                 dataLength={totalPlayers as any} 
                 next={fetchNext}
@@ -97,7 +95,7 @@ const Leaderboard: React.FC = () => {
                 >
                     {players.map((player: any, i:number) => (
                         <div className="grid grid-cols-3 md:grid-cols-4 px-2 py-5 border-b border-gray-300 border-opacity-10 my-py" key={i}>
-                            <div>{i}</div>
+                            <div>{++i}</div>
                             <div className="text-green-500 hover:text-yellow-300 transition-colors"><a href={player.twitterUrl} target="_blank" rel="noopener noreferrer">{player.username}</a></div>
                             <div>{player.score}</div>
                             <div className="hidden md:block">{player.totalGamesPlayed}</div>
