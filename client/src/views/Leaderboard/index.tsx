@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 
+
 import ROUTES from '../../utils/constants/routes';
 
 const url = process.env.REACT_APP_API_URL;
@@ -16,6 +17,7 @@ const Leaderboard: React.FC = () => {
 
     const [players, setPlayers] = useState<any>([]);
     const [hasNext, setHasNext] = useState<boolean>(false);
+    const [hasPrev, setHasPrev] = useState<boolean>(false);
     const [totalPlayers, setTotalPlayer] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [error, setError] = useState<boolean>(false);
@@ -30,14 +32,14 @@ const Leaderboard: React.FC = () => {
     setErrorMsg('');
 }
 
-  const fetchPlayers = () => {
+  const fetchPlayers = (page: number) => {
     axios.get(`${url}/leader-board?limit=10&page=${page}`)
     .then((res) => {
         const { docs, hasNextPage, totalDocs, rank } = res.data.data;
         setPlayers((prev: any) => [...prev, ...docs]);
         setHasNext(hasNextPage);
         setTotalPlayer(totalDocs);
-        // hasNextPage && setPage((prev) => prev + 1);
+        // setPage((prev) => prev + 1);
     }).catch((err) => {
       setError(true);
       if (err.toString() === 'Error: Network Error') {
@@ -51,19 +53,9 @@ const Leaderboard: React.FC = () => {
 
 
   useEffect(() => {
-    fetchPlayers();
+    fetchPlayers(page);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
-  const fetchNext = () => {
-    console.log('called');
-    console.log('hasNext', hasNext);
-    
-    if(hasNext) {
-      setPage((prev) => prev + 1);
-    }
-  }
-
   
 
   return (
@@ -82,30 +74,33 @@ const Leaderboard: React.FC = () => {
           </div>
         )}
         {players.length ? (
-          <div>
+          <div className="">
             <div className="grid grid-cols-3 md:grid-cols-4 py-5 md:px-2">
                 <div>Rank</div>
                 <div>Player</div>
                 <div>Total Points</div>
                 <div className="hidden md:block">Total matches played</div>
             </div>
-            <div className="bg-gray-800 md:px-5">
-                <InfiniteScroll
-                dataLength={totalPlayers as any} 
-                next={fetchNext}
-                hasMore={hasNext}
-                loader={<h4> </h4>}
-                >
-                    {players.map((player: any, i:number) => (
-                        <div className="grid grid-cols-3 md:grid-cols-4 px-2 py-5 border-b border-gray-300 border-opacity-10 my-py" key={i}>
-                            <div>{++i}</div>
-                            <div className="text-green-500 hover:text-yellow-300 transition-colors"><a href={player.twitterUrl} target="_blank" rel="noopener noreferrer">{player.username}</a></div>
-                            <div>{player.score}</div>
-                            <div className="hidden md:block">{player.totalGamesPlayed}</div>
-                        </div>
-                    ))}
-                </InfiniteScroll>
+            <div className="bg-gray-800 md:px-5 overflow-y-auto h-100">
+              {players.map((player: any, i:number) => (
+                  <div className="grid grid-cols-3 md:grid-cols-4 px-2 py-5 border-b border-gray-300 border-opacity-10 my-py" key={i}>
+                      <div>{++i}</div>
+                      <div className="text-green-500 hover:text-yellow-300 transition-colors"><a href={player.twitterUrl} target="_blank" rel="noopener noreferrer">{player.username}</a></div>
+                      <div>{player.score}</div>
+                      <div className="hidden md:block">{player.totalGamesPlayed}</div>
+                  </div>
+              ))}
+
             </div>
+              <div className="my-5">
+                <button 
+                onClick={() => {
+                  setPage((prev) => prev + 1)
+                }}
+                disabled={!hasNext}
+                className="focus:outline-none disabled:cursor-not-allowed disabled:border-gray-500 disabled:text-gray-500 border p-5"
+                >Load More</button>
+              </div>
           </div>
         ) : (
             <>
