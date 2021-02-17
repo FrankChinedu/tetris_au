@@ -33,11 +33,11 @@ const Leaderboard: React.FC = () => {
   const fetchPlayers = () => {
     axios.get(`${url}/leader-board?limit=10&page=${page}`)
     .then((res) => {
-        const { docs, hasNextPage, totalDocs,  } = res.data.data;
+        const { docs, hasNextPage, totalDocs, rank } = res.data.data;
         setPlayers((prev: any) => [...prev, ...docs]);
         setHasNext(hasNextPage);
         setTotalPlayer(totalDocs);
-        setPage((prev) => prev + 1);
+        // hasNextPage && setPage((prev) => prev + 1);
     }).catch((err) => {
       setError(true);
       if (err.toString() === 'Error: Network Error') {
@@ -56,6 +56,9 @@ const Leaderboard: React.FC = () => {
   }, [page]);
 
   const fetchNext = () => {
+    console.log('called');
+    console.log('hasNext', hasNext);
+    
     if(hasNext) {
       setPage((prev) => prev + 1);
     }
@@ -79,7 +82,7 @@ const Leaderboard: React.FC = () => {
           </div>
         )}
         {players.length ? (
-            <>
+          <div>
             <div className="grid grid-cols-3 md:grid-cols-4 py-5 md:px-2">
                 <div>Rank</div>
                 <div>Player</div>
@@ -103,7 +106,7 @@ const Leaderboard: React.FC = () => {
                     ))}
                 </InfiniteScroll>
             </div>
-        </>
+          </div>
         ) : (
             <>
             <div>There's no Leaderboard currently</div>
