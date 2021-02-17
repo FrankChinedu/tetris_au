@@ -2,6 +2,7 @@
 declare namespace Express {
   export interface Request {
     justUserName: Boolean | null | undefined;
+    session: any;
     user?: {
       id: string;
       username: string,
@@ -9,3 +10,4 @@ declare namespace Express {
     };
   }
 }
+declare module 'login-with-twitter';

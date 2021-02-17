@@ -5,7 +5,8 @@ const ROUTES = {
     multiGameSteps: '/steps',
     howToPlay: '/howto',
     leaderboard: '/leaderboard',
-    notFound: '/404/page-not-found'
+    test: '/test',
+    notFound: '/404/page-not-found',
   };
   
   export default ROUTES;

@@ -15,3 +15,12 @@ export const APP_PORT =
 
 export const JWT_SECRET =
   process.env.JWT_SECRET || throwIfUndefined(process.env.JWT_SECRET, 'JWT_SECRET');
+
+export const TWITTER_KEY =
+  process.env.TWITTER_KEY || throwIfUndefined(process.env.TWITTER_KEY, 'TWITTER_KEY');
+
+export const TWITTER_SECRET =
+  process.env.TWITTER_SECRET || throwIfUndefined(process.env.TWITTER_SECRET, 'TWITTER_SECRET');
+
+export const TWITTER_CALLBACK =
+  process.env.TWITTER_CALLBACK || throwIfUndefined(process.env.TWITTER_CALLBACK, 'TWITTER_CALLBACK');

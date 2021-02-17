@@ -8,9 +8,6 @@ import { UserProvider } from '../context/user';
 import PageSpinner from './common/PageSpinner';
 import EVENTS from '../utils/constants/socketEvent';
 
-
-
-
 const App: React.FC= () =>  {
     const {socket} = useContext(SocketContext);
 
@@ -28,7 +25,6 @@ const App: React.FC= () =>  {
     useEffect(() => {
       ReactGA.pageview(window.location.pathname + window.location.search);
     }, []);
-
 
   return (
 	<div className=" bg-black min-h-screen">

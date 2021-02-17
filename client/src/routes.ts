@@ -10,6 +10,7 @@ const MultiplayerGame = lazy(() => import('./views/Tetris/Multiplayer'));
 const PageNotFound = lazy(() => import('./views/PageNotFound'));
 const HowToPlay = lazy(() => import('./views/HowToPlay'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
+const test = lazy(() => import('./views/test'));
 
 
 export const routes = [
@@ -41,6 +42,11 @@ export const routes = [
     {
         component: Leaderboard,
         path: ROUTES.leaderboard,
+        RouteType: Route,
+    },
+    {
+        component: test,
+        path: ROUTES.test,
         RouteType: Route,
     },
     {
