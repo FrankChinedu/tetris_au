@@ -8,9 +8,7 @@ import App from './views/App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-
 ReactGA.initialize("UA-189671562-1");
-
 
 ReactDOM.render(
   <React.StrictMode>
