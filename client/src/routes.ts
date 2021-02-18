@@ -11,6 +11,7 @@ const PageNotFound = lazy(() => import('./views/PageNotFound'));
 const HowToPlay = lazy(() => import('./views/HowToPlay'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
 const test = lazy(() => import('./views/test'));
+const AddUsername = lazy(() => import('./views/AddUsername'));
 
 
 export const routes = [
@@ -47,6 +48,11 @@ export const routes = [
     {
         component: test,
         path: ROUTES.test,
+        RouteType: Route,
+    },
+    {
+        component: AddUsername,
+        path: ROUTES.addUsername,
         RouteType: Route,
     },
     {
