@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ReactGA from 'react-ga';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+
+// Context
+import { UserContext } from '../../context/user';
 
 
 
@@ -19,6 +22,8 @@ const Leaderboard: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [error, setError] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
+    const [playerRank, setPlayerRank] = useState<any>();
+    const { twitterName, } = useContext(UserContext);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -30,11 +35,13 @@ const Leaderboard: React.FC = () => {
 }
 
   const fetchPlayers = (page: number) => {
-    axios.get(`${url}/leader-board?limit=10&page=${page}`)
+
+    axios.get(`${url}/leader-board?limit=10&page=${page}${twitterName !== '' ? (`&username=${twitterName}`):``}`)
     .then((res) => {
-        const { docs, hasNextPage, } = res.data.data;
+        const { docs, hasNextPage, rank } = res.data.data;
         setPlayers((prev: any) => [...prev, ...docs]);
         setHasNext(hasNextPage);
+        setPlayerRank(rank);
         // setPage((prev) => prev + 1);
     }).catch((err) => {
       setError(true);
@@ -86,8 +93,18 @@ const Leaderboard: React.FC = () => {
                       <div className="hidden md:block">{player.totalGamesPlayed}</div>
                   </div>
               ))}
-
             </div>
+            {playerRank && (
+              <div className="bg-gray-900 py-3 grid grid-cols-3 md:grid-cols-4 text-xs items-center">
+                <div className="text-left pl-10">
+                  YOUR RANK:
+                  <div>{playerRank.rank}</div>
+                </div>
+                <div>{playerRank.username}</div>
+                <div>{playerRank.score}</div>
+                <div className="hidden md:block">{playerRank.totalGamesPlayed}</div>
+              </div>
+            )}
               <div className="my-5">
                 <button 
                 onClick={() => {

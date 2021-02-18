@@ -18,10 +18,14 @@ interface IUserContext {
   gameId: string,
   setGameId: (gameId: string) => void
   username: string,
-  setUsername: (gameId: string) => void,
+  setUsername: (username: string) => void,
   gameInfo: IGameInfo,
   initGameInfo: IGameInfo,
   setGameInfo: (gameInfo: any) => void,
+  highestScore: number | undefined,
+  setHighestScore: (highestScore: number) => void,
+  twitterName: string | null,
+  setTwitterName: (twitterName: string) => void,
 }
 
 const initialGameInfoState =  {
@@ -47,11 +51,17 @@ const UserContext = createContext<IUserContext>({
   gameInfo: initialGameInfoState,
   setGameInfo: () => true,
   initGameInfo: initialGameInfoState,
+  highestScore: 0,
+  setHighestScore: () => true,
+  twitterName: '',
+  setTwitterName: () => true,
 });
 
 let _username = ''
 let _gameId = ''
 let _gameInfo = initialGameInfoState;
+let _highestScore: number | undefined;
+let _twitterName: string | null = '';
 
 if(localStorage.getItem('username')) {
   _username = JSON.parse(localStorage.getItem('username') || '');
@@ -65,11 +75,22 @@ if(localStorage.getItem('gameInfo')) {
   _gameInfo = JSON.parse(localStorage.getItem('gameInfo') || '');
 }
 
+if(localStorage.getItem('higs')) {
+  _highestScore = Number(localStorage.getItem('higs'));
+}
+
+if(localStorage.getItem('twitterName')) {
+  _twitterName = localStorage.getItem('twitterName');
+}
+
 const UserProvider = (props: any) => {
     const [gameId, setGameId] = useState(_gameId);
     const [username, setUsername] = useState(_username);
     const [gameInfo, setGameInfo] = useState<IGameInfo>(_gameInfo);
     const [initGameInfo] = useState<IGameInfo>(() => _gameInfo);
+    const [highestScore, setHighestScore] = useState<number | undefined>(_highestScore);
+    const [twitterName, setTwitterName] = useState<string | null> (_twitterName);
+
 
     useEffect(() => {
       localStorage.setItem('gameId', JSON.stringify(gameId));
@@ -79,7 +100,7 @@ const UserProvider = (props: any) => {
 
     return (
         <UserContext.Provider
-            value={{gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo}}
+            value={{gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo, highestScore, setHighestScore, twitterName, setTwitterName}}
         >
             {props.children}
         </UserContext.Provider>

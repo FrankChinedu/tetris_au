@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo, useEffect, useContext} from 'react';
 import ReactGA from 'react-ga';
 
 //helpers
@@ -24,6 +24,9 @@ import { IUseStage } from '../../utils/tetris/interfaces';
 
 import { randomStrings } from '../../utils/tetris/Tetriminoes';
 
+//  context
+import { UserContext } from '../../context/user';
+
 const newStage = createStage();
 
 const SingleGame: React.FC = () => {
@@ -33,6 +36,8 @@ const SingleGame: React.FC = () => {
   const [pausedGame, setPausedGame] = useState(false);
   const [dropTimeRef, setDropTimeRef] = useState(0);
   const [openGameOverDialog, setOpenGameOverDialog] = useState<boolean>(false);
+
+  const { highestScore, setHighestScore } = useContext(UserContext);
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -116,12 +121,9 @@ const SingleGame: React.FC = () => {
         setDropTime(null);
         setOpenGameOverDialog(true);
 
-        let highestScore = Number(localStorage.getItem('higs')) || 0;
-
-        if (score < highestScore){
-          localStorage.setItem("higs", String(highestScore));
-        }else{
-          localStorage.setItem("higs", String(score))
+        
+        if (highestScore && score > highestScore){
+          setHighestScore(score)
         }
         
       }
@@ -181,7 +183,7 @@ const SingleGame: React.FC = () => {
           </div>
           <div className="hidden sm:block">
             <p>Highest Score</p>
-            <small className="text-xl">{localStorage.getItem("higs") || 0}</small>
+            <small className="text-xl">{highestScore}</small>
           </div>
           
           <div className="py-2 px-3">
