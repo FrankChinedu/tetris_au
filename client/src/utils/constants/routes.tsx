@@ -6,6 +6,7 @@ const ROUTES = {
     howToPlay: '/howto',
     leaderboard: '/leaderboard',
     test: '/test',
+    addUsername: '/add-username',
     notFound: '/404/page-not-found',
   };
   

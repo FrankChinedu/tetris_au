@@ -8,9 +8,8 @@ Router.get('/twitter', (req: Request, res: Response) => {
     if (err) {
       // Handle the error your way
       console.log('error', err);
+      return res.redirect('/?error=twitter');
     }
-    console.log(tokenSecret, 'tokensecret');
-    console.log(url, 'url');
 
     // Save the OAuth token secret for use in your /twitter/callback route
     req.session.tokenSecret = tokenSecret;
@@ -25,11 +24,10 @@ Router.get('/twitter/callback', (req: Request, res: Response) => {
   }, req.session.tokenSecret, (err: Error, user: any) => {
     if (err) {
       // Handle the error your way
-      console.log('callback', err);
+      return res.redirect('/?error=twitter');
     }
-    console.log('user allback', user);
 
-    res.redirect('/');
+    res.redirect(`/add-username?userName=${user.userName}`);
   });
 });
 

@@ -26,26 +26,32 @@ const App: React.FC= () =>  {
       ReactGA.pageview(window.location.pathname + window.location.search);
     }, []);
 
-  return (
-	<div className=" bg-black min-h-screen">
-    <Suspense fallback={<div className="h-screen flex justify-center items-center"><PageSpinner /></div>}>
-      <SocketProvider>
-        <UserProvider>
-          <Switch>
-            {routes.map(({path, component, RouteType}) => (
-              <RouteType
-              key={id}
-              path={path}
-              exact
-              component={component}
-            />
-            ))}
-          </Switch>
-        </UserProvider>
-      </SocketProvider>
-    </Suspense>
-	</div>
-	)
+    const url = '/auth/twitter';
+    if (window.location.pathname === url) {
+        return <div></div>;
+    } else {
+        return (
+          <div className=" bg-black min-h-screen">
+          <Suspense fallback={<div className="h-screen flex justify-center items-center"><PageSpinner /></div>}>
+            <SocketProvider>
+              <UserProvider>
+                <Switch>
+                  {routes.map(({path, component, RouteType}) => (
+                    <RouteType
+                    key={id}
+                    path={path}
+                    exact
+                    component={component}
+                  />
+                  ))}
+                </Switch>
+              </UserProvider>
+            </SocketProvider>
+          </Suspense>
+          </div>
+          )
+    }
+
 }
 
 export default App;
