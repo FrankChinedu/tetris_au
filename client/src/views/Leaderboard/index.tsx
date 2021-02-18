@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,8 +16,6 @@ const Leaderboard: React.FC = () => {
 
     const [players, setPlayers] = useState<any>([]);
     const [hasNext, setHasNext] = useState<boolean>(false);
-    const [hasPrev, setHasPrev] = useState<boolean>(false);
-    const [totalPlayers, setTotalPlayer] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [error, setError] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
@@ -35,10 +32,9 @@ const Leaderboard: React.FC = () => {
   const fetchPlayers = (page: number) => {
     axios.get(`${url}/leader-board?limit=10&page=${page}`)
     .then((res) => {
-        const { docs, hasNextPage, totalDocs, rank } = res.data.data;
+        const { docs, hasNextPage, } = res.data.data;
         setPlayers((prev: any) => [...prev, ...docs]);
         setHasNext(hasNextPage);
-        setTotalPlayer(totalDocs);
         // setPage((prev) => prev + 1);
     }).catch((err) => {
       setError(true);
