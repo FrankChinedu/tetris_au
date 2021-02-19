@@ -3,8 +3,8 @@ import React from 'react';
 const PageNotFound: React.FC = () => {
     const handleSocials = () => {
         const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-        let global = window as any;
-        global.location = `${SERVER_URL}/auth/twitter`
+        let global = window as Window;
+        global.location.href = `${SERVER_URL}/auth/twitter`
     }
 
     return (
