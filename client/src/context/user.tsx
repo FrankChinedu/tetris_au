@@ -26,6 +26,8 @@ interface IUserContext {
   setHighestScore: (highestScore: number) => void,
   twitterName: string | null,
   setTwitterName: (twitterName: string) => void,
+  score: number | undefined,
+  setScore: (score: number | undefined) => void,
 }
 
 const initialGameInfoState =  {
@@ -55,6 +57,8 @@ const UserContext = createContext<IUserContext>({
   setHighestScore: () => true,
   twitterName: '',
   setTwitterName: () => true,
+  score: undefined,
+  setScore: () => true,
 });
 
 let _username = ''
@@ -62,6 +66,7 @@ let _gameId = ''
 let _gameInfo = initialGameInfoState;
 let _highestScore: number | undefined;
 let _twitterName: string | null = '';
+let _score: number | undefined;
 
 if(localStorage.getItem('username')) {
   _username = JSON.parse(localStorage.getItem('username') || '');
@@ -83,6 +88,10 @@ if(localStorage.getItem('twitterName')) {
   _twitterName = localStorage.getItem('twitterName');
 }
 
+if(localStorage.getItem('score')) {
+  _score = Number(localStorage.getItem('score'));
+}
+
 const UserProvider = (props: any) => {
     const [gameId, setGameId] = useState(_gameId);
     const [username, setUsername] = useState(_username);
@@ -90,6 +99,7 @@ const UserProvider = (props: any) => {
     const [initGameInfo] = useState<IGameInfo>(() => _gameInfo);
     const [highestScore, setHighestScore] = useState<number | undefined>(_highestScore);
     const [twitterName, setTwitterName] = useState<string | null> (_twitterName);
+    const [score, setScore] = useState<number | undefined>(_score);
 
 
     useEffect(() => {
@@ -100,7 +110,9 @@ const UserProvider = (props: any) => {
 
     return (
         <UserContext.Provider
-            value={{gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo, highestScore, setHighestScore, twitterName, setTwitterName}}
+            value={
+              {gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo, highestScore, setHighestScore, twitterName, setTwitterName, score, setScore}
+            }
         >
             {props.children}
         </UserContext.Provider>
