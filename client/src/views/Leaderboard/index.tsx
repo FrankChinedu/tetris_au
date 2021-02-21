@@ -54,6 +54,28 @@ const Leaderboard: React.FC = () => {
     })
   }
 
+  const calcRank = (num: number) => {
+      const string = String(num);
+      let arr = string.split('');
+      const length = arr.length;
+      let lastItem= arr[length - 1];
+      let res = 'th';
+      
+      switch (+lastItem) {
+          case 1:
+              res = 'st'
+              break;
+          case 2:
+              res = 'nd'
+              break;
+          case 3:
+              res = 'rd'
+              break;
+          default:
+              break;
+      }
+      return `${num} ${res}`;
+  }
 
   useEffect(() => {
     fetchPlayers(page);
@@ -96,9 +118,9 @@ const Leaderboard: React.FC = () => {
             </div>
             {playerRank && (
               <div className="bg-gray-900 py-3 grid grid-cols-3 md:grid-cols-4 text-xs items-center">
-                <div className="text-left pl-10">
+                <div className="text-center pl-10">
                   YOUR RANK:
-                  <div>{playerRank.rank}</div>
+                  <div>{calcRank(playerRank.rank)}</div>
                 </div>
                 <div>{playerRank.username}</div>
                 <div>{playerRank.score}</div>

@@ -1,10 +1,12 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Dialog, } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ROUTES from '../utils/constants/routes';
 import { OShape } from './Tetriminoes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo, } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 //  context
 import { UserContext } from '../context/user';
@@ -19,17 +21,39 @@ interface IGameOverPrompt {
 const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) => {
 
     const history = useHistory();
-    const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-    const { highestScore, twitterName, setScore } = useContext(UserContext);
+    const [text, setText] = useState<string>('');
+    const { highestScore, twitterName, setTwitterName } = useContext(UserContext);
+    const url = process.env.REACT_APP_API_URL;
+
+    const handleClick = () => {
+        if (text) {
+            setTwitterName(text);
+        }
+    }
+
+    const handleChange = (e: any) => {
+        if (e.currentTarget.value.includes(" ")) {
+            e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+        }
+        const word = e.target.value;
+        setText(word);
+    }
+
+    const  preventSpace = (e: any) => {
+        if (e.key === " ") {
+            e.preventDefault();
+          }
+    }
 
     useEffect(() => {
-        if(open && !twitterName && score > 0) {
-            setScore(score);
-        } else if(open && twitterName && score > 0) {
-            //make call to axios
+        if(open && twitterName && score > 0) {
+            axios.post(`${url}/leader-board?username=${twitterName}`, {
+                username: twitterName,
+                score: score
+            });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open])
+    }, [open, twitterName])
 
   return (
     <React.Fragment>
@@ -50,8 +74,28 @@ const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) =
         <div className="text-center mb-5">
          <p>Your score is {score}</p>
          <p>Your highest score is {highestScore}</p>
-         <p>Your highest score is {highestScore}</p>
-         <a href={`${SERVER_URL}/auth/twitter`} target="_blank" rel="noreferrer">click to Sign in with twitter to view highscore</a>
+         {twitterName && <p className="border-2 border-yellow-600 mt-4 px-4 py-4 transform transition duration-500 hover:scale-75">
+             <Link to={ROUTES.leaderboard} className="">leader Board</Link>
+         </p>}
+
+         {!!!twitterName && <div className="w-full max-w-xs my-1 m-auto">
+            <form className="shadow-md rounded px-8 pt-4 pb-4 mb-4">
+                <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">
+                  Your Twitter Username
+                </label>
+                <input onKeyDown={(e) => preventSpace(e)} onChange={handleChange} placeholder="kindly put your username" required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    type="text" />
+                </div>
+                <div className="flex items-center justify-center">
+                <button disabled={text.trim() === ''} onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 disabled:text-gray-500 rounded focus:outline-none focus:shadow-outline" type="button">
+                    add
+                </button>
+                </div>
+            </form>
+        </div>}
+
         </div>
         <div className="text-right">
           <button onClick={() => {
