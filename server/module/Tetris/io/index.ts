@@ -188,7 +188,7 @@ export default (client: Socket, io: Server): void => {
 
       const roomArray = Object.values(roomMembers) as IRoomValues[];
       const hasNotCheckedOut = roomArray.filter(value => value.checkedOut === false);
-      if (hasNotCheckedOut.length === 1) {
+      if (hasNotCheckedOut.length === 0) {
         io.in(roomName).emit(EVENT_TYPES.GAME_SESSION_OVER, { gameHasNotEnded: false });
         gameData.ended = true;
         Tetris.findOne({
@@ -247,7 +247,7 @@ export default (client: Socket, io: Server): void => {
   }
 
   client.on('disconnect', (reason) => {
-    console.log('client', client.id);
+    // console.log('client', client.id);
     console.log('reason', reason);
   });
 };
