@@ -37,7 +37,7 @@ const AddUsername: React.FC = () => {
             score: score
         }).then((res) => {
             setTwitterName(username);
-            setScore(undefined);
+            setScore(0);
             history.push(ROUTES.leaderboard);
         }).catch((err) => {
             history.push(ROUTES.home);

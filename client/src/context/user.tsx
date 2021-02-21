@@ -22,12 +22,12 @@ interface IUserContext {
   gameInfo: IGameInfo,
   initGameInfo: IGameInfo,
   setGameInfo: (gameInfo: any) => void,
-  highestScore: number | undefined,
+  highestScore: number,
   setHighestScore: (highestScore: number) => void,
   twitterName: string | null,
   setTwitterName: (twitterName: string) => void,
-  score: number | undefined,
-  setScore: (score: number | undefined) => void,
+  score: number,
+  setScore: (score: number) => void,
 }
 
 const initialGameInfoState =  {
@@ -57,16 +57,16 @@ const UserContext = createContext<IUserContext>({
   setHighestScore: () => true,
   twitterName: '',
   setTwitterName: () => true,
-  score: undefined,
+  score: 0,
   setScore: () => true,
 });
 
 let _username = ''
 let _gameId = ''
 let _gameInfo = initialGameInfoState;
-let _highestScore: number | undefined;
+let _highestScore = 0;
 let _twitterName: string | null = '';
-let _score: number | undefined;
+let _score = 0;
 
 if(localStorage.getItem('username')) {
   _username = JSON.parse(localStorage.getItem('username') || '');
@@ -97,10 +97,18 @@ const UserProvider = (props: any) => {
     const [username, setUsername] = useState(_username);
     const [gameInfo, setGameInfo] = useState<IGameInfo>(_gameInfo);
     const [initGameInfo] = useState<IGameInfo>(() => _gameInfo);
-    const [highestScore, setHighestScore] = useState<number | undefined>(_highestScore);
+    const [highestScore, setHighestScore] = useState<number>(_highestScore);
     const [twitterName, setTwitterName] = useState<string | null> (_twitterName);
-    const [score, setScore] = useState<number | undefined>(_score);
+    const [score, setScore] = useState<number>(_score);
 
+    useEffect(() => {
+        if (+score > 0) {
+            localStorage.setItem('score', JSON.stringify(score))
+        }
+        if (highestScore) {
+            localStorage.setItem('higs', JSON.stringify(highestScore));
+        }
+    }, [score, highestScore]);
 
     useEffect(() => {
       localStorage.setItem('gameId', JSON.stringify(gameId));
@@ -111,7 +119,8 @@ const UserProvider = (props: any) => {
     return (
         <UserContext.Provider
             value={
-              {gameId, setGameId, username, setUsername, gameInfo, setGameInfo, initGameInfo, highestScore, setHighestScore, twitterName, setTwitterName, score, setScore}
+              {gameId, setGameId, username, setUsername, gameInfo, setGameInfo,
+                 initGameInfo, highestScore, setHighestScore, twitterName, setTwitterName, score, setScore}
             }
         >
             {props.children}

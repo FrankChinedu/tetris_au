@@ -73,10 +73,6 @@ const SingleGame: React.FC = () => {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
-  useEffect(() => {
-  }, [score, nextPlayer])
-
-
   const startGame = () => {
     setDropTime(1000);
     setDropTimeRef(1000);
@@ -120,9 +116,8 @@ const SingleGame: React.FC = () => {
         setGameOver(true);
         setDropTime(null);
         setOpenGameOverDialog(true);
-
         
-        if (highestScore && score > highestScore){
+        if (score > highestScore){
           setHighestScore(score)
         }
         
