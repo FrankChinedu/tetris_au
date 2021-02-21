@@ -14,7 +14,7 @@ import SOCKET_EVENTS from '../../utils/constants/socketEvent';
   
 const JoinGame: React.FC  = () => {
 
-    const {gameId, setGameId, setUsername, username, setGameInfo } = useContext(UserContext);
+    const {gameId, setGameId, setUsername, username, setGameInfo, initGameInfo } = useContext(UserContext);
     const history = useHistory();
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [_userName, _setUserName] = useState(username);
@@ -50,8 +50,10 @@ const JoinGame: React.FC  = () => {
                     search: '?game=true',
                   });
               }else {
-                  setErrorMsg('An unknown error occured');
-                  localStorage.clear();
+                setErrorMsg('An unknown error occured');
+                setGameInfo(initGameInfo);
+                setGameId('');
+                setUsername('');
               }
           }, 100)
       });

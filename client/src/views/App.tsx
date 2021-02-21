@@ -8,9 +8,6 @@ import { UserProvider } from '../context/user';
 import PageSpinner from './common/PageSpinner';
 import EVENTS from '../utils/constants/socketEvent';
 
-
-
-
 const App: React.FC= () =>  {
     const {socket} = useContext(SocketContext);
 
@@ -29,27 +26,32 @@ const App: React.FC= () =>  {
       ReactGA.pageview(window.location.pathname + window.location.search);
     }, []);
 
+    const url = '/auth/twitter';
+    if (window.location.pathname === url) {
+        return <div></div>;
+    } else {
+        return (
+          <div className=" bg-black min-h-screen">
+          <Suspense fallback={<div className="h-screen flex justify-center items-center"><PageSpinner /></div>}>
+            <SocketProvider>
+              <UserProvider>
+                <Switch>
+                  {routes.map(({path, component, RouteType}) => (
+                    <RouteType
+                    key={id}
+                    path={path}
+                    exact
+                    component={component}
+                  />
+                  ))}
+                </Switch>
+              </UserProvider>
+            </SocketProvider>
+          </Suspense>
+          </div>
+          )
+    }
 
-  return (
-	<div className=" bg-black min-h-screen">
-    <Suspense fallback={<div className="h-screen flex justify-center items-center"><PageSpinner /></div>}>
-      <SocketProvider>
-        <UserProvider>
-          <Switch>
-            {routes.map(({path, component, RouteType}) => (
-              <RouteType
-              key={id}
-              path={path}
-              exact
-              component={component}
-            />
-            ))}
-          </Switch>
-        </UserProvider>
-      </SocketProvider>
-    </Suspense>
-	</div>
-	)
 }
 
 export default App;

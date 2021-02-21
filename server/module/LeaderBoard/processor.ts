@@ -8,7 +8,6 @@ const LeaderBoard = {
     username = username.toLowerCase();
     score = +score;
     body.username = username;
-    console.log('username', username);
     try {
       let leaderBoard = await LeaderBoardModel.findOne({
         username
@@ -16,6 +15,10 @@ const LeaderBoard = {
       if (leaderBoard) {
         if (score > leaderBoard.score) {
           leaderBoard.score = score;
+          leaderBoard.totalGamesPlayed += 1;
+          leaderBoard = await leaderBoard.save();
+        } else {
+          leaderBoard.totalGamesPlayed += 1;
           leaderBoard = await leaderBoard.save();
         }
       } else {
@@ -38,11 +41,65 @@ const LeaderBoard = {
 
   get: async (params: any): Promise<ResponseDataI> => {
     try {
-      const limit = params.limit;
-      const page = params.page;
-      const aggregateQuery = LeaderBoardModel.aggregate();
-      const leaderBoard = await LeaderBoardModel.aggregatePaginate(aggregateQuery,
-        { page, limit, sort: { score: 'descending' } }) as LeaderBoardDoc;
+      const limit = +params.limit;
+      const page = +params.page;
+      const username = params.username;
+
+      const aggregateQuery = await LeaderBoardModel.aggregate([
+        {
+          $sort: {
+            score: -1
+          }
+        },
+        {
+          $facet: {
+            data: [
+              {
+                $skip: (page * limit)
+              },
+              {
+                $limit: limit
+              }
+            ],
+            rank: [
+              {
+                $group: {
+                  _id: null,
+                  elements: {
+                    $push: '$username'
+                  }
+                }
+              },
+              {
+                $project: {
+                  index: {
+                    $indexOfArray: [
+                      '$elements',
+                      username
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]) as any;
+
+      const leaderBoard = await LeaderBoardModel.aggregatePaginate(LeaderBoardModel.aggregate(), {
+        page: page + 1, limit
+      }) as LeaderBoardDoc;
+
+      const docs = aggregateQuery.length ? aggregateQuery[0].data : [];
+      const rank = aggregateQuery.length ? aggregateQuery[0].rank[0] : null;
+      leaderBoard.docs = docs;
+      leaderBoard.rank = null;
+
+      if (rank && rank.index >= 0) {
+        let user = await LeaderBoardModel.findOne({ username }) as any;
+        user = user.toObject();
+        user.rank = rank.index + 1;
+        leaderBoard.rank = user;
+      }
 
       return {
         status: 200,

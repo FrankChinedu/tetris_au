@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import { Dialog, } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ROUTES from '../utils/constants/routes';
 import { OShape } from './Tetriminoes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo, } from '@fortawesome/free-solid-svg-icons';
+
+//  context
+import { UserContext } from '../context/user';
 
 interface IGameOverPrompt {
     open: boolean,
@@ -16,6 +19,17 @@ interface IGameOverPrompt {
 const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) => {
 
     const history = useHistory();
+    const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+    const { highestScore, twitterName, setScore } = useContext(UserContext);
+
+    useEffect(() => {
+        if(open && !twitterName && score > 0) {
+            setScore(score);
+        } else if(open && twitterName && score > 0) {
+            //make call to axios
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open])
 
   return (
     <React.Fragment>
@@ -35,7 +49,9 @@ const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) =
         <div id="game-over-dialog" className="p-5 text-center text-3xl">Game Over</div>
         <div className="text-center mb-5">
          <p>Your score is {score}</p>
-         <p>Your highest score is {localStorage.getItem('higs')}</p>
+         <p>Your highest score is {highestScore}</p>
+         <p>Your highest score is {highestScore}</p>
+         <a href={`${SERVER_URL}/auth/twitter`} target="_blank" rel="noreferrer">click to Sign in with twitter to view highscore</a>
         </div>
         <div className="text-right">
           <button onClick={() => {
