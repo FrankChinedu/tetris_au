@@ -50,7 +50,6 @@ const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) =
         <div className="text-center mb-5">
          <p>Your score is {score}</p>
          <p>Your highest score is {highestScore}</p>
-         <p>Your highest score is {highestScore}</p>
          <a href={`${SERVER_URL}/auth/twitter`} target="_blank" rel="noreferrer">click to Sign in with twitter to view highscore</a>
         </div>
         <div className="text-right">
