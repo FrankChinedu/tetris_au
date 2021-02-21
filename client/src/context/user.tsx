@@ -86,6 +86,7 @@ if(localStorage.getItem('higs')) {
 
 if(localStorage.getItem('twitterName')) {
   _twitterName = localStorage.getItem('twitterName');
+  _twitterName = _twitterName && JSON.parse(_twitterName);
 }
 
 if(localStorage.getItem('score')) {
@@ -108,7 +109,10 @@ const UserProvider = (props: any) => {
         if (highestScore) {
             localStorage.setItem('higs', JSON.stringify(highestScore));
         }
-    }, [score, highestScore]);
+        if (twitterName) {
+            localStorage.setItem('twitterName', JSON.stringify(twitterName))
+        }
+    }, [score, highestScore, twitterName]);
 
     useEffect(() => {
       localStorage.setItem('gameId', JSON.stringify(gameId));
