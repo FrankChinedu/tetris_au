@@ -32,4 +32,3 @@ export const IShape = () => (
         <div className="h-6 w-6 mr-1 rounded bg-blue-500"></div>
     </div>
 );
-
