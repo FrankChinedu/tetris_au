@@ -5,7 +5,7 @@ const LeaderBoard = {
   post: async (body:any): Promise<ResponseDataI> => {
     let username = body.username as string;
     let score = body.score as number;
-    username = username.toLowerCase();
+    username = username.toLowerCase().replace('@', '').trim();
     score = +score;
     body.username = username;
     try {
