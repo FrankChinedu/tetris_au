@@ -15,7 +15,7 @@ import ROUTES from '../../utils/constants/routes';
 
 const SGame: React.FC  = () => {
 
-    const { gameId, username, setGameInfo } = useContext(UserContext);
+    const { gameId, username, setGameInfo, setGameId, setUsername, initGameInfo } = useContext(UserContext);
     const { socket } = useContext(SocketContext);
     const history = useHistory();
     const [errorMsg, setErrorMsg] = useState<string>('');
@@ -47,7 +47,9 @@ const SGame: React.FC  = () => {
                       });
                 }else {
                     setErrorMsg('An unknown error occured');
-                    localStorage.clear();
+                    setGameInfo(initGameInfo);
+                    setGameId('');
+                    setUsername('');
                 }
             }, 500)
         })

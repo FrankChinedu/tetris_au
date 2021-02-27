@@ -11,7 +11,7 @@ const Home: React.FC = () => (
         <Link to={ROUTES.singleGame} className="border-2 border-green-300 px-7 py-4 transform transition duration-500 hover:scale-75">Play Single Player</Link>
         <Link to={ROUTES.multiGameSteps} className="border-2 border-yellow-300 px-7 py-4 transform transition duration-500 hover:scale-75">Play Multiple Players</Link>
         <Link to={ROUTES.howToPlay} className="border-2 border-red-300 px-7 py-4 transform transition duration-500 hover:scale-75">How to Play tetris</Link>
-        {/* <Link to={ROUTES.home} className="border-2 border-yellow-600 px-7 py-4 transform transition duration-500 hover:scale-75">Settings</Link> */}
+        <Link to={ROUTES.leaderboard} className="border-2 border-yellow-600 px-7 py-4 transform transition duration-500 hover:scale-75">Leaderboard</Link>
       </main>
       <footer className="absolute bottom-0 montserrat w-full text-center py-4">
         Built with love by&nbsp;

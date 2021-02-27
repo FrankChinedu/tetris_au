@@ -10,10 +10,12 @@ const LeaderBoard = {
   },
 
   get: async (req:Request, res:Response): Promise<void | Response> => {
-    const page = req.query.page ? req.query.page : 1;
+    let page = req.query.page ? req.query.page : 0;
+    page = +page === 0 ? +page : +page - 1;
+    const username = req.query.username ? req.query.username : '';
     let limit = req.query.limit ? req.query.limit : 100;
     limit = limit > 100 ? 100 : limit;
-    const response = await Processor.get({ page, limit });
+    const response = await Processor.get({ page, limit, username });
     responseTransform(res, response);
   }
 };

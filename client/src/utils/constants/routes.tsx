@@ -4,7 +4,10 @@ const ROUTES = {
     multiGame: '/tetris',
     multiGameSteps: '/steps',
     howToPlay: '/howto',
-    notFound: '/404/page-not-found'
+    leaderboard: '/leaderboard',
+    test: '/test',
+    addUsername: '/add-username',
+    notFound: '/404/page-not-found',
   };
   
   export default ROUTES;

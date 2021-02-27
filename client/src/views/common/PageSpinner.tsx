@@ -1,5 +1,5 @@
 import React from 'react';
-import { TShape } from '../../components/Tetriminoes'
+import { TShape } from '../../components/Tetriminoes';
 
 
 const PageSpinner: React.FC = () => (
