@@ -7,6 +7,7 @@ const ROUTES = {
     leaderboard: '/leaderboard',
     test: '/test',
     addUsername: '/add-username',
+    settings: '/settings',
     notFound: '/404/page-not-found',
   };
   
