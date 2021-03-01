@@ -45,8 +45,7 @@ const Settings: React.FC = () => {
         <section className="grid grid-cols-2 mb-5">
           <p className="sm:text-xl ">Change Twitter Username</p>
           <div>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" />
-            <small>don't add @ just add your username, example ilizette7</small>
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" placeholder="example ilizette7" />
           </div>
         </section>
       </main>
