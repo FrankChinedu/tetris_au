@@ -1,0 +1,45 @@
+:root {
+    --red: rgba(252, 165, 165, 1);
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	width: 50px;
+	height: 48px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+    background-color: var(--red);
+}
+
+input:checked + label:after {
+	left: 100%;
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 50px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--red);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--red);
+    cursor: pointer;
+}
