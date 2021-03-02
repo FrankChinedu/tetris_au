@@ -10,7 +10,7 @@ const Home: React.FC = () => (
       <main className="w-11/12 md:w-7/12 my-16 grid grid-cols-1 md:grid-cols-2 justify-center content-center text-center h-80 gap-10 mx-auto montserrat">
         <Link to={ROUTES.singleGame} className="border-2 border-green-300 px-7 py-4 transform transition duration-500 hover:scale-75">Play Single Player</Link>
         <Link to={ROUTES.multiGameSteps} className="border-2 border-yellow-300 px-7 py-4 transform transition duration-500 hover:scale-75">Play Multiple Players</Link>
-        <Link to={ROUTES.howToPlay} className="border-2 border-red-300 px-7 py-4 transform transition duration-500 hover:scale-75">How to Play tetris</Link>
+        {/* <Link to={ROUTES.howToPlay} className="border-2 border-red-300 px-7 py-4 transform transition duration-500 hover:scale-75">How to Play tetris</Link> */}
         <Link to={ROUTES.leaderboard} className="border-2 border-yellow-600 px-7 py-4 transform transition duration-500 hover:scale-75">Leaderboard</Link>
         <Link to={ROUTES.settings} className="border-2 border-blue-300 px-7 py-4 transform transition duration-500 hover:scale-75">Settings</Link>
       </main>
