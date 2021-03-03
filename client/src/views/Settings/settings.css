@@ -43,3 +43,12 @@ input[type="range"]::-moz-range-thumb {
     background: var(--red);
     cursor: pointer;
 }
+
+@media (max-width: 639px) {
+
+    label:after {
+        width: 32px;
+        height: 32px;
+    }
+
+}

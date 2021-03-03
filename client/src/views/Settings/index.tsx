@@ -31,10 +31,10 @@ const Settings: React.FC = () => {
           <p className="sm:text-xl ">Game Sound</p>
           <p>
             <input type="checkbox" id="switch" className="invisible w-0 h-0" />
-            <label htmlFor="switch" className="cursor-pointer w-24 h-12 bg-gray-500 block rounded-full relative -top-6" />
+            <label htmlFor="switch" className="cursor-pointer w-16 h-8 sm:w-24 sm:h-12 bg-gray-500 block rounded-full relative -top-6" />
           </p>
         </section>
-        <section className="grid grid-cols-2 mb-5">
+        <section className="grid grid-cols-2 mb-5 items-center">
           <p className="sm:text-xl ">Game Speed</p>
           <div>
             <input type="range" min="1000" max="10000" value={range} onChange={(e) => setRange(e.target.value)} className="appearance-none w-full h-3 rounded-md outline-none bg-gray-500 opacity-70 transition-opacity duration-1000 hover:opacity-100" />
@@ -42,7 +42,7 @@ const Settings: React.FC = () => {
           </div>
           <small>(Only for Single player)</small>
         </section>
-        <section className="grid grid-cols-2 mb-5">
+        <section className="grid grid-cols-2 mb-5 items-center">
           <p className="sm:text-xl ">Change Twitter Username</p>
           <div>
             <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" placeholder="example ilizette7" />
@@ -52,7 +52,6 @@ const Settings: React.FC = () => {
     </div>
   );
 };
-
 
 
 
