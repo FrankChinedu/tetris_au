@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import { UserContext } from '../../context/user';
+import { SingleGameContext } from '../../context/singleGame';
 
 import PageSpinner from '../common/PageSpinner';
 
@@ -15,7 +15,7 @@ const AddUsername: React.FC = () => {
     const location = useLocation();
     const history = useHistory();
     
-    const { setTwitterName, score, setScore } = useContext(UserContext);
+    const { setTwitterName, score, setScore } = useContext(SingleGameContext);
 
     
     useEffect(() => {

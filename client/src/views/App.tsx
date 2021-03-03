@@ -5,6 +5,7 @@ import { Switch } from 'react-router-dom';
 import { routes } from '../routes';
 import { SocketProvider, SocketContext } from '../context/socket';
 import { UserProvider } from '../context/user';
+import { SingleGameProvider } from '../context/singleGame';
 import PageSpinner from './common/PageSpinner';
 import EVENTS from '../utils/constants/socketEvent';
 
@@ -34,18 +35,20 @@ const App: React.FC= () =>  {
           <div className=" bg-black min-h-screen">
           <Suspense fallback={<div className="h-screen flex justify-center items-center"><PageSpinner /></div>}>
             <SocketProvider>
-              <UserProvider>
-                <Switch>
-                  {routes.map(({path, component, RouteType}) => (
-                    <RouteType
-                    key={id}
-                    path={path}
-                    exact
-                    component={component}
-                  />
-                  ))}
-                </Switch>
-              </UserProvider>
+              <SingleGameProvider>
+                <UserProvider>
+                  <Switch>
+                    {routes.map(({path, component, RouteType}) => (
+                      <RouteType
+                      key={id}
+                      path={path}
+                      exact
+                      component={component}
+                    />
+                    ))}
+                  </Switch>
+                </UserProvider>
+              </SingleGameProvider>
             </SocketProvider>
           </Suspense>
           </div>

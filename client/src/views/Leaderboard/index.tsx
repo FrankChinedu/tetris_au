@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Context
-import { UserContext } from '../../context/user';
+import { SingleGameContext } from '../../context/singleGame';
 
 
 
@@ -23,7 +23,7 @@ const Leaderboard: React.FC = () => {
     const [error, setError] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [playerRank, setPlayerRank] = useState<any>();
-    const { twitterName, } = useContext(UserContext);
+    const { twitterName, } = useContext(SingleGameContext);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
