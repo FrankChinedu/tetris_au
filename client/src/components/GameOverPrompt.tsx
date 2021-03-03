@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 //  context
-import { UserContext } from '../context/user';
+import { SingleGameContext } from '../context/singleGame';
 
 interface IGameOverPrompt {
     open: boolean,
@@ -22,7 +22,7 @@ const GameOverPrompt: React.FC<IGameOverPrompt> = ({open, handleClose, score}) =
 
     const history = useHistory();
     const [text, setText] = useState<string>('');
-    const { highestScore, twitterName, setTwitterName } = useContext(UserContext);
+    const { highestScore, twitterName, setTwitterName } = useContext(SingleGameContext);
     const url = process.env.REACT_APP_API_URL;
 
     const handleClick = () => {

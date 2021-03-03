@@ -25,7 +25,7 @@ import { IUseStage } from '../../utils/tetris/interfaces';
 import { randomStrings } from '../../utils/tetris/Tetriminoes';
 
 //  context
-import { UserContext } from '../../context/user';
+import { SingleGameContext } from '../../context/singleGame';
 
 const newStage = createStage();
 
@@ -37,7 +37,7 @@ const SingleGame: React.FC = () => {
   const [dropTimeRef, setDropTimeRef] = useState(0);
   const [openGameOverDialog, setOpenGameOverDialog] = useState<boolean>(false);
 
-  const { highestScore, setHighestScore } = useContext(UserContext);
+  const { highestScore, setHighestScore } = useContext(SingleGameContext);
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -74,8 +74,8 @@ const SingleGame: React.FC = () => {
   }, []);
 
   const startGame = () => {
-    setDropTime(1000);
-    setDropTimeRef(1000);
+    setDropTime(1500);
+    setDropTimeRef(1500);
     setStage(newStage);
     resetPlayer();
     setGameOver(false);
@@ -102,7 +102,7 @@ const SingleGame: React.FC = () => {
     if (rows > (level + 1) * 10) {
       setLevel((prev: number) => prev + 1);
       // Also increase speed
-      const newDropTime = (1000 / (level + 1)) + 200;
+      const newDropTime = (1500 / (level + 1)) + 200;
       setDropTimeRef(newDropTime);
       setDropTime(newDropTime);
     }

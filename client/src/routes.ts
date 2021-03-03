@@ -12,6 +12,7 @@ const HowToPlay = lazy(() => import('./views/HowToPlay'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
 const test = lazy(() => import('./views/test'));
 const AddUsername = lazy(() => import('./views/AddUsername'));
+const Settings = lazy(() => import('./views/Settings'));
 
 
 export const routes = [
@@ -43,6 +44,11 @@ export const routes = [
     {
         component: Leaderboard,
         path: ROUTES.leaderboard,
+        RouteType: Route,
+    },
+    {
+        component: Settings,
+        path: ROUTES.settings,
         RouteType: Route,
     },
     {
