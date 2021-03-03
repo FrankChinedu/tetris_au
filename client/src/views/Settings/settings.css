@@ -25,6 +25,15 @@ label:active:after {
 	width: 50px;
 }
 
+input[type=range]::-webkit-slider-runnable-track {
+  transform: scaleX(-1);
+} 
+
+input[type=range]::-moz-range-track {
+  transform: scaleX(-1);
+}
+
+
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;

@@ -74,8 +74,8 @@ const SingleGame: React.FC = () => {
   }, []);
 
   const startGame = () => {
-    setDropTime(1500);
-    setDropTimeRef(1500);
+    setDropTime(100);
+    setDropTimeRef(100);
     setStage(newStage);
     resetPlayer();
     setGameOver(false);
@@ -102,7 +102,7 @@ const SingleGame: React.FC = () => {
     if (rows > (level + 1) * 10) {
       setLevel((prev: number) => prev + 1);
       // Also increase speed
-      const newDropTime = (1500 / (level + 1)) + 200;
+      const newDropTime = (100 / (level + 1)) + 200;
       setDropTimeRef(newDropTime);
       setDropTime(newDropTime);
     }
