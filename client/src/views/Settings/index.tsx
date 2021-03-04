@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ReactGA from 'react-ga';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
 import './settings.css';
@@ -11,14 +10,12 @@ import { SingleGameContext } from '../../context/singleGame';
 
 
 import ROUTES from '../../utils/constants/routes';
-const url = process.env.REACT_APP_API_URL;
 
 
 const Settings: React.FC = () => {
   
-  const { setSpeed, speed, twitterName } = useContext(SingleGameContext);
+  const { setSpeed, speed } = useContext(SingleGameContext);
   const [range, setRange] = useState<number>(speed);
-  const [username, setUsername] = useState<string>(twitterName || "");
 
 
   useEffect(() => {
@@ -66,14 +63,6 @@ const Settings: React.FC = () => {
           </div>
           <small>(Only for Single player)</small>
         </section>
-        {twitterName !== "" && (
-          <section className="grid grid-cols-2 mb-5 items-center">
-            <p className="sm:text-xl ">Change Twitter Username</p>
-            <div>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" placeholder="example ilizette7" />
-            </div>
-          </section>
-        )}
       </main>
     </div>
   );
