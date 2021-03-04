@@ -37,7 +37,7 @@ const SingleGame: React.FC = () => {
   const [dropTimeRef, setDropTimeRef] = useState(0);
   const [openGameOverDialog, setOpenGameOverDialog] = useState<boolean>(false);
 
-  const { highestScore, setHighestScore } = useContext(SingleGameContext);
+  const { highestScore, setHighestScore, speed } = useContext(SingleGameContext);
 
   const [player , updatePlayerPos, resetPlayer,
      playerRotate, setTetrominoString, nextPlayer] = usePlayer();
@@ -60,8 +60,8 @@ const SingleGame: React.FC = () => {
     setRows(0);
     setStage(newStage);
     setPausedGame(false);
-    setDropTime(1000);
-    setDropTimeRef(1000);
+    setDropTime(speed);
+    setDropTimeRef(speed);
   }
 
   useEffect(() => {
@@ -74,8 +74,8 @@ const SingleGame: React.FC = () => {
   }, []);
 
   const startGame = () => {
-    setDropTime(100);
-    setDropTimeRef(100);
+    setDropTime(speed);
+    setDropTimeRef(speed);
     setStage(newStage);
     resetPlayer();
     setGameOver(false);
@@ -102,7 +102,7 @@ const SingleGame: React.FC = () => {
     if (rows > (level + 1) * 10) {
       setLevel((prev: number) => prev + 1);
       // Also increase speed
-      const newDropTime = (100 / (level + 1)) + 200;
+      const newDropTime = (speed / (level + 1)) + 200;
       setDropTimeRef(newDropTime);
       setDropTime(newDropTime);
     }

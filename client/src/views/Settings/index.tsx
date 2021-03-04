@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ReactGA from 'react-ga';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, } from '@fortawesome/free-solid-svg-icons';
 import './settings.css';
@@ -10,14 +11,15 @@ import { SingleGameContext } from '../../context/singleGame';
 
 
 import ROUTES from '../../utils/constants/routes';
+const url = process.env.REACT_APP_API_URL;
 
 
 const Settings: React.FC = () => {
+  
+  const { setSpeed, speed, twitterName } = useContext(SingleGameContext);
+  const [range, setRange] = useState<number>(speed);
+  const [username, setUsername] = useState<string>(twitterName || "");
 
-  const [range, setRange] = useState<number>(1000);
-  const [username, setUsername] = useState<string>("");
-
-  const { setSpeed } = useContext(SingleGameContext);
 
   useEffect(() => {
     
@@ -56,7 +58,7 @@ const Settings: React.FC = () => {
         <section className="grid grid-cols-2 mb-5 items-center">
           <p className="sm:text-xl ">Game Speed</p>
           <div>
-            <input type="range" min="100" max="1000" value={range} onChange={(e) => setRange(Number(e.target.value))} className="appearance-none w-full h-3 rounded-md outline-none bg-gray-500 opacity-70 transition-opacity duration-1000 hover:opacity-100" />
+            <input type="range" min="100" max="1000" value={speed} onChange={(e) => setRange(Number(e.target.value))} className="appearance-none w-full h-3 rounded-md outline-none bg-gray-500 opacity-70 transition-opacity duration-1000 hover:opacity-100" />
             <div className="flex justify-between text-sm mt-3">
               <p>Slow</p>
               <p>Fast</p>
@@ -64,12 +66,14 @@ const Settings: React.FC = () => {
           </div>
           <small>(Only for Single player)</small>
         </section>
-        <section className="grid grid-cols-2 mb-5 items-center">
-          <p className="sm:text-xl ">Change Twitter Username</p>
-          <div>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" placeholder="example ilizette7" />
-          </div>
-        </section>
+        {twitterName !== "" && (
+          <section className="grid grid-cols-2 mb-5 items-center">
+            <p className="sm:text-xl ">Change Twitter Username</p>
+            <div>
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="focus:outline-none focus:border-opacity-100 border-opacity-50 transition-all bg-black border border-red-300 p-2 block w-full mb-1" placeholder="example ilizette7" />
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

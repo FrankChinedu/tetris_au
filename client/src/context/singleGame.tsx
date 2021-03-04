@@ -41,7 +41,7 @@ if(localStorage.getItem('score')) {
 }
 
 if(localStorage.getItem('spd')) {
-  _score = Number(localStorage.getItem('spd')) || 1000;
+  _speed = Number(localStorage.getItem('spd')) || 1000;
 }
 
 
