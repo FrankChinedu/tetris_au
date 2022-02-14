@@ -5,25 +5,26 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
-}
 
- input,
- input:before,
- input:after {
-   -webkit-user-select: initial;
-   -khtml-user-select: initial;
-   -moz-user-select: initial;
-   -ms-user-select: initial;
-   user-select: initial;
- }
+/* * {
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+} */
+
+/* Konqueror HTML */
+/* Old versions of Firefox */
+/* Internet Explorer/Edge */
+/* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+
+ /* input, input:before, input:after {
+      -webkit-user-select: initial;
+      -khtml-user-select: initial;
+      -moz-user-select: initial;
+      -ms-user-select: initial;
+      user-select: initial;
+     }  */
 
 html, html {
   margin: 0;
