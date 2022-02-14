@@ -15,6 +15,16 @@
                                   supported by Chrome, Opera and Firefox */
 }
 
+ input,
+ input:before,
+ input:after {
+   -webkit-user-select: initial;
+   -khtml-user-select: initial;
+   -moz-user-select: initial;
+   -ms-user-select: initial;
+   user-select: initial;
+ }
+
 html, html {
   margin: 0;
   padding: 0;
