@@ -24,6 +24,7 @@ const HowToPlay: React.FC = () => {
       </nav>
       <main className="md:max-w-3xl w-11/12 mx-auto px-1">
         <div className="flex justify-center items-center">
+          WIP
           {/* <details className="my-10">
             <summary className="text-3xl p-2">How to play single Player</summary>
             <p className="montserrat my-10">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore beatae reprehenderit cupiditate impedit, iure minus nulla nam excepturi, nihil quo cumque aspernatur, nemo ipsam neque? Laboriosam perferendis consectetur eligendi sequi.</p>
