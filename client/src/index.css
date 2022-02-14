@@ -6,12 +6,13 @@
 @tailwind utilities;
 
 
-/* * {
+button {
+   -webkit-user-select: none;
      -khtml-user-select: none; 
        -moz-user-select: none; 
         -ms-user-select: none; 
             user-select: none; 
-} */
+}
 
 /* Konqueror HTML */
 /* Old versions of Firefox */
@@ -25,6 +26,11 @@
       -ms-user-select: initial;
       user-select: initial;
      }  */
+
+input {
+  -webkit-user-select: text;
+  user-select: text;
+}
 
 html, html {
   margin: 0;
