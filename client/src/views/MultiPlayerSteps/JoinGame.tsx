@@ -99,7 +99,7 @@ const JoinGame: React.FC  = () => {
                 <div className="bg-indigo-600 py-2 px-5">
                   <input
                       type="text"
-                      className="focus:outline-none bg-transparent placeholder-white w-full"
+                      className="bg-transparent placeholder-white w-full"
                       placeholder="Please enter your username"
                       disabled={username !== ''}
                       value={_userName}
@@ -117,7 +117,7 @@ const JoinGame: React.FC  = () => {
               <div className="bg-indigo-600 py-2 px-5">
                 <input
                     type="text"
-                    className="focus:outline-none bg-transparent placeholder-white w-full"
+                    className="bg-transparent placeholder-white w-full"
                     placeholder="Enter the ID shared with you"
                     value={_gameID}
                     onChange={(e) => {

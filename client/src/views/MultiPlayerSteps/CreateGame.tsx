@@ -48,7 +48,7 @@ const CreateGame: React.FC  = () => {
                     category: 'User',
                     action: 'Created a Game'
                 });
-        } catch (er) {
+        } catch (er: any) {
             if (er.toString() === 'Error: Network Error') {
                 return setErrorMsg('Please check your network connection and try again');
             }
@@ -84,7 +84,7 @@ const CreateGame: React.FC  = () => {
                         <div className="bg-indigo-600 py-2 px-5">
                             <input
                                 type="text"
-                                className="focus:outline-none bg-transparent placeholder-white w-full"
+                                className="bg-transparent placeholder-white w-full"
                                 placeholder="Please enter your username"
                                 value={username === "" ? userName : username}
                                 onChange={(e) => {
